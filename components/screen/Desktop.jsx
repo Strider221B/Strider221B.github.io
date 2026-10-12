@@ -20,14 +20,8 @@ import DesktopContextMenu from '../base/DesktopContextMenu';
 import Attribution from '../util/Attribution';
 
 // 5. Project utilities, constants, config
+import { WALLPAPERS_LIST } from '../../lib/constants';
 import apps, { getDesktopApps } from '../../apps.config';
-
-// 2. Constants
-const WALLPAPERS_LIST = [
-  '/wallpapers/wall-2.webp',
-  '/wallpapers/wall-1.webp',
-  '/wallpapers/wall-3.webp',
-];
 
 // 3. Component function definition
 /**
@@ -154,6 +148,8 @@ export default function Desktop({
       <DesktopWindows
         openApps={openAppList}
         contentMap={contentMap}
+        changeBackgroundImage={changeBackgroundImage}
+        currBgImgName={backgroundImage}
       />
 
       <StartMenu

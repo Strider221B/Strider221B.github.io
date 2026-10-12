@@ -1,37 +1,66 @@
 /**
  * @file components/apps/Settings.jsx
- * @description GNOME Control Center settings app for customization and wallpaper selection.
+ * @description GNOME Control Center application for desktop appearance, displays, and system details.
  */
 
 // 1. React / Next.js core
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+
+// 4. Project components
+import SettingsNav from './settings/SettingsNav';
+import AppearanceSettings from './settings/AppearanceSettings';
+import DisplaySettings from './settings/DisplaySettings';
+import AboutSettings from './settings/AboutSettings';
+
+// 5. Project utilities, constants, config
+import { DEFAULT_WALLPAPER, STORAGE_KEYS } from '../../lib/constants';
 
 // 3. Component function definition
 /**
- * Renders the Settings control panel window.
+ * Renders the GNOME Settings Control Center window.
  *
- * @returns {JSX.Element} System settings window
+ * @param {Object} props
+ * @param {Function} [props.changeBackgroundImage] - Callback to update wallpaper
+ * @param {string} [props.currBgImgName] - Current active wallpaper path
+ * @returns {JSX.Element} Settings application window
  */
-export default function Settings() {
+export default function Settings({
+  changeBackgroundImage,
+  currBgImgName = DEFAULT_WALLPAPER,
+}) {
+  const [activeTab, setActiveTab] = useState('appearance');
+  const [currentWallpaper, setCurrentWallpaper] = useState(currBgImgName);
+
+  const handleChangeWallpaper = useCallback((wallpaperPath) => {
+    setCurrentWallpaper(wallpaperPath);
+    if (changeBackgroundImage) {
+      changeBackgroundImage(wallpaperPath);
+    }
+    try {
+      localStorage.setItem(STORAGE_KEYS.WALLPAPER, wallpaperPath);
+    } catch {
+      // LocalStorage error handling for sandboxed environments
+    }
+  }, [changeBackgroundImage]);
+
   return (
-    <div className="h-full bg-ub-cool-grey text-white p-6">
-      <h2 className="text-xl font-bold mb-4 border-b border-white/10 pb-2">
-        Settings
-      </h2>
-      <div className="space-y-4">
-        <div>
-          <h3 className="font-semibold text-ub-orange mb-1">Appearance</h3>
-          <p className="text-xs text-white/70">
-            Configure system wallpaper, theme accents, and desktop dock behavior.
-          </p>
-        </div>
-        <div>
-          <h3 className="font-semibold text-ub-orange mb-1">About System</h3>
-          <p className="text-xs text-white/70">
-            Ubuntu 22.04 LTS Portfolio Edition running on Next.js and Tailwind CSS.
-          </p>
-        </div>
-      </div>
+    <div
+      className="h-full flex flex-col sm:flex-row bg-[#333333] text-white overflow-hidden select-none"
+      role="region"
+      aria-label="System Settings"
+    >
+      <SettingsNav activeTab={activeTab} onSelectTab={setActiveTab} />
+
+      <main className="flex-1 overflow-y-auto p-4 sm:p-6" role="tabpanel">
+        {activeTab === 'appearance' && (
+          <AppearanceSettings
+            currentWallpaper={currentWallpaper}
+            onChangeWallpaper={handleChangeWallpaper}
+          />
+        )}
+        {activeTab === 'displays' && <DisplaySettings />}
+        {activeTab === 'about' && <AboutSettings />}
+      </main>
     </div>
   );
 }
