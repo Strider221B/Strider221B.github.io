@@ -21,6 +21,9 @@ import { getAppById } from '../../apps.config';
 
 // 2. Constants
 const ACTIVITIES_LABEL = 'Activities';
+const DEFAULT_VOLUME = 80;
+const DEFAULT_BRIGHTNESS = 100;
+const MAX_DIMMING_FACTOR = 0.75;
 
 // 3. Component function definition
 /**
@@ -29,6 +32,8 @@ const ACTIVITIES_LABEL = 'Activities';
  * @param {Object} props
  * @param {Function} props.lockScreen - Callback to lock desktop
  * @param {Function} props.shutDown - Callback to power off system
+ * @param {boolean} [props.isStartMenuOpen=false] - Whether start menu overlay is active
+ * @param {Function} props.onToggleStartMenu - Callback to toggle start menu
  * @returns {JSX.Element} Top status bar component
  */
 export default function Navbar({
@@ -39,6 +44,8 @@ export default function Navbar({
 }) {
   const { focusedWindows } = useWindowManager();
   const [isStatusCardOpen, setIsStatusCardOpen] = useState(false);
+  const [volume, setVolume] = useState(DEFAULT_VOLUME);
+  const [brightness, setBrightness] = useState(DEFAULT_BRIGHTNESS);
 
   // Determine active/focused application title to display beside Activities
   const focusedAppTitle = useMemo(() => {
@@ -59,46 +66,61 @@ export default function Navbar({
   }, []);
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 h-7 bg-ub-grey text-white text-xs flex items-center justify-between px-3 z-50 select-none shadow-sm"
-      aria-label="Desktop Top Panel"
-    >
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={onToggleStartMenu}
-          className={`px-2 py-0.5 rounded transition-colors font-medium focus:outline-none focus:ring-1 focus:ring-ub-orange cursor-pointer ${
-            isStartMenuOpen ? 'bg-white/20' : 'hover:bg-white/10 active:bg-white/20'
-          }`}
-          aria-label="Activities Overview"
-          aria-expanded={isStartMenuOpen}
-        >
-          {ACTIVITIES_LABEL}
-        </button>
-        {focusedAppTitle && (
-          <span className="font-medium text-white/90 px-2 py-0.5 border-l border-white/20 truncate max-w-xs">
-            {focusedAppTitle}
-          </span>
-        )}
-      </div>
+    <>
+      <header
+        className="fixed top-0 left-0 right-0 h-7 bg-ub-grey text-white text-xs flex items-center justify-between px-3 z-50 select-none shadow-sm"
+        aria-label="Desktop Top Panel"
+      >
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onToggleStartMenu}
+            className={`px-2 py-0.5 rounded transition-colors font-medium focus:outline-none focus:ring-1 focus:ring-ub-orange cursor-pointer ${
+              isStartMenuOpen ? 'bg-white/20' : 'hover:bg-white/10 active:bg-white/20'
+            }`}
+            aria-label="Activities Overview"
+            aria-expanded={isStartMenuOpen}
+          >
+            {ACTIVITIES_LABEL}
+          </button>
+          {focusedAppTitle && (
+            <span className="font-medium text-white/90 px-2 py-0.5 border-l border-white/20 truncate max-w-xs">
+              {focusedAppTitle}
+            </span>
+          )}
+        </div>
 
-      <div className="flex items-center justify-center">
-        <Clock />
-      </div>
+        <div className="flex items-center justify-center">
+          <Clock />
+        </div>
 
-      <div className="relative flex items-center">
-        <StatusIcons
-          isOpen={isStatusCardOpen}
-          onToggle={handleToggleStatusCard}
-        />
-        {isStatusCardOpen && (
-          <StatusCard
-            lockScreen={lockScreen}
-            shutDown={shutDown}
-            onClose={handleCloseStatusCard}
+        <div className="relative flex items-center">
+          <StatusIcons
+            isOpen={isStatusCardOpen}
+            onToggle={handleToggleStatusCard}
+            volume={volume}
           />
-        )}
-      </div>
-    </header>
+          {isStatusCardOpen && (
+            <StatusCard
+              lockScreen={lockScreen}
+              shutDown={shutDown}
+              onClose={handleCloseStatusCard}
+              volume={volume}
+              onVolumeChange={setVolume}
+              brightness={brightness}
+              onBrightnessChange={setBrightness}
+            />
+          )}
+        </div>
+      </header>
+
+      {brightness < 100 && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[999] bg-black transition-opacity duration-150"
+          style={{ opacity: ((100 - brightness) / 100) * MAX_DIMMING_FACTOR }}
+          aria-hidden="true"
+        />
+      )}
+    </>
   );
 }

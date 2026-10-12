@@ -173,6 +173,8 @@ export default function Desktop({
       role="main"
       aria-label="Desktop Surface"
     >
+      <h1 className="sr-only">Somesh Chatterjee - Ubuntu 22.04 LTS Desktop Portfolio</h1>
+
       <SideBar
         isAllAppsOpen={isAllAppsOpen}
         toggleAllApps={handleToggleAllApps}

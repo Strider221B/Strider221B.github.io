@@ -6,9 +6,9 @@
 
 // 1. React / Next.js core
 import React from 'react';
-import Head from 'next/head';
 
 // 4. Project components
+import Meta from '../components/seo/Meta';
 import Ubuntu from '../components/Ubuntu';
 
 // 5. Project utilities, constants, config
@@ -40,13 +40,7 @@ export async function getStaticProps() {
 export default function Index({ contentMap = {} }) {
   return (
     <>
-      <Head>
-        <title>Somesh Chatterjee - Ubuntu Desktop Portfolio</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
+      <Meta />
       <Ubuntu contentMap={contentMap} />
     </>
   );

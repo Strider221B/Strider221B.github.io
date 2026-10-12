@@ -1,10 +1,15 @@
 /**
  * @file components/util/Attribution.jsx
- * @description Persistent attribution link recognizing Vivek Patel's Ubuntu portfolio design inspiration.
+ * @description Persistent attribution badge recognizing Vivek Patel's Ubuntu portfolio design inspiration.
  */
 
 // 1. React / Next.js core
 import React from 'react';
+
+// 2. Constants (File-scoped)
+const ATTRIBUTION_TEXT = "Inspired by vivek9patel's Ubuntu Simulation";
+const ATTRIBUTION_ARIA_LABEL =
+  "Visit vivek9patel's original Ubuntu simulation repository on GitHub (opens in a new tab)";
 
 // 5. Project utilities, constants, config
 import { ATTRIBUTION_URL } from '../../lib/constants';
@@ -13,17 +18,19 @@ import { ATTRIBUTION_URL } from '../../lib/constants';
 /**
  * Renders the Vivek Patel portfolio attribution link in the bottom-right corner.
  *
- * @returns {JSX.Element} Attribution link anchor
+ * @returns {JSX.Element} Attribution link anchor element
  */
 export default function Attribution() {
   return (
     <a
+      id="desktop-attribution-link"
       href={ATTRIBUTION_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-1 right-2 text-xs text-white/40 hover:text-white/70 transition-colors z-50 select-none"
+      aria-label={ATTRIBUTION_ARIA_LABEL}
+      className="fixed bottom-1.5 right-2 z-50 text-[11px] font-normal text-white/50 hover:text-white/90 bg-black/30 hover:bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/10 hover:border-white/30 transition-all select-none focus:outline-none focus:ring-1 focus:ring-ub-orange focus:text-white/90 shadow-sm"
     >
-      Inspired by vivek9patel&apos;s Ubuntu Simulation
+      {ATTRIBUTION_TEXT}
     </a>
   );
 }

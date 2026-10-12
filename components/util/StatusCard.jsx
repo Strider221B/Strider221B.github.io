@@ -53,13 +53,46 @@ function SliderRow({ icon, value, onChange, label }) {
  * @param {Function} props.lockScreen - Callback to lock desktop
  * @param {Function} props.shutDown - Callback to shut down session
  * @param {Function} props.onClose - Callback to dismiss menu
+ * @param {number} [props.volume] - Controlled volume level (0-100)
+ * @param {Function} [props.onVolumeChange] - Volume change callback
+ * @param {number} [props.brightness] - Controlled screen brightness level (0-100)
+ * @param {Function} [props.onBrightnessChange] - Brightness change callback
  * @returns {JSX.Element} Status dropdown card
  */
-export default function StatusCard({ lockScreen, shutDown, onClose }) {
+export default function StatusCard({
+  lockScreen,
+  shutDown,
+  onClose,
+  volume: controlledVolume,
+  onVolumeChange,
+  brightness: controlledBrightness,
+  onBrightnessChange,
+}) {
   const { openApp } = useWindowManager();
-  const [volume, setVolume] = useState(DEFAULT_VOLUME);
-  const [brightness, setBrightness] = useState(DEFAULT_BRIGHTNESS);
+  const [internalVolume, setInternalVolume] = useState(DEFAULT_VOLUME);
+  const [internalBrightness, setInternalBrightness] = useState(DEFAULT_BRIGHTNESS);
   const cardRef = useRef(null);
+
+  const volume = controlledVolume !== undefined ? controlledVolume : internalVolume;
+  const brightness = controlledBrightness !== undefined ? controlledBrightness : internalBrightness;
+
+  const handleVolumeChange = (e) => {
+    const val = Number(e.target.value);
+    if (onVolumeChange) {
+      onVolumeChange(val);
+    } else {
+      setInternalVolume(val);
+    }
+  };
+
+  const handleBrightnessChange = (e) => {
+    const val = Number(e.target.value);
+    if (onBrightnessChange) {
+      onBrightnessChange(val);
+    } else {
+      setInternalBrightness(val);
+    }
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -106,7 +139,7 @@ export default function StatusCard({ lockScreen, shutDown, onClose }) {
       <SliderRow
         label="Volume"
         value={volume}
-        onChange={(e) => setVolume(Number(e.target.value))}
+        onChange={handleVolumeChange}
         icon={
           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
@@ -116,7 +149,7 @@ export default function StatusCard({ lockScreen, shutDown, onClose }) {
       <SliderRow
         label="Brightness"
         value={brightness}
-        onChange={(e) => setBrightness(Number(e.target.value))}
+        onChange={handleBrightnessChange}
         icon={
           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
             <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z" />
