@@ -1,7 +1,7 @@
 /**
  * @file components/base/WindowTitleBar.jsx
- * @description Window top title bar featuring application icon, title, drag region,
- * and integrated WindowControls buttons.
+ * @description Window top title bar featuring application icon, centered title,
+ * drag handle region, double-click to maximize, and integrated WindowControls.
  */
 
 // 1. React / Next.js core
@@ -12,16 +12,16 @@ import WindowControls from './WindowControls';
 
 // 3. Component function definition
 /**
- * Renders the top title bar of a desktop window.
+ * Renders the top title bar of a desktop application window.
  *
  * @param {Object} props
  * @param {string} props.title - Application title
  * @param {string} [props.icon] - Application icon image path
  * @param {boolean} [props.isFocused=true] - Whether window currently has input focus
  * @param {boolean} [props.isMaximized=false] - Whether window is maximized
- * @param {Function} props.onMinimize - Callback to minimize
- * @param {Function} props.onMaximize - Callback to maximize / restore
- * @param {Function} props.onClose - Callback to close
+ * @param {Function} [props.onMinimize] - Callback to minimize
+ * @param {Function} [props.onMaximize] - Callback to maximize / restore
+ * @param {Function} [props.onClose] - Callback to close
  * @returns {JSX.Element} Window title bar component
  */
 export default function WindowTitleBar({
@@ -35,16 +35,22 @@ export default function WindowTitleBar({
 }) {
   const [hasImageError, setHasImageError] = useState(false);
 
+  const containerClasses = [
+    'window-drag-handle h-8 px-3 flex items-center justify-between select-none border-b transition-colors',
+    isMaximized ? 'cursor-default' : 'cursor-grab active:cursor-grabbing',
+    isFocused
+      ? 'bg-ub-window-title text-white border-black/40'
+      : 'bg-ub-cool-grey/80 text-white/70 border-black/30',
+  ].join(' ');
+
   return (
     <div
       onDoubleClick={onMaximize}
-      className={`window-drag-handle h-8 px-3 flex items-center justify-between select-none cursor-grab active:cursor-grabbing border-b transition-colors ${
-        isFocused
-          ? 'bg-ub-window-title text-white border-black/40'
-          : 'bg-[#282727] text-white/70 border-black/30'
-      }`}
+      className={containerClasses}
+      role="toolbar"
+      aria-label={`${title} title bar`}
     >
-      <div className="flex items-center gap-2 overflow-hidden pointer-events-none">
+      <div className="flex items-center gap-2 min-w-[2rem] overflow-hidden pointer-events-none">
         {icon && !hasImageError && (
           <img
             src={icon}
@@ -54,8 +60,11 @@ export default function WindowTitleBar({
             onError={() => setHasImageError(true)}
           />
         )}
-        <span className="text-xs font-medium truncate">{title}</span>
       </div>
+
+      <span className="text-xs font-medium tracking-wide text-ubt-grey truncate pointer-events-none flex-1 text-center px-2">
+        {title}
+      </span>
 
       <WindowControls
         isMaximized={isMaximized}
