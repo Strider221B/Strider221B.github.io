@@ -55,10 +55,50 @@ export default function Desktop({
 
   const desktopApps = useMemo(() => getDesktopApps(), []);
 
-  // Filter list of open apps to render as Windows
+  // Filter list of open apps to render as Windows (including dynamic blog articles)
   const openAppList = useMemo(() => {
-    return apps.filter((app) => Boolean(openWindows[app.id]));
-  }, [openWindows]);
+    const list = apps.filter((app) => Boolean(openWindows[app.id]));
+
+    // Include dynamically opened article windows
+    Object.keys(openWindows).forEach((appId) => {
+      if (openWindows[appId] && !apps.some((app) => app.id === appId)) {
+        if (appId.startsWith('post-')) {
+          let matchedPost = null;
+          let matchedCategory = '';
+          for (const [cat, posts] of Object.entries(contentMap)) {
+            if (Array.isArray(posts)) {
+              const found = posts.find(
+                (p) => `post-${cat}-${p.slug}` === appId || `post-${p.slug}` === appId
+              );
+              if (found) {
+                matchedPost = found;
+                matchedCategory = cat;
+                break;
+              }
+            }
+          }
+
+          if (matchedPost) {
+            list.push({
+              id: appId,
+              title: matchedPost.title || 'Article',
+              icon: '/themes/Yaru/apps/gedit.png',
+              type: 'window',
+              component: 'MarkdownViewer',
+              componentProps: {
+                post: matchedPost,
+                htmlContent: matchedPost.htmlContent,
+                title: matchedPost.title,
+                contentPath: `${matchedCategory}/${matchedPost.slug}`,
+              },
+            });
+          }
+        }
+      }
+    });
+
+    return list;
+  }, [openWindows, contentMap]);
 
   const desktopBackgroundStyle = useMemo(() => ({
     backgroundImage: backgroundImage

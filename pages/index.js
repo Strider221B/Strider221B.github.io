@@ -11,6 +11,9 @@ import Head from 'next/head';
 // 4. Project components
 import Ubuntu from '../components/Ubuntu';
 
+// 5. Project utilities, constants, config
+import { getAllContentMap } from '../lib/markdown';
+
 /**
  * Build-time static prop generation for markdown portfolio content.
  * Returns initial contentMap mapping categories to blog posts.
@@ -18,8 +21,7 @@ import Ubuntu from '../components/Ubuntu';
  * @returns {Promise<{ props: { contentMap: Record<string, Array<Object>> } }>} Static page props
  */
 export async function getStaticProps() {
-  // Statically generated content map, populated via Phase 10 content pipeline
-  const contentMap = {};
+  const contentMap = await getAllContentMap();
 
   return {
     props: {

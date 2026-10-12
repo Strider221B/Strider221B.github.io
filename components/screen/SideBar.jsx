@@ -73,12 +73,25 @@ export default function SideBar({ isAllAppsOpen = false, toggleAllApps }) {
 
   // Collect all apps that are either pinned in dockApps or currently open
   const visibleDockApps = useMemo(() => {
-    return apps.filter((app) => {
+    const list = apps.filter((app) => {
       if (app.disabled) {
         return false;
       }
       return Boolean(dockApps[app.id] || openWindows[app.id]);
     });
+
+    // Also include open dynamic article windows in the dock
+    Object.keys(openWindows).forEach((appId) => {
+      if (openWindows[appId] && !apps.some((app) => app.id === appId)) {
+        list.push({
+          id: appId,
+          title: 'Article',
+          icon: '/themes/Yaru/apps/gedit.png',
+        });
+      }
+    });
+
+    return list;
   }, [dockApps, openWindows]);
 
   const handleAppClick = useCallback((appId) => {
