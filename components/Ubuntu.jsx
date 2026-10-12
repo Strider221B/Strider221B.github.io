@@ -153,6 +153,7 @@ export default function Ubuntu({ contentMap = {} }) {
       <LockScreen
         isLocked={isLocked}
         onUnlock={handleUnlock}
+        backgroundImage={backgroundImage}
       />
     );
   }
