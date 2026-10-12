@@ -23,9 +23,16 @@ import { getComponent } from '../../lib/componentRegistry';
  * @param {Object} props
  * @param {Array<Object>} props.openApps - List of active application configs
  * @param {Record<string, Array<Object>>} [props.contentMap={}] - Markdown content map
+ * @param {Function} [props.changeBackgroundImage] - Callback to update wallpaper
+ * @param {string} [props.currBgImgName] - Current background image path
  * @returns {JSX.Element} Fragment rendering open windows
  */
-export default function DesktopWindows({ openApps, contentMap = {} }) {
+export default function DesktopWindows({
+  openApps,
+  contentMap = {},
+  changeBackgroundImage,
+  currBgImgName,
+}) {
   const {
     isFocused,
     isMinimized,
@@ -47,7 +54,14 @@ export default function DesktopWindows({ openApps, contentMap = {} }) {
         </div>
       );
     }
-    return <Component {...app.componentProps} contentMap={contentMap} />;
+    return (
+      <Component
+        {...app.componentProps}
+        contentMap={contentMap}
+        changeBackgroundImage={changeBackgroundImage}
+        currBgImgName={currBgImgName}
+      />
+    );
   };
 
   return (
