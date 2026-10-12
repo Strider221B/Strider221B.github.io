@@ -12,6 +12,8 @@ import { useWindowManager } from '../../hooks/useWindowManager';
 
 // 4. Project components
 import SideBar from './SideBar';
+import StartMenu from './StartMenu';
+import AllApplications from './AllApplications';
 import DesktopShortcutsGrid from '../base/DesktopShortcutsGrid';
 import DesktopWindows from '../base/DesktopWindows';
 import DesktopContextMenu from '../base/DesktopContextMenu';
@@ -35,12 +37,16 @@ const WALLPAPERS_LIST = [
  * @param {string} props.backgroundImage - Current wallpaper image path
  * @param {Function} props.changeBackgroundImage - Callback to update wallpaper
  * @param {Record<string, Array<Object>>} [props.contentMap={}] - Markdown content map
+ * @param {boolean} [props.isStartMenuOpen=false] - Whether start menu is visible
+ * @param {Function} [props.onCloseStartMenu] - Callback to dismiss start menu
  * @returns {JSX.Element} Desktop surface component
  */
 export default function Desktop({
   backgroundImage,
   changeBackgroundImage,
   contentMap = {},
+  isStartMenuOpen = false,
+  onCloseStartMenu,
 }) {
   const {
     openWindows,
@@ -80,11 +86,17 @@ export default function Desktop({
   const handleDesktopClick = useCallback((event) => {
     if (event.target === event.currentTarget) {
       setSelectedAppId(null);
+      if (isStartMenuOpen && onCloseStartMenu) {
+        onCloseStartMenu();
+      }
+      if (isAllAppsOpen) {
+        setIsAllAppsOpen(false);
+      }
     }
     if (contextMenu.isOpen) {
       setContextMenu((prev) => ({ ...prev, isOpen: false }));
     }
-  }, [contextMenu.isOpen]);
+  }, [contextMenu.isOpen, isStartMenuOpen, onCloseStartMenu, isAllAppsOpen]);
 
   const handleSelectShortcut = useCallback((event, appId) => {
     event.stopPropagation();
@@ -96,8 +108,11 @@ export default function Desktop({
   }, []);
 
   const handleToggleAllApps = useCallback(() => {
+    if (isStartMenuOpen && onCloseStartMenu) {
+      onCloseStartMenu();
+    }
     setIsAllAppsOpen((prev) => !prev);
-  }, []);
+  }, [isStartMenuOpen, onCloseStartMenu]);
 
   const handleChangeWallpaperAction = useCallback(() => {
     const currentIndex = WALLPAPERS_LIST.indexOf(backgroundImage);
@@ -139,6 +154,16 @@ export default function Desktop({
       <DesktopWindows
         openApps={openAppList}
         contentMap={contentMap}
+      />
+
+      <StartMenu
+        isOpen={isStartMenuOpen}
+        onClose={onCloseStartMenu}
+      />
+
+      <AllApplications
+        isOpen={isAllAppsOpen}
+        onClose={() => setIsAllAppsOpen(false)}
       />
 
       {contextMenu.isOpen && (

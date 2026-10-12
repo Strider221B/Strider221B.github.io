@@ -71,6 +71,7 @@ export default function Ubuntu({ contentMap = {} }) {
   const [isLocked, setIsLocked] = useState(false);
   const [isShutDown, setIsShutDown] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(DEFAULT_WALLPAPER);
+  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
   // Restore wallpaper setting and manage initial boot timer
   useEffect(() => {
@@ -123,6 +124,14 @@ export default function Ubuntu({ contentMap = {} }) {
     setIsBooting(false);
   }, []);
 
+  const handleToggleStartMenu = useCallback(() => {
+    setIsStartMenuOpen((prev) => !prev);
+  }, []);
+
+  const handleCloseStartMenu = useCallback(() => {
+    setIsStartMenuOpen(false);
+  }, []);
+
   const handleChangeWallpaper = useCallback((wallpaperPath) => {
     if (!wallpaperPath) {
       return;
@@ -164,11 +173,15 @@ export default function Ubuntu({ contentMap = {} }) {
         <Navbar
           lockScreen={handleLock}
           shutDown={handleShutDown}
+          isStartMenuOpen={isStartMenuOpen}
+          onToggleStartMenu={handleToggleStartMenu}
         />
         <Desktop
           backgroundImage={backgroundImage}
           changeBackgroundImage={handleChangeWallpaper}
           contentMap={contentMap}
+          isStartMenuOpen={isStartMenuOpen}
+          onCloseStartMenu={handleCloseStartMenu}
         />
       </div>
     </WindowManagerProvider>

@@ -31,7 +31,12 @@ const ACTIVITIES_LABEL = 'Activities';
  * @param {Function} props.shutDown - Callback to power off system
  * @returns {JSX.Element} Top status bar component
  */
-export default function Navbar({ lockScreen, shutDown }) {
+export default function Navbar({
+  lockScreen,
+  shutDown,
+  isStartMenuOpen = false,
+  onToggleStartMenu,
+}) {
   const { focusedWindows } = useWindowManager();
   const [isStatusCardOpen, setIsStatusCardOpen] = useState(false);
 
@@ -61,8 +66,12 @@ export default function Navbar({ lockScreen, shutDown }) {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="px-2 py-0.5 rounded hover:bg-white/10 active:bg-white/20 transition-colors font-medium focus:outline-none focus:ring-1 focus:ring-ub-orange cursor-pointer"
+          onClick={onToggleStartMenu}
+          className={`px-2 py-0.5 rounded transition-colors font-medium focus:outline-none focus:ring-1 focus:ring-ub-orange cursor-pointer ${
+            isStartMenuOpen ? 'bg-white/20' : 'hover:bg-white/10 active:bg-white/20'
+          }`}
           aria-label="Activities Overview"
+          aria-expanded={isStartMenuOpen}
         >
           {ACTIVITIES_LABEL}
         </button>
