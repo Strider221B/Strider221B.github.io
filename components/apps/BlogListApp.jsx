@@ -117,8 +117,14 @@ function BlogFilters({ searchTerm, onSearchChange, tags, selectedTag, onSelectTa
  * @param {Function} props.onSelectTag - Tag filtering callback
  */
 function BlogPostCard({ post, onOpen, onSelectTag }) {
+  const handleLaunch = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onOpen?.();
+  };
+
   return (
-    <article className="group p-5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-ub-orange/40 transition-all">
+    <article className="group p-4 sm:p-5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-ub-orange/40 transition-all">
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-white/50 mb-2">
         <span className="flex items-center gap-1">
           <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
@@ -133,7 +139,7 @@ function BlogPostCard({ post, onOpen, onSelectTag }) {
         )}
       </div>
       <h3
-        onClick={onOpen}
+        onClick={handleLaunch}
         className="font-bold text-lg text-white group-hover:text-ub-orange transition-colors cursor-pointer"
       >
         {post.title}
@@ -141,7 +147,7 @@ function BlogPostCard({ post, onOpen, onSelectTag }) {
       <p className="text-sm text-white/75 mt-2 line-clamp-2 leading-relaxed">
         {post.excerpt}
       </p>
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+      <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10 flex-wrap gap-2">
         <div className="flex flex-wrap gap-1.5">
           {post.tags?.map((tag) => (
             <button
@@ -159,7 +165,7 @@ function BlogPostCard({ post, onOpen, onSelectTag }) {
         </div>
         <button
           type="button"
-          onClick={onOpen}
+          onClick={handleLaunch}
           className="flex items-center gap-1.5 text-xs font-medium text-ub-orange hover:text-white px-3 py-1 rounded bg-ub-orange/10 hover:bg-ub-orange transition-colors"
         >
           Read Article
@@ -227,7 +233,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
   }, [category, openApp]);
 
   return (
-    <div className="h-full overflow-y-auto windowMainScreen p-6 md:p-8 text-white max-w-4xl mx-auto select-text">
+    <div className="h-full overflow-y-auto windowMainScreen p-3.5 sm:p-6 md:p-8 text-white max-w-4xl mx-auto select-text">
       <BlogHeader category={category} totalPosts={rawPosts.length} />
       <BlogFilters
         searchTerm={searchTerm}

@@ -70,6 +70,8 @@ body {
 .markdown-content {
   color: #e5e7eb;
   line-height: 1.75;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .markdown-content h1 {
   font-size: 1.75rem;

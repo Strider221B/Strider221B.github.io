@@ -169,7 +169,7 @@ export default function Desktop({
       style={desktopBackgroundStyle}
       onContextMenu={handleContextMenu}
       onClick={handleDesktopClick}
-      className="relative w-full h-[calc(100vh-1.75rem)] mt-7 overflow-hidden select-none"
+      className="relative w-full h-[calc(100vh-1.75rem)] [@supports(height:100dvh)]:h-[calc(100dvh-1.75rem)] mt-7 overflow-hidden select-none"
       role="main"
       aria-label="Desktop Surface"
     >

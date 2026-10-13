@@ -9,7 +9,7 @@ import React from 'react';
 
 // 2. Constants
 const BASE_BTN_CLASS =
-  'w-4 h-4 rounded-full flex items-center justify-center transition-colors focus:outline-none focus:ring-1';
+  'no-drag w-4 h-4 rounded-full flex items-center justify-center transition-colors focus:outline-none focus:ring-1 touch-manipulation cursor-pointer';
 const ACTION_BTN_CLASS = `${BASE_BTN_CLASS} bg-white/20 hover:bg-white/40 focus:ring-white/50`;
 const CLOSE_BTN_CLASS = `${BASE_BTN_CLASS} bg-ub-orange hover:bg-red-600 active:bg-red-700 focus:ring-ub-orange`;
 
@@ -31,14 +31,17 @@ export default function WindowControls({
   onClose,
 }) {
   const handleAction = (e, callback) => {
+    e.preventDefault();
     e.stopPropagation();
     callback?.();
   };
 
   return (
     <div
-      className="flex items-center gap-2 select-none"
+      className="no-drag flex items-center gap-2 select-none py-1"
       onMouseDown={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => e.stopPropagation()}
     >
       <button
         type="button"
