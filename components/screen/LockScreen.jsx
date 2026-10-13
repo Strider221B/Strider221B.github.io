@@ -245,7 +245,7 @@ export default function LockScreen({
       </main>
 
       <footer className="relative z-10 h-8 flex items-center justify-center text-xs text-white/40">
-        Ubuntu 22.04 LTS
+        Ubuntu 26.04.1 LTS
       </footer>
     </div>
   );

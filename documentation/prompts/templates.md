@@ -10,14 +10,14 @@ python env:
 source ~/python_envs/p313_llm/bin/activate
 
 Coding guidelines:
-./documentation/prompts/coding_standards.md
+./documentation/prompts/frontend_coding_standards.md
 
 ### New feature plan execution:
 Can you go ahead and execute:
 ./documentation/plan/enhancements/01_remove_unsloth_dependency.md
 
 Ensure you read:
-./documentation/prompts/coding_standards.md
+./documentation/prompts/frontend_coding_standards.md
 
 python env:
 source ~/python_envs/p313_llm/bin/activate

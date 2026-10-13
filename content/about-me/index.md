@@ -8,7 +8,7 @@ author: "Somesh Chatterjee"
 
 # Hello, I'm Somesh Chatterjee
 
-Welcome to my interactive **Ubuntu 20.04 Desktop portfolio** simulation. I am a software engineer and researcher passionate about crafting high-performance systems, robust machine learning pipelines, and delightful human-computer interfaces.
+Welcome to my interactive **Ubuntu 26.04.1 LTS Desktop portfolio** simulation. I am a software engineer and researcher passionate about crafting high-performance systems, robust machine learning pipelines, and delightful human-computer interfaces.
 
 ---
 

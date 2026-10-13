@@ -30,7 +30,7 @@ export const VIRTUAL_FS = {
         children: {
           'ubuntu-web-portfolio': {
             type: 'file',
-            content: `Ubuntu 22.04 LTS web desktop simulation built with Next.js, Tailwind CSS, and React.`,
+            content: `Ubuntu 26.04.1 LTS web desktop simulation built with Next.js, Tailwind CSS, and React.`,
           },
           'autonomous-agents': {
             type: 'file',
@@ -272,7 +272,7 @@ export const processCommand = (rawInput, context) => {
         type: 'neofetch',
         art: NEOFETCH_ART,
         info: [
-          { label: 'OS', value: 'Ubuntu 22.04.3 LTS x86_64' },
+          { label: 'OS', value: 'Ubuntu 26.04.1 LTS x86_64' },
           { label: 'Host', value: 'Browser Virtual Machine' },
           { label: 'Kernel', value: '5.15.0-89-generic' },
           { label: 'Uptime', value: 'Active Portfolio Session' },
