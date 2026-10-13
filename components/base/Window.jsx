@@ -5,7 +5,7 @@
  */
 
 // 1. React / Next.js core
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 // 2. Third-party libraries
 import Draggable from 'react-draggable';
@@ -25,8 +25,9 @@ const DEFAULT_HEIGHT = 480;
 const MIN_WINDOW_WIDTH = 340;
 const MIN_WINDOW_HEIGHT = 220;
 const DEFAULT_POSITION = { x: 90, y: 40 };
-const MOBILE_DEFAULT_POSITION = { x: 10, y: 10 };
+const MOBILE_DEFAULT_POSITION = { x: 60, y: 10 };
 const MOBILE_BREAKPOINT = 640;
+const DOCK_WIDTH_OFFSET = 68;
 
 // ─── HELPER SUB-COMPONENT ───────────────────────────────────────────
 /**
@@ -114,19 +115,29 @@ export default function Window({
   const [position, setPosition] = useState(DEFAULT_POSITION);
   const [size, setSize] = useState({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
 
+  // Mobile layout adjustment & auto-maximize
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT) {
       setPosition(MOBILE_DEFAULT_POSITION);
-      setSize({
-        width: Math.max(MIN_WINDOW_WIDTH, window.innerWidth - 20),
-        height: Math.max(MIN_WINDOW_HEIGHT, Math.floor(window.innerHeight * 0.7)),
-      });
+      const safeWidth = Math.max(260, window.innerWidth - DOCK_WIDTH_OFFSET);
+      const safeHeight = Math.max(MIN_WINDOW_HEIGHT, Math.floor(window.innerHeight * 0.7));
+      setSize({ width: safeWidth, height: safeHeight });
+
+      if (!isMaximized) {
+        onMaximize();
+      }
     }
   }, []);
 
   const handleDragStop = (e, data) => {
     setPosition({ x: data.x, y: data.y });
   };
+
+  const handleInteractionFocus = useCallback(() => {
+    if (!isFocused) {
+      onFocus();
+    }
+  }, [isFocused, onFocus]);
 
   const handleResizeStart = (direction, e) => {
     e.preventDefault();
@@ -178,7 +189,7 @@ export default function Window({
   };
 
   const windowClasses = isMaximized
-    ? 'fixed top-7 left-0 sm:left-14 right-0 bottom-0 flex flex-col bg-ub-grey overflow-hidden shadow-2xl'
+    ? 'fixed top-7 left-14 right-0 bottom-0 flex flex-col bg-ub-grey overflow-hidden shadow-2xl'
     : 'absolute flex flex-col bg-ub-grey rounded-lg overflow-hidden window-shadow border border-white/10';
 
   const windowStyles = {
@@ -191,16 +202,19 @@ export default function Window({
     <Draggable
       nodeRef={nodeRef}
       handle=".window-drag-handle"
+      cancel="button, [role='button'], .no-drag, input, select, textarea, a"
       disabled={isMaximized}
       position={isMaximized ? { x: 0, y: 0 } : position}
       onStop={handleDragStop}
-      onMouseDown={onFocus}
+      onMouseDown={handleInteractionFocus}
+      onTouchStart={handleInteractionFocus}
       bounds="parent"
     >
       <div
         ref={nodeRef}
         style={windowStyles}
-        onClick={onFocus}
+        onMouseDown={handleInteractionFocus}
+        onTouchStart={handleInteractionFocus}
         className={`${windowClasses} ${!isFocused ? 'notFocused' : ''}`}
         role="region"
         aria-label={`${title} application window`}
@@ -218,7 +232,9 @@ export default function Window({
           {children}
         </div>
         {!isMaximized && (
-          <WindowResizeHandles onResizeStart={handleResizeStart} />
+          <div className="hidden sm:block">
+            <WindowResizeHandles onResizeStart={handleResizeStart} />
+          </div>
         )}
       </div>
     </Draggable>

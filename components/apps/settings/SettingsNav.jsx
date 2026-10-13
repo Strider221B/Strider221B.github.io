@@ -49,10 +49,10 @@ const NAV_ITEMS = [
 export default function SettingsNav({ activeTab, onSelectTab }) {
   return (
     <nav
-      className="w-44 md:w-52 bg-[#2B2B2B] border-r border-white/10 p-2 shrink-0 flex flex-col gap-1 select-none"
+      className="w-full sm:w-44 md:w-52 bg-[#2B2B2B] border-b sm:border-b-0 sm:border-r border-white/10 p-2 shrink-0 flex flex-row sm:flex-col gap-1 select-none overflow-x-auto"
       aria-label="Settings categories"
     >
-      <div className="px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider">
+      <div className="hidden sm:block px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider">
         Settings
       </div>
       {NAV_ITEMS.map((item) => {

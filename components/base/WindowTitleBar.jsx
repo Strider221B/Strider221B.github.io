@@ -5,10 +5,13 @@
  */
 
 // 1. React / Next.js core
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 // 4. Project components
 import WindowControls from './WindowControls';
+
+// 2. Constants
+const DOUBLE_TAP_THRESHOLD_MS = 300;
 
 // 3. Component function definition
 /**
@@ -34,9 +37,23 @@ export default function WindowTitleBar({
   onClose,
 }) {
   const [hasImageError, setHasImageError] = useState(false);
+  const lastTapRef = useRef(0);
+
+  const handleTouchEnd = (e) => {
+    if (e.target.closest('button')) {
+      return;
+    }
+    const now = Date.now();
+    if (now - lastTapRef.current < DOUBLE_TAP_THRESHOLD_MS) {
+      onMaximize?.();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
 
   const containerClasses = [
-    'window-drag-handle h-8 px-3 flex items-center justify-between select-none border-b transition-colors',
+    'window-drag-handle h-8 px-3 flex items-center justify-between select-none border-b transition-colors touch-none sm:touch-auto',
     isMaximized ? 'cursor-default' : 'cursor-grab active:cursor-grabbing',
     isFocused
       ? 'bg-ub-window-title text-white border-black/40'
@@ -46,6 +63,7 @@ export default function WindowTitleBar({
   return (
     <div
       onDoubleClick={onMaximize}
+      onTouchEnd={handleTouchEnd}
       className={containerClasses}
       role="toolbar"
       aria-label={`${title} title bar`}

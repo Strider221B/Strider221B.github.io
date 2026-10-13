@@ -7,6 +7,9 @@
 // 1. React / Next.js core
 import React, { useState, useMemo, useCallback } from 'react';
 
+// 3. Project contexts and hooks
+import { useWindowManager } from '../../hooks/useWindowManager';
+
 // 5. Project utilities, constants, config
 import { DEFAULT_USER_NAME, REPO_URL, GITHUB_BLOB_BASE_URL } from '../../lib/constants';
 
@@ -168,6 +171,7 @@ export default function MarkdownViewer({
   title: directTitle,
   contentMap = {},
 }) {
+  const { openApp } = useWindowManager();
   const [fontSizeKey, setFontSizeKey] = useState('NORMAL');
   const [isCopied, setIsCopied] = useState(false);
 
@@ -247,9 +251,38 @@ export default function MarkdownViewer({
     }
   }, [gitHubPageUrl]);
 
+  const handleContentClick = useCallback((e) => {
+    const link = e.target.closest('a');
+    if (!link) {
+      return;
+    }
+    const href = link.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      if (typeof window !== 'undefined') {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    } else if (href.startsWith('mailto:')) {
+      if (typeof window !== 'undefined') {
+        window.location.href = href;
+      }
+    } else {
+      const cleanHref = href.replace(/^(\/|#)/, '').replace(/\.md$/, '');
+      if (cleanHref) {
+        openApp(cleanHref);
+      }
+    }
+  }, [openApp]);
+
   return (
     <article
-      className={`h-full overflow-y-auto windowMainScreen p-6 md:p-10 max-w-4xl mx-auto text-ubt-grey font-sans select-text ${FONT_SIZES[fontSizeKey]}`}
+      className={`h-full overflow-y-auto windowMainScreen p-3.5 sm:p-6 md:p-10 max-w-4xl mx-auto text-ubt-grey font-sans select-text ${FONT_SIZES[fontSizeKey]}`}
     >
       <ArticleHeader
         title={displayTitle}
@@ -267,6 +300,7 @@ export default function MarkdownViewer({
       {displayHtml ? (
         <div
           className="markdown-content"
+          onClick={handleContentClick}
           dangerouslySetInnerHTML={{ __html: displayHtml }}
         />
       ) : (
