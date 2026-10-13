@@ -16,7 +16,7 @@ const SYSTEM_SPECS = [
   { label: 'Processor', value: 'Virtual JS Engine (x86_64)' },
   { label: 'Graphics', value: 'WebGL 2.0 Canvas Accelerators' },
   { label: 'Disk Capacity', value: '512 GB Virtual Storage' },
-  { label: 'OS Name', value: 'Ubuntu 22.04.3 LTS' },
+  { label: 'OS Name', value: 'Ubuntu 26.04.1 LTS' },
   { label: 'OS Type', value: '64-bit' },
   { label: 'GNOME Version', value: '42.0' },
   { label: 'Windowing System', value: 'Wayland / React DOM' },
@@ -36,7 +36,7 @@ export default function AboutSettings() {
           U
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">Ubuntu 22.04 LTS</h3>
+          <h3 className="text-lg font-bold text-white">Ubuntu 26.04.1 LTS</h3>
           <p className="text-xs text-white/60">Portfolio Edition by {DEFAULT_USER_NAME}</p>
         </div>
       </div>

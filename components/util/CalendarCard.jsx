@@ -12,7 +12,7 @@ const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const INITIAL_NOTIFICATIONS = [
   {
     id: 1,
-    title: 'Ubuntu 22.04 LTS Active',
+    title: 'Ubuntu 26.04.1 LTS Active',
     detail: 'Welcome to Somesh Chatterjee portfolio simulation.',
     time: 'Just now',
   },

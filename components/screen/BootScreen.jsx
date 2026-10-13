@@ -15,7 +15,7 @@ import { BOOT_SCREEN_DELAY_MS } from '../../lib/constants';
 const PROGRESS_TICK_MS = 40;
 const PROGRESS_STEP_PERCENT = 2.5;
 const MAX_PROGRESS_PERCENT = 100;
-const UBUNTU_RELEASE_LABEL = 'Ubuntu 22.04 LTS';
+const UBUNTU_RELEASE_LABEL = 'Ubuntu 26.04.1 LTS';
 
 // ─── HELPER SUB-COMPONENTS (< 30 lines each) ─────────────────────────
 

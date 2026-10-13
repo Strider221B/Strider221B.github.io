@@ -20,7 +20,7 @@ export default function Document() {
         <meta charSet="utf-8" />
         <meta
           name="description"
-          content="Somesh Chatterjee's personal portfolio website simulating an Ubuntu 22.04 LTS desktop environment."
+          content="Somesh Chatterjee's personal portfolio website simulating an Ubuntu 26.04.1 LTS desktop environment."
         />
         <meta
           name="keywords"

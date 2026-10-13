@@ -1,6 +1,6 @@
 # Ubuntu Portfolio — Architecture & Design Document
 
-> **Project**: Personal portfolio website simulating an Ubuntu 22.04 LTS desktop environment  
+> **Project**: Personal portfolio website simulating an Ubuntu 26.04.1 LTS desktop environment  
 > **Stack**: Next.js 14 (Pages Router), React 18, Tailwind CSS 3  
 > **Deployment**: Static export → GitHub Pages (`username.github.io`)  
 > **Inspiration**: [vivek9patel/vivek9patel.github.io](https://github.com/vivek9patel/vivek9patel.github.io)
@@ -833,18 +833,6 @@ body {
     transform: translate(var(--window-transform-x), var(--window-transform-y)) scale(0.85);
     visibility: hidden;
   }
-}
-
-/* ── Window Resize Borders ─────────────────────────────────── */
-.window-y-border {
-  height: calc(100% - 10px);
-  width: calc(100% + 10px);
-  cursor: e-resize;
-}
-.window-x-border {
-  height: calc(100% + 10px);
-  width: calc(100% - 10px);
-  cursor: n-resize;
 }
 
 /* ── Window Shadow ─────────────────────────────────────────── */

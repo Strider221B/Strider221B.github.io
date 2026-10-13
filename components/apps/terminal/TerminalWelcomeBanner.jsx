@@ -16,7 +16,7 @@ export default function TerminalWelcomeBanner() {
   return (
     <div className="mb-4 text-xs text-white/80 space-y-1">
       <p className="text-white font-semibold text-sm">
-        Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-89-generic x86_64)
+        Welcome to Ubuntu 26.04.1 LTS (GNU/Linux 5.15.0-89-generic x86_64)
       </p>
       <p className="text-white/60">
         * Portfolio Shell: Somesh Chatterjee (@Strider221B)

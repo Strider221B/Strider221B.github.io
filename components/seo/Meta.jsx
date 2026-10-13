@@ -9,9 +9,9 @@ import React from 'react';
 import Head from 'next/head';
 
 // 2. Constants (File-scoped defaults)
-const DEFAULT_TITLE = 'Somesh Chatterjee | Ubuntu 22.04 Desktop Portfolio & Tech Blog';
+const DEFAULT_TITLE = 'Somesh Chatterjee | Ubuntu 26.04.1 LTS Desktop Portfolio & Tech Blog';
 const DEFAULT_DESCRIPTION =
-  'Interactive Ubuntu 22.04 LTS desktop portfolio and technical blog of Somesh Chatterjee. Exploring Machine Learning, Data Science, and Systems Engineering.';
+  'Interactive Ubuntu 26.04.1 LTS desktop portfolio and technical blog of Somesh Chatterjee. Exploring Machine Learning, Data Science, and Systems Engineering.';
 const DEFAULT_CANONICAL = 'https://strider221b.github.io/';
 const DEFAULT_OG_IMAGE = 'https://strider221b.github.io/wallpapers/wall-2.webp';
 const DEFAULT_KEYWORDS =
@@ -100,7 +100,7 @@ export default function Meta({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:image:alt" content="Ubuntu 22.04 LTS Desktop Simulation" />
+      <meta property="og:image:alt" content="Ubuntu 26.04.1 LTS Desktop Simulation" />
       <meta property="og:locale" content="en_US" />
 
       {/* Twitter */}

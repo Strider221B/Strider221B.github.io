@@ -28,17 +28,6 @@ body {
   }
 }
 
-/* ── Window Resize Borders ─────────────────────────────────── */
-.window-y-border {
-  height: calc(100% - 10px);
-  width: calc(100% + 10px);
-  cursor: e-resize;
-}
-.window-x-border {
-  height: calc(100% + 10px);
-  width: calc(100% - 10px);
-  cursor: n-resize;
-}
 
 /* ── Window Shadow ─────────────────────────────────────────── */
 .window-shadow {

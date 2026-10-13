@@ -31,6 +31,7 @@ const MOBILE_BREAKPOINT = 640;
 // ─── HELPER SUB-COMPONENT ───────────────────────────────────────────
 /**
  * Edge and corner handles for interactive window resizing.
+ * Confined strictly to narrow window perimeter zones to prevent interfering with window content clicks.
  *
  * @param {Object} props
  * @param {Function} props.onResizeStart - Resize initiation handler
@@ -38,19 +39,34 @@ const MOBILE_BREAKPOINT = 640;
 function WindowResizeHandles({ onResizeStart }) {
   return (
     <>
+      {/* Right border handle */}
       <div
-        className="window-y-border absolute right-0 top-1 bottom-1 w-2 cursor-e-resize z-20"
+        className="absolute right-0 top-2 bottom-2 w-1.5 cursor-e-resize z-20 select-none hover:bg-white/10 transition-colors"
         onMouseDown={(e) => onResizeStart('e', e)}
         aria-hidden="true"
       />
+      {/* Bottom border handle */}
       <div
-        className="window-x-border absolute bottom-0 left-1 right-1 h-2 cursor-s-resize z-20"
+        className="absolute bottom-0 left-2 right-2 h-1.5 cursor-s-resize z-20 select-none hover:bg-white/10 transition-colors"
         onMouseDown={(e) => onResizeStart('s', e)}
         aria-hidden="true"
       />
+      {/* Left border handle */}
       <div
-        className="absolute right-0 bottom-0 w-3 h-3 cursor-se-resize z-30"
+        className="absolute left-0 top-2 bottom-2 w-1.5 cursor-w-resize z-20 select-none hover:bg-white/10 transition-colors"
+        onMouseDown={(e) => onResizeStart('w', e)}
+        aria-hidden="true"
+      />
+      {/* Bottom-right corner handle */}
+      <div
+        className="absolute right-0 bottom-0 w-3 h-3 cursor-se-resize z-30 select-none"
         onMouseDown={(e) => onResizeStart('se', e)}
+        aria-hidden="true"
+      />
+      {/* Bottom-left corner handle */}
+      <div
+        className="absolute left-0 bottom-0 w-3 h-3 cursor-sw-resize z-30 select-none"
+        onMouseDown={(e) => onResizeStart('sw', e)}
         aria-hidden="true"
       />
     </>
@@ -118,21 +134,45 @@ export default function Window({
     const startX = e.clientX;
     const startY = e.clientY;
     const { width: startW, height: startH } = size;
+    const { x: startXPos, y: startYPos } = position;
 
     const onMouseMove = (moveEvent) => {
       const deltaX = moveEvent.clientX - startX;
       const deltaY = moveEvent.clientY - startY;
-      setSize({
-        width: direction === 's' ? startW : Math.max(MIN_WINDOW_WIDTH, startW + deltaX),
-        height: direction === 'e' ? startH : Math.max(MIN_WINDOW_HEIGHT, startH + deltaY),
-      });
+
+      let newWidth = startW;
+      let newHeight = startH;
+      let newX = startXPos;
+
+      if (direction.includes('e')) {
+        newWidth = Math.max(MIN_WINDOW_WIDTH, startW + deltaX);
+      } else if (direction.includes('w')) {
+        const potentialWidth = startW - deltaX;
+        newWidth = Math.max(MIN_WINDOW_WIDTH, potentialWidth);
+        newX = startXPos + (startW - newWidth);
+      }
+
+      if (direction.includes('s')) {
+        newHeight = Math.max(MIN_WINDOW_HEIGHT, startH + deltaY);
+      }
+
+      setSize({ width: newWidth, height: newHeight });
+      if (direction.includes('w')) {
+        setPosition((prev) => ({ ...prev, x: newX }));
+      }
     };
 
     const onMouseUp = () => {
+      if (typeof document !== 'undefined') {
+        document.body.style.userSelect = '';
+      }
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
 
+    if (typeof document !== 'undefined') {
+      document.body.style.userSelect = 'none';
+    }
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
   };
