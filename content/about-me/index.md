@@ -14,6 +14,8 @@ I sit right at the intersection of **data science, software engineering, and sys
 
 Currently, I serve as an **Advisor – Data Science** at Baker Hughes, where I focus on building intelligent, scalable systems that solve complex industrial challenges. Over the past decade and a half—spanning impactful tenures across GE and Baker Hughes—I’ve worn many hats: software architect, engineering lead, and lead data scientist.  
 
+> **Explore Articles:** To browse all my publications and technical posts, open the **Application Grid** (the 9-dot launcher icon) in the bottom-left corner of the dock.  
+
 ---
 
 ## 🚀 What I Do
