@@ -13,7 +13,7 @@ const DEFAULT_TITLE = 'Somesh Chatterjee | Ubuntu 26.04.1 LTS Desktop Portfolio 
 const DEFAULT_DESCRIPTION =
   'Interactive Ubuntu 26.04.1 LTS desktop portfolio and technical blog of Somesh Chatterjee. Exploring Machine Learning, Data Science, and Systems Engineering.';
 const DEFAULT_CANONICAL = 'https://strider221b.github.io/';
-const DEFAULT_OG_IMAGE = 'https://strider221b.github.io/wallpapers/wall-2.webp';
+const DEFAULT_OG_IMAGE = 'https://strider221b.github.io/wallpapers/ubuntu-default.webp';
 const DEFAULT_KEYWORDS =
   'Somesh Chatterjee, Portfolio, Ubuntu, Linux, Data Science, Machine Learning, Deep Learning, Python, Next.js, Developer';
 const DEFAULT_AUTHOR = 'Somesh Chatterjee';
