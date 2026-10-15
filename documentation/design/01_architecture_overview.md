@@ -149,7 +149,8 @@ const apps = [
     type: APP_TYPES.WINDOW,
     component: 'Terminal',
     favourite: true,
-    desktop_shortcut: false,
+    desktop_shortcut: true,
+    desktop_order: 2,
     disabled: false,
   },
   {
@@ -170,6 +171,7 @@ const apps = [
     component: 'Trash',
     favourite: false,
     desktop_shortcut: true,
+    desktop_order: 3,
     disabled: false,
   },
 
@@ -183,6 +185,7 @@ const apps = [
     componentProps: { contentPath: 'about-me' },
     favourite: true,
     desktop_shortcut: true,
+    desktop_order: 1,
     disabled: false,
   },
   {
@@ -266,7 +269,9 @@ export function getAppById(id) {
 
 /** Get all apps marked as desktop shortcuts. */
 export function getDesktopApps() {
-  return apps.filter((app) => app.desktop_shortcut && !app.disabled);
+  return apps
+    .filter((app) => app.desktop_shortcut && !app.disabled)
+    .sort((a, b) => (a.desktop_order ?? Infinity) - (b.desktop_order ?? Infinity));
 }
 
 /** Get all apps marked as dock favourites. */
