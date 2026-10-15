@@ -25,6 +25,7 @@ import { getComponent } from '../../lib/componentRegistry';
  * @param {Record<string, Array<Object>>} [props.contentMap={}] - Markdown content map
  * @param {Function} [props.changeBackgroundImage] - Callback to update wallpaper
  * @param {string} [props.currBgImgName] - Current background image path
+ * @param {string} [props.settingsTab='appearance'] - Active settings category
  * @returns {JSX.Element} Fragment rendering open windows
  */
 export default function DesktopWindows({
@@ -32,6 +33,7 @@ export default function DesktopWindows({
   contentMap = {},
   changeBackgroundImage,
   currBgImgName,
+  settingsTab = 'appearance',
 }) {
   const {
     isFocused,
@@ -60,6 +62,7 @@ export default function DesktopWindows({
         contentMap={contentMap}
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={currBgImgName}
+        initialTab={settingsTab}
       />
     );
   };

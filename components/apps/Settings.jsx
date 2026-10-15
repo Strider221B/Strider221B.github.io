@@ -4,7 +4,7 @@
  */
 
 // 1. React / Next.js core
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 // 4. Project components
 import SettingsNav from './settings/SettingsNav';
@@ -22,14 +22,28 @@ import { DEFAULT_WALLPAPER, STORAGE_KEYS } from '../../lib/constants';
  * @param {Object} props
  * @param {Function} [props.changeBackgroundImage] - Callback to update wallpaper
  * @param {string} [props.currBgImgName] - Current active wallpaper path
+ * @param {string} [props.initialTab='appearance'] - Active settings category
  * @returns {JSX.Element} Settings application window
  */
 export default function Settings({
   changeBackgroundImage,
   currBgImgName = DEFAULT_WALLPAPER,
+  initialTab = 'appearance',
 }) {
-  const [activeTab, setActiveTab] = useState('appearance');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [currentWallpaper, setCurrentWallpaper] = useState(currBgImgName);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
+  useEffect(() => {
+    if (currBgImgName) {
+      setCurrentWallpaper(currBgImgName);
+    }
+  }, [currBgImgName]);
 
   const handleChangeWallpaper = useCallback((wallpaperPath) => {
     setCurrentWallpaper(wallpaperPath);

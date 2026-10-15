@@ -53,10 +53,19 @@ export default function AppearanceSettings({ currentWallpaper, onChangeWallpaper
                 aria-label={`Select ${wp.name} wallpaper`}
               >
                 <div
-                  className={`w-full h-20 rounded bg-gradient-to-br ${wp.gradient} flex items-end p-2 relative shadow-inner`}
+                  className={`w-full h-20 rounded bg-gradient-to-br ${wp.gradient} flex items-end p-2 relative shadow-inner overflow-hidden`}
                 >
+                  <img
+                    src={wp.path}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
                   {isSelected && (
-                    <span className="absolute top-1.5 right-1.5 bg-ub-orange text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
+                    <span className="absolute top-1.5 right-1.5 bg-ub-orange text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow z-10">
                       Active
                     </span>
                   )}
