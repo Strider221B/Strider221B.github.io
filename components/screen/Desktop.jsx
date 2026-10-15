@@ -20,7 +20,7 @@ import DesktopContextMenu from '../base/DesktopContextMenu';
 import Attribution from '../util/Attribution';
 
 // 5. Project utilities, constants, config
-import { WALLPAPERS_LIST } from '../../lib/constants';
+import { WALLPAPERS_LIST, getWallpaperStyle } from '../../lib/constants';
 import apps, { getDesktopApps } from '../../apps.config';
 
 // 3. Component function definition
@@ -51,6 +51,7 @@ export default function Desktop({
 
   const [selectedAppId, setSelectedAppId] = useState(null);
   const [isAllAppsOpen, setIsAllAppsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState('appearance');
   const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0 });
 
   const desktopApps = useMemo(() => getDesktopApps(), []);
@@ -100,13 +101,10 @@ export default function Desktop({
     return list;
   }, [openWindows, contentMap]);
 
-  const desktopBackgroundStyle = useMemo(() => ({
-    backgroundImage: backgroundImage
-      ? `url(${backgroundImage}), linear-gradient(135deg, #77216F 0%, #5E2750 50%, #2C001E 100%)`
-      : 'linear-gradient(135deg, #77216F 0%, #5E2750 50%, #2C001E 100%)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  }), [backgroundImage]);
+  const desktopBackgroundStyle = useMemo(
+    () => getWallpaperStyle(backgroundImage),
+    [backgroundImage]
+  );
 
   const handleContextMenu = useCallback((event) => {
     event.preventDefault();
@@ -148,12 +146,22 @@ export default function Desktop({
     setIsAllAppsOpen((prev) => !prev);
   }, [isStartMenuOpen, onCloseStartMenu]);
 
-  const handleChangeWallpaperAction = useCallback(() => {
-    const currentIndex = WALLPAPERS_LIST.indexOf(backgroundImage);
-    const nextIndex = (currentIndex + 1) % WALLPAPERS_LIST.length;
-    changeBackgroundImage(WALLPAPERS_LIST[nextIndex]);
+  const handleOpenChangeBackground = useCallback(() => {
+    setSettingsTab('appearance');
+    openApp('settings');
     handleCloseContextMenu();
-  }, [backgroundImage, changeBackgroundImage, handleCloseContextMenu]);
+  }, [openApp, handleCloseContextMenu]);
+
+  const handleOpenDisplaySettings = useCallback(() => {
+    setSettingsTab('displays');
+    openApp('settings');
+    handleCloseContextMenu();
+  }, [openApp, handleCloseContextMenu]);
+
+  const handleOpenTerminal = useCallback(() => {
+    openApp('terminal');
+    handleCloseContextMenu();
+  }, [openApp, handleCloseContextMenu]);
 
   const handleShowDesktop = useCallback(() => {
     openAppList.forEach((app) => {
@@ -192,6 +200,7 @@ export default function Desktop({
         contentMap={contentMap}
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={backgroundImage}
+        settingsTab={settingsTab}
       />
 
       <StartMenu
@@ -209,9 +218,9 @@ export default function Desktop({
           x={contextMenu.x}
           y={contextMenu.y}
           onClose={handleCloseContextMenu}
-          onChangeWallpaper={handleChangeWallpaperAction}
-          onOpenTerminal={() => openApp('terminal')}
-          onOpenSettings={() => openApp('settings')}
+          onChangeWallpaper={handleOpenChangeBackground}
+          onOpenTerminal={handleOpenTerminal}
+          onOpenSettings={handleOpenDisplaySettings}
           onShowDesktop={handleShowDesktop}
         />
       )}

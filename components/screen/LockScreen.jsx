@@ -12,6 +12,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   DEFAULT_WALLPAPER,
   DEFAULT_USER_NAME,
+  getWallpaperStyle,
 } from '../../lib/constants';
 
 // 2. Constants (non-exported, file-scoped)
@@ -219,7 +220,7 @@ export default function LockScreen({
     >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat filter blur-md scale-105 z-0"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        style={getWallpaperStyle(backgroundImage)}
       />
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
 
