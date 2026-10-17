@@ -2,7 +2,7 @@
   "name": "strider221b-portfolio",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://strider221b.github.io/",
+  "homepage": "https://someshchatterjee.com/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
