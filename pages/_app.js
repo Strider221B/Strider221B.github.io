@@ -8,6 +8,7 @@
 import React from 'react';
 
 // 6. Styles (CSS imports)
+import 'katex/dist/katex.min.css';
 import '../styles/globals.css';
 
 /**
