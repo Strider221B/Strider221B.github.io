@@ -2,7 +2,7 @@
 title: "A More Beautiful Question: The 3-Step Framework for True Innovation"
 date: "2019-05-11"
 tags: ["psychology", "Innovation", "ProblemSolving"]
-excerpt: "Unlock groundbreaking innovation by moving away from quick answers and mastering the three-step framework of "Why, What If, and How.""
+excerpt: "Unlock groundbreaking innovation by moving away from quick answers and mastering the three-step framework of \"Why, What If, and How.\""
 author: "Somesh Chatterjee"
 ---
 

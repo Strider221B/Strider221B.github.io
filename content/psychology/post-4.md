@@ -2,7 +2,7 @@
 title: "Mind Scripts: The Simple Psychological Trick to Master First Impressions"
 date: "2019-05-11"
 tags: ["psychology", "PsychologyTricks"]
-excerpt: "Conquer interview anxiety and command the room with "Mind Scripts" — a simple psychological technique to align your body language and nail your first impression."
+excerpt: "Conquer interview anxiety and command the room with \"Mind Scripts\" — a simple psychological technique to align your body language and nail your first impression."
 author: "Somesh Chatterjee"
 ---
 
