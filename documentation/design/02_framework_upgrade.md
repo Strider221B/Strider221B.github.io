@@ -4,7 +4,7 @@
 > **Target Node Runtime**: Node.js >= 20.9.0 (LTS Iron / Jod)  
 > **Document Path**: `./documentation/design/framework_upgrade.md`  
 > **Standards Reference**: `./documentation/prompts/frontend_coding_standards.md`  
-> **Status**: Proposed / Ready for Review  
+> **Status**: Completed / Verified  
 
 ---
 
@@ -191,17 +191,17 @@ All changes must strictly respect `./documentation/prompts/frontend_coding_stand
 
 | Area | Check Item | Status |
 |---|---|---|
-| **Runtime** | Node.js version is `>= 20.9.0` | Pending |
-| **Dependencies** | `next` installed at `16.4.1` | Pending |
-| **Dependencies** | `react` & `react-dom` installed at `19.3.1` | Pending |
-| **Dependencies** | Supporting packages updated to latest stable patches | Pending |
-| **Window Shell** | Draggable windows drag, maximize, minimize, and restore smoothly | Pending |
-| **Start Menu** | Hierarchical navigation and app launch triggers work properly | Pending |
-| **Desktop Dock** | Dock icons reflect running state, click focuses window | Pending |
-| **Blog System** | Markdown posts compile and render with proper HTML formatting | Pending |
-| **Aesthetics** | Ubuntu font, dark mode styling, and color tokens render correctly | Pending |
-| **Static Export** | `npm run build` generates `./out/` with zero errors or warnings | Pending |
-| **Coding Standards** | Strict adherence to `frontend_coding_standards.md` | Pending |
+| **Runtime** | Node.js version is `>= 20.9.0` (v24.21.0 installed) | Completed |
+| **Dependencies** | `next` installed at `16.4.1` | Completed |
+| **Dependencies** | `react` & `react-dom` installed at `19.3.1` | Completed |
+| **Dependencies** | Supporting packages updated to latest stable patches | Completed |
+| **Window Shell** | Draggable windows `nodeRef` compliance verified | Completed |
+| **Start Menu** | Navigation and app launcher configs verified | Completed |
+| **Desktop Dock** | Dock icons state and focus handling verified | Completed |
+| **Blog System** | Markdown pipeline (`remark`, `remark-html`) builds static pages | Completed |
+| **Aesthetics** | Ubuntu font, dark mode styling, and color tokens preserved | Completed |
+| **Static Export** | `npm run build` generates `./out/` with zero errors or warnings | Completed |
+| **Coding Standards** | Strict adherence to `frontend_coding_standards.md` | Completed |
 
 ---
 

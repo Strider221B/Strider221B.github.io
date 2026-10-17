@@ -1,7 +1,7 @@
 # Ubuntu Desktop Portfolio — Somesh Chatterjee
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18.3-61dafb?style=flat-square&logo=react)](https://react.js.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.3-61dafb?style=flat-square&logo=react)](https://react.js.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/Deployed-GitHub_Pages-blue?style=flat-square&logo=github)](https://strider221b.github.io/)
@@ -60,8 +60,8 @@ A personal portfolio website simulating an **Ubuntu 26.04.1 LTS** desktop enviro
 
 | Layer | Technology | Details |
 |---|---|---|
-| **Framework** | [Next.js 14](https://nextjs.org/) | Pages Router with static HTML export (`output: 'export'`) |
-| **UI Library** | [React 18](https://reactjs.org/) | Functional components and hooks (`useReducer`, `useMemo`, `useCallback`) |
+| **Framework** | [Next.js 16](https://nextjs.org/) | Pages Router with Turbopack and static HTML export (`output: 'export'`) |
+| **UI Library** | [React 19](https://reactjs.org/) | Functional components and hooks (`useReducer`, `useMemo`, `useCallback`) |
 | **Styling** | [Tailwind CSS 3](https://tailwindcss.com/) | Custom Ubuntu color palette (`ub-orange`, `ub-grey`, etc.) |
 | **Window Interactions** | [react-draggable](https://github.com/react-grid-layout/react-draggable) | Drag handling for window shells |
 | **Content Pipeline** | `gray-matter`, `remark`, `remark-html` | Build-time Markdown parsing and static HTML generation |
@@ -121,7 +121,7 @@ Strider221B.github.io/
 
 ### Prerequisites
 
-- **Node.js**: `v18.x` or higher (Node `v20.x` recommended)
+- **Node.js**: `v20.9.0` or higher (LTS Iron `v20.x` or Node `v22.x` / `v24.x` recommended)
 - **npm**: `v9.x` or higher (bundled with Node.js)
 - **Git**
 
