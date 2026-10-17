@@ -12,12 +12,42 @@ Implementing a multi-layer perceptron without high-level frameworks like PyTorch
 
 ---
 
-## 1. Network Architecture
+## 1. Network Architecture & Mathematical Formulation
 
-We consider a simple 2-layer neural network for binary classification:
-- Input layer: $X \in \mathbb{R}^{N \times d}$
-- Hidden layer: $Z_1 = X W_1 + b_1$, followed by ReLU activation: $A_1 = \max(0, Z_1)$
-- Output layer: $Z_2 = A_1 W_2 + b_2$, followed by Sigmoid activation: $\hat{Y} = \sigma(Z_2)$
+We consider a simple 2-layer neural network for binary classification. The input features are represented as a matrix $\mathbf{X} \in \mathbb{R}^{m \times d}$, with parameter weight matrices defined as:
+
+$$
+\mathbf{W}^{[1]} = \begin{pmatrix} 
+w_{11} & w_{12} & \cdots & w_{1d} \\ 
+w_{21} & w_{22} & \cdots & w_{2d} \\ 
+\vdots & \vdots & \ddots & \vdots \\ 
+w_{h1} & w_{h2} & \cdots & w_{hd} 
+\end{pmatrix} \in \mathbb{R}^{h \times d}
+$$
+
+The layer transformations and activation functions are formulated as:
+- **Hidden layer pre-activation**: $\mathbf{Z}^{[1]} = \mathbf{X} \mathbf{W}^{[1]T} + \mathbf{b}^{[1]}$
+- **Piecewise ReLU activation**:
+$$
+\text{ReLU}(z) = \begin{cases} 
+z & \text{if } z > 0 \\ 
+0 & \text{if } z \le 0 
+\end{cases}, \quad 
+\frac{d}{dz}\text{ReLU}(z) = \begin{cases} 
+1 & \text{if } z > 0 \\ 
+0 & \text{if } z \le 0 
+\end{cases}
+$$
+- **Output layer and hypothesis**: $\mathbf{Z}^{[2]} = \mathbf{A}^{[1]} \mathbf{W}^{[2]T} + \mathbf{b}^{[2]}$, followed by $\hat{\mathbf{y}} = \sigma(\mathbf{Z}^{[2]})$
+
+### Objective Function & Expected Risk
+In statistical learning theory, empirical risk minimization estimates the expected risk $\mathcal{R}_{\text{exp}} = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} L(f(x), y) \, p(x, y) \, dx \, dy$ via the regularized binary cross-entropy loss:
+
+$$
+\mathcal{L}(\mathbf{W}, \mathbf{b}) = -\frac{1}{m} \sum_{i=1}^m \left[ y^{(i)} \log(\hat{y}^{(i)}) + (1 - y^{(i)}) \log(1 - \hat{y}^{(i)}) \right] + \frac{\lambda}{2m} \sqrt{\sum_{j=1}^h \sum_{k=1}^d (w_{jk}^{[1]})^2}
+$$
+
+The continuous gradient flow for parameter updates satisfies the partial derivative relation $\frac{\partial \mathcal{L}}{\partial \mathbf{W}} = \lim_{\Delta t \to 0} \frac{\mathbf{W}(t + \Delta t) - \mathbf{W}(t)}{\Delta t}$.
 
 ---
 
