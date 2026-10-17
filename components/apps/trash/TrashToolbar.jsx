@@ -20,13 +20,18 @@ export default function TrashToolbar({
   itemCount,
   onEmptyTrash,
   onRestoreAll,
+  isDayTheme,
 }) {
   return (
-    <header className="h-11 bg-[#2B2B2B] border-b border-white/10 px-4 flex items-center justify-between shrink-0 select-none">
-      <div className="flex items-center gap-2 text-xs text-white/70">
+    <header
+      className={`h-11 border-b px-4 flex items-center justify-between shrink-0 select-none ${
+        isDayTheme ? 'bg-[#F0F0F0] border-black/10 text-[#2e3436]' : 'bg-[#2B2B2B] border-white/10 text-white'
+      }`}
+    >
+      <div className={`flex items-center gap-2 text-xs ${isDayTheme ? 'text-black/70' : 'text-white/70'}`}>
         <span>Home</span>
         <span>/</span>
-        <span className="text-white font-medium">Trash</span>
+        <span className={`font-medium ${isDayTheme ? 'text-[#111111]' : 'text-white'}`}>Trash</span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -35,7 +40,11 @@ export default function TrashToolbar({
             <button
               type="button"
               onClick={onRestoreAll}
-              className="px-2.5 py-1 text-xs rounded bg-white/10 hover:bg-white/20 active:bg-white/25 text-white transition-colors"
+              className={`px-2.5 py-1 text-xs rounded transition-colors ${
+                isDayTheme
+                  ? 'bg-black/5 hover:bg-black/10 active:bg-black/15 text-black/80'
+                  : 'bg-white/10 hover:bg-white/20 active:bg-white/25 text-white'
+              }`}
             >
               Restore All
             </button>

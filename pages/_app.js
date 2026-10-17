@@ -7,6 +7,9 @@
 // 1. React / Next.js core
 import React from 'react';
 
+// 3. Project contexts and hooks
+import ThemeProvider from '../context/ThemeContext';
+
 // 6. Styles (CSS imports)
 import 'katex/dist/katex.min.css';
 import '../styles/globals.css';
@@ -20,5 +23,9 @@ import '../styles/globals.css';
  * @returns {JSX.Element} The rendered application page
  */
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }

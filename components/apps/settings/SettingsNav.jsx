@@ -6,6 +6,9 @@
 // 1. React / Next.js core
 import React from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../../hooks/useTheme';
+
 // 2. Constants
 const NAV_ITEMS = [
   {
@@ -47,12 +50,22 @@ const NAV_ITEMS = [
  * @returns {JSX.Element} Settings navigation menu
  */
 export default function SettingsNav({ activeTab, onSelectTab }) {
+  const { isDayTheme } = useTheme();
+
   return (
     <nav
-      className="w-full sm:w-44 md:w-52 bg-[#2B2B2B] border-b sm:border-b-0 sm:border-r border-white/10 p-2 shrink-0 flex flex-row sm:flex-col gap-1 select-none overflow-x-auto"
+      className={`w-full sm:w-44 md:w-52 border-b sm:border-b-0 sm:border-r p-2 shrink-0 flex flex-row sm:flex-col gap-1 select-none overflow-x-auto ${
+        isDayTheme
+          ? 'bg-[#EBEBEB] border-black/10 text-[#2e3436]'
+          : 'bg-[#2B2B2B] border-white/10 text-white'
+      }`}
       aria-label="Settings categories"
     >
-      <div className="hidden sm:block px-3 py-2 text-xs font-semibold text-white/50 uppercase tracking-wider">
+      <div
+        className={`hidden sm:block px-3 py-2 text-xs font-semibold uppercase tracking-wider ${
+          isDayTheme ? 'text-black/50' : 'text-white/50'
+        }`}
+      >
         Settings
       </div>
       {NAV_ITEMS.map((item) => {
@@ -65,6 +78,8 @@ export default function SettingsNav({ activeTab, onSelectTab }) {
             className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium transition-colors text-left ${
               isActive
                 ? 'bg-ub-orange text-white shadow-sm'
+                : isDayTheme
+                ? 'text-black/80 hover:bg-black/5 active:bg-black/10'
                 : 'text-white/80 hover:bg-white/10 active:bg-white/15'
             }`}
             aria-selected={isActive}

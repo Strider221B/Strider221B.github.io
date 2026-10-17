@@ -12,6 +12,7 @@ import Draggable from 'react-draggable';
 
 // 3. Project contexts and hooks
 import { useWindowManager } from '../../hooks/useWindowManager';
+import { useTheme } from '../../hooks/useTheme';
 
 // 4. Project components
 import WindowTitleBar from './WindowTitleBar';
@@ -102,6 +103,7 @@ export default function Window({
 }) {
   const nodeRef = useRef(null);
   const wm = useWindowManager();
+  const { isDayTheme } = useTheme();
 
   const isFocused = customProps.isFocused ?? (wm ? wm.isFocused(appId) : true);
   const isMinimized = customProps.isMinimized ?? (wm ? wm.isMinimized(appId) : false);
@@ -189,8 +191,14 @@ export default function Window({
   };
 
   const windowClasses = isMaximized
-    ? 'fixed top-7 left-14 right-0 bottom-0 flex flex-col bg-ub-grey overflow-hidden shadow-2xl'
-    : 'absolute flex flex-col bg-ub-grey rounded-lg overflow-hidden window-shadow border border-white/10';
+    ? `fixed top-7 left-14 right-0 bottom-0 flex flex-col overflow-hidden shadow-2xl ${
+        isDayTheme ? 'bg-white text-[#2e3436]' : 'bg-ub-grey text-ubt-grey'
+      }`
+    : `absolute flex flex-col rounded-lg overflow-hidden window-shadow border ${
+        isDayTheme
+          ? 'bg-white text-[#2e3436] border-black/15 shadow-xl'
+          : 'bg-ub-grey text-ubt-grey border-white/10'
+      }`;
 
   const windowStyles = {
     zIndex,
@@ -228,7 +236,11 @@ export default function Window({
           onMaximize={onMaximize}
           onClose={onClose}
         />
-        <div className="flex-1 w-full overflow-auto bg-ub-grey text-ubt-grey windowMainScreen relative">
+        <div
+          className={`flex-1 w-full overflow-auto windowMainScreen relative ${
+            isDayTheme ? 'bg-white text-[#2e3436]' : 'bg-ub-grey text-ubt-grey'
+          }`}
+        >
           {children}
         </div>
         {!isMaximized && (

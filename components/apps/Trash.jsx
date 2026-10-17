@@ -6,6 +6,9 @@
 // 1. React / Next.js core
 import React, { useState, useCallback } from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../hooks/useTheme';
+
 // 4. Project components
 import TrashToolbar from './trash/TrashToolbar';
 import TrashEmptyState from './trash/TrashEmptyState';
@@ -50,6 +53,7 @@ const SAMPLE_TRASH_ITEMS = [
  * @returns {JSX.Element} Interactive Trash window
  */
 export default function Trash() {
+  const { isDayTheme } = useTheme();
   const [items, setItems] = useState(SAMPLE_TRASH_ITEMS);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -77,7 +81,9 @@ export default function Trash() {
 
   return (
     <div
-      className="h-full bg-ub-cool-grey text-white flex flex-col overflow-hidden select-none"
+      className={`h-full flex flex-col overflow-hidden select-none ${
+        isDayTheme ? 'bg-white text-[#2e3436]' : 'bg-ub-cool-grey text-white'
+      }`}
       role="region"
       aria-label="Trash Folder"
     >
@@ -85,6 +91,7 @@ export default function Trash() {
         itemCount={items.length}
         onEmptyTrash={handleEmptyTrash}
         onRestoreAll={handleRestoreAll}
+        isDayTheme={isDayTheme}
       />
 
       <div className="flex-1 overflow-y-auto">
@@ -93,7 +100,13 @@ export default function Trash() {
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-[11px] text-white/40 uppercase tracking-wider">
+              <tr
+                className={`border-b text-[11px] uppercase tracking-wider ${
+                  isDayTheme
+                    ? 'border-black/10 text-black/50 bg-black/5'
+                    : 'border-white/10 text-white/40'
+                }`}
+              >
                 <th className="py-2 px-3">Name</th>
                 <th className="py-2 px-3 hidden sm:table-cell">Original Path</th>
                 <th className="py-2 px-3">Deleted</th>
@@ -110,6 +123,7 @@ export default function Trash() {
                   onSelect={setSelectedId}
                   onRestore={handleRestore}
                   onDelete={handleDelete}
+                  isDayTheme={isDayTheme}
                 />
               ))}
             </tbody>
@@ -117,7 +131,13 @@ export default function Trash() {
         )}
       </div>
 
-      <footer className="h-7 bg-[#2B2B2B] border-t border-white/10 px-3 flex items-center justify-between text-[11px] text-white/50 shrink-0">
+      <footer
+        className={`h-7 border-t px-3 flex items-center justify-between text-[11px] shrink-0 ${
+          isDayTheme
+            ? 'bg-[#EBEBEB] border-black/10 text-black/50'
+            : 'bg-[#2B2B2B] border-white/10 text-white/50'
+        }`}
+      >
         <span>{items.length} {items.length === 1 ? 'item' : 'items'} in Trash</span>
         <span>384.2 GB available</span>
       </footer>

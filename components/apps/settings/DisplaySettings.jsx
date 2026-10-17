@@ -6,6 +6,9 @@
 // 1. React / Next.js core
 import React, { useState, useEffect } from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../../hooks/useTheme';
+
 // 3. Component function definition
 /**
  * Renders the display settings panel with screen resolution and scaling details.
@@ -13,6 +16,7 @@ import React, { useState, useEffect } from 'react';
  * @returns {JSX.Element} Display panel
  */
 export default function DisplaySettings() {
+  const { isDayTheme } = useTheme();
   const [resolution, setResolution] = useState('1920 x 1080');
   const [isNightLightOn, setIsNightLightOn] = useState(false);
 
@@ -29,30 +33,44 @@ export default function DisplaySettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-base font-semibold text-white mb-1">Display</h3>
-        <p className="text-xs text-white/60 mb-4">
+        <h3 className={`text-base font-semibold mb-1 ${isDayTheme ? 'text-[#111111]' : 'text-white'}`}>
+          Display
+        </h3>
+        <p className={`text-xs mb-4 ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
           Virtual desktop monitor arrangement and rendering resolution.
         </p>
 
-        <div className="bg-[#2B2B2B] rounded-lg border border-white/10 divide-y divide-white/10">
+        <div
+          className={`rounded-lg border divide-y ${
+            isDayTheme
+              ? 'bg-[#EBEBEB] border-black/10 divide-black/10'
+              : 'bg-[#2B2B2B] border-white/10 divide-white/10'
+          }`}
+        >
           <div className="p-3 flex items-center justify-between text-sm">
-            <span className="text-white/80">Resolution</span>
-            <span className="font-mono text-xs bg-white/10 px-2 py-1 rounded text-white font-medium">
+            <span className={isDayTheme ? 'text-black/80' : 'text-white/80'}>Resolution</span>
+            <span
+              className={`font-mono text-xs px-2 py-1 rounded font-medium ${
+                isDayTheme ? 'bg-black/10 text-black' : 'bg-white/10 text-white'
+              }`}
+            >
               {resolution} (16:9)
             </span>
           </div>
           <div className="p-3 flex items-center justify-between text-sm">
-            <span className="text-white/80">Refresh Rate</span>
-            <span className="text-xs text-white/60">60.00 Hz</span>
+            <span className={isDayTheme ? 'text-black/80' : 'text-white/80'}>Refresh Rate</span>
+            <span className={`text-xs ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>60.00 Hz</span>
           </div>
           <div className="p-3 flex items-center justify-between text-sm">
-            <span className="text-white/80">Orientation</span>
-            <span className="text-xs text-white/60">Landscape</span>
+            <span className={isDayTheme ? 'text-black/80' : 'text-white/80'}>Orientation</span>
+            <span className={`text-xs ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>Landscape</span>
           </div>
           <div className="p-3 flex items-center justify-between text-sm">
             <div>
-              <span className="text-white/80 block">Night Light</span>
-              <span className="text-[11px] text-white/50 block">Makes screen warmer to reduce eye strain</span>
+              <span className={`block ${isDayTheme ? 'text-black/80' : 'text-white/80'}`}>Night Light</span>
+              <span className={`text-[11px] block ${isDayTheme ? 'text-black/50' : 'text-white/50'}`}>
+                Makes screen warmer to reduce eye strain
+              </span>
             </div>
             <button
               type="button"

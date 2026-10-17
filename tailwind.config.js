@@ -11,7 +11,7 @@ module.exports = {
         'ub-grey': '#111111',
         'ub-warm-grey': '#AEA79F',
         'ub-cool-grey': '#333333',
-        'ub-orange': '#E95420',
+        'ub-orange': 'rgb(var(--color-ub-accent-rgb, 233 84 32) / <alpha-value>)',
         'ub-lite-abrgn': '#77216F',
         'ub-med-abrgn': '#5E2750',
         'ub-drk-abrgn': '#2C001E',
@@ -30,7 +30,7 @@ module.exports = {
         'ubt-gedit-blue': '#50B6C6',
 
         // Border
-        'ubb-orange': '#E95420',
+        'ubb-orange': 'rgb(var(--color-ub-accent-rgb, 233 84 32) / <alpha-value>)',
       },
       minWidth: {
         '1/4': '25%',

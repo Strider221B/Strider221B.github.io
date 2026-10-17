@@ -6,6 +6,9 @@
 // 1. React / Next.js core
 import React, { useState, useEffect, useCallback } from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../hooks/useTheme';
+
 // 4. Project components
 import SettingsNav from './settings/SettingsNav';
 import AppearanceSettings from './settings/AppearanceSettings';
@@ -30,6 +33,7 @@ export default function Settings({
   currBgImgName = DEFAULT_WALLPAPER,
   initialTab = 'appearance',
 }) {
+  const { isDayTheme } = useTheme();
   const [activeTab, setActiveTab] = useState(initialTab);
   const [currentWallpaper, setCurrentWallpaper] = useState(currBgImgName);
 
@@ -59,7 +63,9 @@ export default function Settings({
 
   return (
     <div
-      className="h-full flex flex-col sm:flex-row bg-[#333333] text-white overflow-hidden select-none"
+      className={`h-full flex flex-col sm:flex-row overflow-hidden select-none ${
+        isDayTheme ? 'bg-[#F6F6F6] text-[#2e3436]' : 'bg-[#333333] text-white'
+      }`}
       role="region"
       aria-label="System Settings"
     >
