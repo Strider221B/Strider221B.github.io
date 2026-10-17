@@ -23,7 +23,7 @@ const nextConfig = {
 
   // ── Environment Variables ─────────────────────────────────────
   env: {
-    NEXT_PUBLIC_SITE_URL: 'https://strider221b.github.io',
+    NEXT_PUBLIC_SITE_URL: 'https://someshchatterjee.com',
   },
 };
 

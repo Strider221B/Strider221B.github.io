@@ -8,12 +8,15 @@
 import React from 'react';
 import Head from 'next/head';
 
+// 5. Project utilities, constants, config
+import { SITE_URL } from '../../lib/constants';
+
 // 2. Constants (File-scoped defaults)
 const DEFAULT_TITLE = 'Somesh Chatterjee | Ubuntu 26.04.1 LTS Desktop Portfolio & Tech Blog';
 const DEFAULT_DESCRIPTION =
   'Interactive Ubuntu 26.04.1 LTS desktop portfolio and technical blog of Somesh Chatterjee. Exploring Machine Learning, Data Science, and Systems Engineering.';
-const DEFAULT_CANONICAL = 'https://strider221b.github.io/';
-const DEFAULT_OG_IMAGE = 'https://strider221b.github.io/wallpapers/ubuntu-default.webp';
+const DEFAULT_CANONICAL = `${SITE_URL}/`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/wallpapers/ubuntu-default.webp`;
 const DEFAULT_KEYWORDS =
   'Somesh Chatterjee, Portfolio, Ubuntu, Linux, Data Science, Machine Learning, Deep Learning, Python, Next.js, Developer';
 const DEFAULT_AUTHOR = 'Somesh Chatterjee';
@@ -47,7 +50,7 @@ function getStructuredSchema(canonical) {
         jobTitle: 'Data Scientist & Machine Learning Engineer',
         sameAs: [
           'https://github.com/Strider221B',
-          'https://linkedin.com/in/somesh-chatterjee',
+          'https://linkedin.com/in/someshchatterjee',
         ],
       },
     ],

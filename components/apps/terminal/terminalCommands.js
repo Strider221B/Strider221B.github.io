@@ -19,7 +19,7 @@ export const VIRTUAL_FS = {
       },
       'contact.txt': {
         type: 'file',
-        content: `Email: somesh@example.com\nGitHub: https://github.com/Strider221B\nLinkedIn: https://linkedin.com/in/somesh-chatterjee`,
+        content: `Email: somesh@example.com\nGitHub: https://github.com/Strider221B\nLinkedIn: https://linkedin.com/in/someshchatterjee`,
       },
       'skills.txt': {
         type: 'file',
@@ -101,7 +101,7 @@ export const resolvePath = (currentPath, targetPath) => {
   }
   const cleanTarget = targetPath.replace(/^\.\//, '').replace(/\/$/, '');
   const candidate = currentPath === '~' ? `~/${cleanTarget}` : `${currentPath}/${cleanTarget}`;
-  
+
   // Verify existence
   if (cleanTarget === 'projects' || candidate === '~/projects') return '~/projects';
   if (cleanTarget === 'articles' || candidate === '~/articles') return '~/articles';
