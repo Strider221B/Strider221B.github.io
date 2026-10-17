@@ -12,6 +12,9 @@ import dynamic from 'next/dynamic';
 // 3. Project contexts and hooks
 import { WindowManagerProvider } from '../context/WindowManagerContext';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../hooks/useTheme';
+
 // 5. Project utilities, constants, config
 import {
   BOOT_SCREEN_DELAY_MS,
@@ -67,6 +70,7 @@ function ShutDownScreen({ onTurnOn }) {
  * @returns {JSX.Element} Top-level Ubuntu environment
  */
 export default function Ubuntu({ contentMap = {} }) {
+  const { isDayTheme } = useTheme();
   const [isBooting, setIsBooting] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isShutDown, setIsShutDown] = useState(false);
@@ -169,7 +173,11 @@ export default function Ubuntu({ contentMap = {} }) {
 
   return (
     <WindowManagerProvider>
-      <div className="relative w-screen h-screen overflow-hidden select-none bg-ub-grey text-ubt-grey">
+      <div
+        className={`relative w-screen h-screen overflow-hidden select-none ${
+          isDayTheme ? 'bg-[#f0f0f0] text-[#2e3436]' : 'bg-ub-grey text-ubt-grey'
+        }`}
+      >
         <Navbar
           lockScreen={handleLock}
           shutDown={handleShutDown}

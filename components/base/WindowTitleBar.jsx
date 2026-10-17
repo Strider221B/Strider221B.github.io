@@ -7,6 +7,9 @@
 // 1. React / Next.js core
 import React, { useState, useRef } from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../hooks/useTheme';
+
 // 4. Project components
 import WindowControls from './WindowControls';
 
@@ -36,6 +39,7 @@ export default function WindowTitleBar({
   onMaximize,
   onClose,
 }) {
+  const { isDayTheme } = useTheme();
   const [hasImageError, setHasImageError] = useState(false);
   const lastTapRef = useRef(0);
 
@@ -52,12 +56,23 @@ export default function WindowTitleBar({
     }
   };
 
+  const dayActiveClasses = 'bg-[#E8E8E8] text-[#2e3436] border-black/10';
+  const dayInactiveClasses = 'bg-[#F4F4F4] text-[#2e3436]/60 border-black/10';
+  const darkActiveClasses = 'bg-ub-window-title text-white border-black/40';
+  const darkInactiveClasses = 'bg-ub-cool-grey/80 text-white/70 border-black/30';
+
+  const themeClasses = isDayTheme
+    ? isFocused
+      ? dayActiveClasses
+      : dayInactiveClasses
+    : isFocused
+    ? darkActiveClasses
+    : darkInactiveClasses;
+
   const containerClasses = [
     'window-drag-handle h-8 px-3 flex items-center justify-between select-none border-b transition-colors touch-none sm:touch-auto',
     isMaximized ? 'cursor-default' : 'cursor-grab active:cursor-grabbing',
-    isFocused
-      ? 'bg-ub-window-title text-white border-black/40'
-      : 'bg-ub-cool-grey/80 text-white/70 border-black/30',
+    themeClasses,
   ].join(' ');
 
   return (
@@ -80,7 +95,11 @@ export default function WindowTitleBar({
         )}
       </div>
 
-      <span className="text-xs font-medium tracking-wide text-ubt-grey truncate pointer-events-none flex-1 text-center px-2">
+      <span
+        className={`text-xs font-medium tracking-wide truncate pointer-events-none flex-1 text-center px-2 ${
+          isDayTheme ? 'text-[#2e3436]' : 'text-ubt-grey'
+        }`}
+      >
         {title}
       </span>
 

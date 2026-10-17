@@ -6,6 +6,9 @@
 // 1. React / Next.js core
 import React from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../../hooks/useTheme';
+
 // 5. Project utilities, constants, config
 import { DEFAULT_USER_NAME, ATTRIBUTION_URL } from '../../../lib/constants';
 
@@ -29,28 +32,48 @@ const SYSTEM_SPECS = [
  * @returns {JSX.Element} About system panel
  */
 export default function AboutSettings() {
+  const { isDayTheme } = useTheme();
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4 pb-2 border-b border-white/10">
+      <div className={`flex items-center gap-4 pb-2 border-b ${isDayTheme ? 'border-black/10' : 'border-white/10'}`}>
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-ub-drk-abrgn via-ub-lite-abrgn to-ub-orange flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0">
           U
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">Ubuntu 26.04.1 LTS</h3>
-          <p className="text-xs text-white/60">Portfolio Edition by {DEFAULT_USER_NAME}</p>
+          <h3 className={`text-lg font-bold ${isDayTheme ? 'text-[#111111]' : 'text-white'}`}>
+            Ubuntu 26.04.1 LTS
+          </h3>
+          <p className={`text-xs ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
+            Portfolio Edition by {DEFAULT_USER_NAME}
+          </p>
         </div>
       </div>
 
-      <div className="bg-[#2B2B2B] rounded-lg border border-white/10 divide-y divide-white/10">
+      <div
+        className={`rounded-lg border divide-y ${
+          isDayTheme
+            ? 'bg-[#EBEBEB] border-black/10 divide-black/10'
+            : 'bg-[#2B2B2B] border-white/10 divide-white/10'
+        }`}
+      >
         {SYSTEM_SPECS.map((spec) => (
           <div key={spec.label} className="p-3 flex items-center justify-between text-sm">
-            <span className="text-white/80">{spec.label}</span>
-            <span className="text-xs text-white/60 font-mono">{spec.value}</span>
+            <span className={isDayTheme ? 'text-black/80' : 'text-white/80'}>{spec.label}</span>
+            <span className={`text-xs font-mono ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
+              {spec.value}
+            </span>
           </div>
         ))}
       </div>
 
-      <div className="p-3 bg-white/5 rounded-lg border border-white/10 text-xs text-white/70">
+      <div
+        className={`p-3 rounded-lg border text-xs ${
+          isDayTheme
+            ? 'bg-black/5 border-black/10 text-black/70'
+            : 'bg-white/5 border-white/10 text-white/70'
+        }`}
+      >
         <p>
           Inspired by the original open-source Ubuntu web simulation by Vivek Patel.{' '}
           <a

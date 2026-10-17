@@ -24,21 +24,28 @@ export default function TrashItemRow({
   onSelect,
   onRestore,
   onDelete,
+  isDayTheme,
 }) {
   return (
     <tr
       onClick={() => onSelect(item.id)}
-      className={`border-b border-white/5 cursor-pointer text-xs select-none transition-colors ${
-        isSelected ? 'bg-ub-orange/20 text-white' : 'text-white/80 hover:bg-white/5'
+      className={`border-b cursor-pointer text-xs select-none transition-colors ${
+        isDayTheme
+          ? isSelected
+            ? 'bg-ub-orange/20 text-[#111111] border-black/10'
+            : 'text-black/80 hover:bg-black/5 border-black/5'
+          : isSelected
+          ? 'bg-ub-orange/20 text-white border-white/5'
+          : 'text-white/80 hover:bg-white/5 border-white/5'
       }`}
     >
       <td className="py-2.5 px-3 flex items-center gap-2 font-medium">
         <span className="text-base" aria-hidden="true">📄</span>
         <span className="truncate max-w-[140px] sm:max-w-none">{item.name}</span>
       </td>
-      <td className="py-2.5 px-3 text-white/50 hidden sm:table-cell">{item.originalPath}</td>
-      <td className="py-2.5 px-3 text-white/50">{item.dateDeleted}</td>
-      <td className="py-2.5 px-3 text-white/50 font-mono">{item.size}</td>
+      <td className={`py-2.5 px-3 hidden sm:table-cell ${isDayTheme ? 'text-black/50' : 'text-white/50'}`}>{item.originalPath}</td>
+      <td className={`py-2.5 px-3 ${isDayTheme ? 'text-black/50' : 'text-white/50'}`}>{item.dateDeleted}</td>
+      <td className={`py-2.5 px-3 font-mono ${isDayTheme ? 'text-black/50' : 'text-white/50'}`}>{item.size}</td>
       <td className="py-2.5 px-3 text-right">
         <div className="flex items-center justify-end gap-1">
           <button
@@ -47,7 +54,11 @@ export default function TrashItemRow({
               e.stopPropagation();
               onRestore(item.id);
             }}
-            className="p-1 rounded hover:bg-white/10 text-white/70 hover:text-white"
+            className={`p-1 rounded ${
+              isDayTheme
+                ? 'hover:bg-black/10 text-black/70 hover:text-black'
+                : 'hover:bg-white/10 text-white/70 hover:text-white'
+            }`}
             title="Restore item"
             aria-label={`Restore ${item.name}`}
           >

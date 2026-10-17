@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-ub-accent: #E95420;
+  --color-ub-accent-rgb: 233 84 32;
+}
+
 body {
   font-family: 'Ubuntu', sans-serif;
   overflow: hidden;
@@ -85,7 +90,7 @@ body {
 .markdown-content h2 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #E95420;
+  color: rgb(var(--color-ub-accent-rgb, 233 84 32));
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.25rem;
@@ -107,13 +112,13 @@ body {
   font-weight: 600;
 }
 .markdown-content a {
-  color: #E95420;
+  color: rgb(var(--color-ub-accent-rgb, 233 84 32));
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color 0.15s ease;
 }
 .markdown-content a:hover {
-  color: #ff7844;
+  filter: brightness(1.2);
 }
 .markdown-content ul {
   list-style-type: disc;
@@ -130,7 +135,7 @@ body {
   color: rgba(255, 255, 255, 0.85);
 }
 .markdown-content blockquote {
-  border-left: 4px solid #E95420;
+  border-left: 4px solid rgb(var(--color-ub-accent-rgb, 233 84 32));
   padding-left: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -190,6 +195,53 @@ body {
   color: #ffffff;
 }
 
+/* ── Day Theme Typography Overrides ────────────────────────── */
+[data-theme="day"] .markdown-content {
+  color: #2e3436;
+}
+[data-theme="day"] .markdown-content h1 {
+  color: #111111;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="day"] .markdown-content h3 {
+  color: #111111;
+}
+[data-theme="day"] .markdown-content p {
+  color: #2e3436;
+}
+[data-theme="day"] .markdown-content strong {
+  color: #111111;
+}
+[data-theme="day"] .markdown-content li {
+  color: #2e3436;
+}
+[data-theme="day"] .markdown-content blockquote {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #4b5563;
+}
+[data-theme="day"] .markdown-content pre {
+  background-color: #f8f9fa;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="day"] .markdown-content code {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #0284c7;
+}
+[data-theme="day"] .markdown-content pre code {
+  color: #1f2937;
+}
+[data-theme="day"] .markdown-content hr {
+  border-top-color: rgba(0, 0, 0, 0.12);
+}
+[data-theme="day"] .markdown-content th {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #111111;
+}
+[data-theme="day"] .markdown-content th,
+[data-theme="day"] .markdown-content td {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
 /* ── KaTeX Math Equation Display Overrides ─────────────────── */
 .markdown-content .katex-display {
   overflow-x: auto;
@@ -209,7 +261,7 @@ body {
 }
 
 .markdown-content .katex-display::-webkit-scrollbar-thumb:hover {
-  background: rgba(233, 84, 32, 0.6); /* Ubuntu Orange */
+  background: rgba(var(--color-ub-accent-rgb, 233 84 32), 0.6);
 }
 
 .markdown-content .katex {

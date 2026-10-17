@@ -9,6 +9,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 
 // 3. Project contexts and hooks
 import { useWindowManager } from '../../hooks/useWindowManager';
+import { useTheme } from '../../hooks/useTheme';
 
 // 5. Project utilities, constants, config
 import { DEFAULT_USER_NAME, REPO_URL, GITHUB_BLOB_BASE_URL } from '../../lib/constants';
@@ -35,13 +36,13 @@ const COPIED_TIMEOUT_MS = 2000;
  * @param {string} [props.readTime] - Reading duration estimate
  * @param {string[]} [props.tags] - Category tags array
  */
-function ArticleHeader({ title, date, author, readTime, tags }) {
+function ArticleHeader({ title, date, author, readTime, tags, isDayTheme }) {
   return (
-    <header className="border-b border-white/15 pb-4 mb-6">
-      <h1 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+    <header className={`pb-4 mb-6 border-b ${isDayTheme ? 'border-black/10' : 'border-white/15'}`}>
+      <h1 className={`text-2xl md:text-3xl font-bold mb-3 leading-tight ${isDayTheme ? 'text-[#111111]' : 'text-white'}`}>
         {title}
       </h1>
-      <div className="flex flex-wrap items-center gap-3 text-xs text-white/60">
+      <div className={`flex flex-wrap items-center gap-3 text-xs ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
         {author && (
           <span className="flex items-center gap-1.5 text-white/80">
             <svg className="w-3.5 h-3.5 text-ub-orange fill-current" viewBox="0 0 20 20">
@@ -89,15 +90,25 @@ function ArticleHeader({ title, date, author, readTime, tags }) {
  * @param {boolean} props.copied - Whether share link was copied
  * @param {Function} props.onCopy - Share link copy callback
  */
-function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy }) {
+function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy, isDayTheme }) {
   return (
-    <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-xs text-white/60">
+    <div
+      className={`flex items-center justify-between pb-3 mb-4 border-b text-xs ${
+        isDayTheme ? 'border-black/10 text-black/60' : 'border-white/10 text-white/60'
+      }`}
+    >
       <div className="flex items-center gap-2">
-        <span className="text-white/40">Text Size:</span>
+        <span className={isDayTheme ? 'text-black/40' : 'text-white/40'}>Text Size:</span>
         <button
           type="button"
           onClick={() => onChangeFontSize('NORMAL')}
-          className={`px-2 py-0.5 rounded ${fontSize === 'NORMAL' ? 'bg-ub-orange text-white' : 'hover:bg-white/10'}`}
+          className={`px-2 py-0.5 rounded ${
+            fontSize === 'NORMAL'
+              ? 'bg-ub-orange text-white'
+              : isDayTheme
+              ? 'hover:bg-black/5 text-black/70'
+              : 'hover:bg-white/10'
+          }`}
           title="Normal Text"
         >
           A
@@ -105,7 +116,13 @@ function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy }) {
         <button
           type="button"
           onClick={() => onChangeFontSize('LARGE')}
-          className={`px-2 py-0.5 rounded ${fontSize === 'LARGE' ? 'bg-ub-orange text-white' : 'hover:bg-white/10'}`}
+          className={`px-2 py-0.5 rounded ${
+            fontSize === 'LARGE'
+              ? 'bg-ub-orange text-white'
+              : isDayTheme
+              ? 'hover:bg-black/5 text-black/70'
+              : 'hover:bg-white/10'
+          }`}
           title="Large Text"
         >
           A+
@@ -114,7 +131,11 @@ function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy }) {
       <button
         type="button"
         onClick={onCopy}
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/5 hover:bg-white/15 text-white/80 transition-colors"
+        className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors ${
+          isDayTheme
+            ? 'bg-black/5 hover:bg-black/10 text-black/80'
+            : 'bg-white/5 hover:bg-white/15 text-white/80'
+        }`}
         title="Copy GitHub Document Link"
       >
         <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
@@ -131,20 +152,25 @@ function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy }) {
  *
  * @param {Object} props
  * @param {string} props.author - Author display name
+ * @param {boolean} [props.isDayTheme] - Whether Day theme is active
  */
-function ArticleFooter({ author }) {
+function ArticleFooter({ author, isDayTheme }) {
   return (
-    <footer className="mt-12 pt-6 border-t border-white/10 text-xs text-white/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer
+      className={`mt-12 pt-6 border-t text-xs flex flex-col sm:flex-row items-center justify-between gap-4 ${
+        isDayTheme ? 'border-black/10 text-black/50' : 'border-white/10 text-white/50'
+      }`}
+    >
       <div className="flex items-center gap-3">
         <div className="w-9 h-9 rounded-full bg-ub-orange/20 border border-ub-orange/40 flex items-center justify-center text-ub-orange font-bold text-sm">
           {author.charAt(0)}
         </div>
         <div>
-          <p className="font-semibold text-white/80">{author}</p>
-          <p className="text-[11px] text-white/40">Ubuntu Desktop Portfolio</p>
+          <p className={`font-semibold ${isDayTheme ? 'text-[#111111]' : 'text-white/80'}`}>{author}</p>
+          <p className={`text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>Ubuntu Desktop Portfolio</p>
         </div>
       </div>
-      <p className="text-[11px] text-white/40">
+      <p className={`text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>
         Published via static Markdown engine
       </p>
     </footer>
@@ -172,6 +198,7 @@ export default function MarkdownViewer({
   contentMap = {},
 }) {
   const { openApp } = useWindowManager();
+  const { isDayTheme } = useTheme();
   const [fontSizeKey, setFontSizeKey] = useState('NORMAL');
   const [isCopied, setIsCopied] = useState(false);
 
@@ -282,7 +309,9 @@ export default function MarkdownViewer({
 
   return (
     <article
-      className={`h-full overflow-y-auto windowMainScreen p-3.5 sm:p-6 md:p-10 max-w-4xl mx-auto text-ubt-grey font-sans select-text ${FONT_SIZES[fontSizeKey]}`}
+      className={`h-full overflow-y-auto windowMainScreen p-3.5 sm:p-6 md:p-10 max-w-4xl mx-auto font-sans select-text ${
+        isDayTheme ? 'text-[#2e3436]' : 'text-ubt-grey'
+      } ${FONT_SIZES[fontSizeKey]}`}
     >
       <ArticleHeader
         title={displayTitle}
@@ -290,12 +319,14 @@ export default function MarkdownViewer({
         author={displayAuthor}
         readTime={displayReadTime}
         tags={displayTags}
+        isDayTheme={isDayTheme}
       />
       <ArticleToolbar
         fontSize={fontSizeKey}
         onChangeFontSize={setFontSizeKey}
         copied={isCopied}
         onCopy={handleCopy}
+        isDayTheme={isDayTheme}
       />
       {displayHtml ? (
         <div
@@ -304,14 +335,14 @@ export default function MarkdownViewer({
           dangerouslySetInnerHTML={{ __html: displayHtml }}
         />
       ) : (
-        <div className="py-12 text-center text-white/50">
+        <div className={`py-12 text-center ${isDayTheme ? 'text-black/50' : 'text-white/50'}`}>
           <p className="text-base font-medium">No document content found.</p>
           <p className="text-xs mt-1">
             Ensure markdown file is present in content directory.
           </p>
         </div>
       )}
-      <ArticleFooter author={displayAuthor} />
+      <ArticleFooter author={displayAuthor} isDayTheme={isDayTheme} />
     </article>
   );
 }
