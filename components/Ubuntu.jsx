@@ -83,6 +83,7 @@ export default function Ubuntu({
   initialContent,
   initialTitle,
   initialCommand,
+  initialHtmlContent,
 }) {
   const { isDayTheme } = useTheme();
   // Bypass boot screen delay on deep-links for immediate interactivity
@@ -103,7 +104,13 @@ export default function Ubuntu({
       maximizedWindows: {},
       focusedWindows: { [initialBootApp]: true },
       windowStack: [initialBootApp],
-      dockApps: { [initialBootApp]: true },
+      dockApps: {
+        'about-me': true,
+        reader: true,
+        terminal: true,
+        settings: true,
+        [initialBootApp]: true,
+      },
     };
   }, [initialBootApp]);
 
@@ -113,7 +120,8 @@ export default function Ubuntu({
     initialBootSlug,
     initialBootCategory,
     initialTitle,
-  }), [initialCommand, initialContent, initialBootSlug, initialBootCategory, initialTitle]);
+    initialHtmlContent,
+  }), [initialCommand, initialContent, initialBootSlug, initialBootCategory, initialTitle, initialHtmlContent]);
 
   // Restore wallpaper setting and manage initial boot timer
   useEffect(() => {

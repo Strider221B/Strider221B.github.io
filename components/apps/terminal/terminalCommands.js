@@ -264,12 +264,8 @@ const handleOpenCommand = (appId, context) => {
   const lower = appId.toLowerCase();
 
   if (lower === 'reader' || lower === 'markdownviewer') {
-    const targetId =
-      context.activeCategory && context.activeSlug
-        ? `post-${context.activeCategory}-${context.activeSlug}`
-        : 'about-me';
     if (context.openApp) {
-      context.openApp(targetId);
+      context.openApp('reader');
     }
     return { type: 'success', content: 'Launching GUI Markdown Reader...' };
   }

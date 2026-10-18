@@ -49,7 +49,18 @@ const apps = [
     disabled: false,
   },
 
-  // ── Content Apps ──────────────────────────────────────────────
+  {
+    id: 'reader',
+    title: 'Markdown Reader',
+    icon: '/themes/Yaru/apps/gedit.png',
+    type: APP_TYPES.WINDOW,
+    component: 'MarkdownViewer',
+    componentProps: { contentPath: 'about-me' },
+    favourite: true,
+    desktop_shortcut: true,
+    desktop_order: 4,
+    disabled: false,
+  },
   {
     id: 'about-me',
     title: 'About Me',
@@ -119,6 +130,7 @@ const apps = [
 
 export const startMenuTree = [
   { appId: 'about-me' },
+  { appId: 'reader' },
   {
     label: 'Technology',
     icon: '/themes/Yaru/apps/folder.png',

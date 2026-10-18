@@ -55,6 +55,10 @@ export default function Terminal({
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
+  const handleOpenReader = useCallback(() => {
+    openApp('reader');
+  }, [openApp]);
+
   // Initialize terminal entries with pre-executed boot command if deep-linked
   const [entries, setEntries] = useState(() => {
     if (initialContent && initialBootSlug) {
@@ -67,6 +71,7 @@ export default function Terminal({
             type: 'article_view',
             title: initialTitle || initialBootSlug,
             content: initialContent,
+            onOpenReader: handleOpenReader,
           },
         },
       ];
@@ -124,6 +129,10 @@ export default function Terminal({
       initialContent,
       initialTitle,
     });
+
+    if (result.type === 'article_view') {
+      result.onOpenReader = handleOpenReader;
+    }
 
     if (result.type === 'clear') {
       setEntries([]);

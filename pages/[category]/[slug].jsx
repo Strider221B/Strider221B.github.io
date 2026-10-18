@@ -124,6 +124,10 @@ export default function ArticleBootPage({ postData }) {
         initialBootCategory={postData.category}
         initialContent={postData.rawContent}
         initialTitle={postData.title}
+        initialHtmlContent={postData.articleHtml}
+        contentMap={{
+          [postData.category]: [postData],
+        }}
       />
     </>
   );
