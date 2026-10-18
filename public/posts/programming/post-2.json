@@ -1,0 +1,18 @@
+{
+  "category": "programming",
+  "slug": "post-2",
+  "title": "Async Rust Patterns: Building Concurrent Systems",
+  "excerpt": "Deep dive into Tokio runtime, async cancellation safety, and thread communication via mpsc channels.",
+  "date": "2025-04-12",
+  "author": "Somesh Chatterjee",
+  "tags": [
+    "rust",
+    "concurrency",
+    "systems",
+    "tokio"
+  ],
+  "readTime": "1 min read",
+  "urlPath": "/programming/post-2/",
+  "rawContent": "\n# Async Rust Patterns: Building Concurrent Systems\n\nRust provides memory safety guarantees without a garbage collector. When combined with modern async runtimes like Tokio, it provides a resilient foundation for concurrent network services.\n\n---\n\n## 1. Futures in Rust are Lazy\n\nUnlike JavaScript Promises which begin execution upon creation, Rust Futures do nothing until explicitly polled by an executor.\n\n```rust\nuse tokio::time::{sleep, Duration};\n\nasync fn fetch_resource(id: u32) -> Result<String, String> {\n    sleep(Duration::from_millis(50)).await;\n    Ok(format!(\"Resource {}\", id))\n}\n```\n\n---\n\n## 2. Cancellation Safety\n\nBecause futures can be dropped at any `.await` point, ensuring cancellation safety is paramount. When using `tokio::select!`, if one branch completes, all other pending branches are immediately dropped.\n\n```rust\nuse tokio::sync::mpsc;\n\n#[tokio::main]\nasync fn main() {\n    let (tx, mut rx) = mpsc::channel(32);\n    \n    tokio::spawn(async move {\n        tx.send(\"Task dispatched\").await.unwrap();\n    });\n    \n    while let Some(message) = rx.recv().await {\n        println!(\"Received: {}\", message);\n    }\n}\n```\n\n---\n\n## Takeaways\n\n- Rely on message passing (`mpsc`, `broadcast`) over shared mutable locks where possible.\n- Design async routines with drop/cancellation boundaries in mind.\n",
+  "htmlContent": "<h1>Async Rust Patterns: Building Concurrent Systems</h1>\n<p>Rust provides memory safety guarantees without a garbage collector. When combined with modern async runtimes like Tokio, it provides a resilient foundation for concurrent network services.</p>\n<hr>\n<h2>1. Futures in Rust are Lazy</h2>\n<p>Unlike JavaScript Promises which begin execution upon creation, Rust Futures do nothing until explicitly polled by an executor.</p>\n<pre><code class=\"language-rust\">use tokio::time::{sleep, Duration};\n\nasync fn fetch_resource(id: u32) -> Result&#x3C;String, String> {\n    sleep(Duration::from_millis(50)).await;\n    Ok(format!(\"Resource {}\", id))\n}\n</code></pre>\n<hr>\n<h2>2. Cancellation Safety</h2>\n<p>Because futures can be dropped at any <code>.await</code> point, ensuring cancellation safety is paramount. When using <code>tokio::select!</code>, if one branch completes, all other pending branches are immediately dropped.</p>\n<pre><code class=\"language-rust\">use tokio::sync::mpsc;\n\n#[tokio::main]\nasync fn main() {\n    let (tx, mut rx) = mpsc::channel(32);\n    \n    tokio::spawn(async move {\n        tx.send(\"Task dispatched\").await.unwrap();\n    });\n    \n    while let Some(message) = rx.recv().await {\n        println!(\"Received: {}\", message);\n    }\n}\n</code></pre>\n<hr>\n<h2>Takeaways</h2>\n<ul>\n<li>Rely on message passing (<code>mpsc</code>, <code>broadcast</code>) over shared mutable locks where possible.</li>\n<li>Design async routines with drop/cancellation boundaries in mind.</li>\n</ul>"
+}

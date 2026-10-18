@@ -4,7 +4,9 @@
   "private": true,
   "homepage": "https://someshchatterjee.com/",
   "scripts": {
-    "dev": "next dev",
+    "prebuild": "node scripts/generate-manifest.js",
+    "manifest": "node scripts/generate-manifest.js",
+    "dev": "node scripts/generate-manifest.js && next dev",
     "build": "next build",
     "start": "next start",
     "export": "next build",

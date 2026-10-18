@@ -1,7 +1,8 @@
 /**
  * @file pages/index.js
  * @description Main entry point for the Ubuntu desktop web portfolio.
- * Statically loads markdown content at build time and renders the Ubuntu root component.
+ * Loads lightweight metadata catalog from posts-manifest.json to avoid homepage payload bloat
+ * while pre-rendering the initial "about-me" profile window.
  */
 
 // 1. React / Next.js core
@@ -12,16 +13,32 @@ import Meta from '../components/seo/Meta';
 import Ubuntu from '../components/Ubuntu';
 
 // 5. Project utilities, constants, config
-import { getAllContentMap } from '../lib/markdown';
+import { getPostBySlug } from '../lib/markdown';
+import postsManifest from '../public/posts-manifest.json';
 
 /**
  * Build-time static prop generation for markdown portfolio content.
- * Returns initial contentMap mapping categories to blog posts.
+ * Groups posts from posts-manifest.json into lightweight category arrays
+ * and loads full content only for the default initial "about-me" window.
  *
  * @returns {Promise<{ props: { contentMap: Record<string, Array<Object>> } }>} Static page props
  */
 export async function getStaticProps() {
-  const contentMap = await getAllContentMap();
+  const contentMap = {};
+
+  // Initialize category groups from manifest
+  postsManifest.forEach((post) => {
+    if (!contentMap[post.category]) {
+      contentMap[post.category] = [];
+    }
+    contentMap[post.category].push(post);
+  });
+
+  // Load full content ONLY for default open "about-me" window to keep homepage payload minimal (< 10 kB)
+  const aboutMePost = await getPostBySlug('about-me', 'index');
+  if (aboutMePost) {
+    contentMap['about-me'] = [aboutMePost];
+  }
 
   return {
     props: {
@@ -34,7 +51,7 @@ export async function getStaticProps() {
  * HomePage root page rendering the Ubuntu desktop simulation.
  *
  * @param {Object} props
- * @param {Record<string, Array<Object>>} [props.contentMap={}] - Markdown content map keyed by category
+ * @param {Record<string, Array<Object>>} [props.contentMap={}] - Lightweight content map keyed by category
  * @returns {JSX.Element} The rendered Ubuntu desktop interface
  */
 export default function Index({ contentMap = {} }) {

@@ -41,6 +41,7 @@ export default function Desktop({
   contentMap = {},
   isStartMenuOpen = false,
   onCloseStartMenu,
+  terminalBootProps = {},
 }) {
   const {
     openWindows,
@@ -58,23 +59,93 @@ export default function Desktop({
 
   // Filter list of open apps to render as Windows (including dynamic blog articles)
   const openAppList = useMemo(() => {
-    const list = apps.filter((app) => Boolean(openWindows[app.id]));
+    const list = apps
+      .filter((app) => Boolean(openWindows[app.id]))
+      .map((app) => {
+        if (app.id === 'reader' && terminalBootProps?.initialBootSlug) {
+          const cat = terminalBootProps.initialBootCategory || '';
+          const slug = terminalBootProps.initialBootSlug || '';
+
+          let matchedPost = null;
+          if (contentMap && contentMap[cat]) {
+            matchedPost = contentMap[cat].find((p) => p.slug === slug);
+          }
+
+          if (!matchedPost && terminalBootProps) {
+            matchedPost = {
+              title: terminalBootProps.initialTitle || slug,
+              slug,
+              category: cat,
+              rawContent: terminalBootProps.initialContent,
+              htmlContent: terminalBootProps.initialHtmlContent || '',
+            };
+          }
+
+          return {
+            ...app,
+            title: matchedPost?.title || terminalBootProps.initialTitle || app.title,
+            componentProps: {
+              ...app.componentProps,
+              post: matchedPost,
+              title: matchedPost?.title || terminalBootProps.initialTitle,
+              contentPath: `${cat}/${slug}`,
+              rawContent: terminalBootProps.initialContent,
+              htmlContent:
+                matchedPost?.articleHtml ||
+                matchedPost?.htmlContent ||
+                terminalBootProps.initialHtmlContent,
+              contentMap,
+            },
+          };
+        }
+        return app;
+      });
 
     // Include dynamically opened article windows
     Object.keys(openWindows).forEach((appId) => {
       if (openWindows[appId] && !apps.some((app) => app.id === appId)) {
         if (appId.startsWith('post-')) {
+          // If reader is already open and showing this post, prevent duplicate window
+          if (
+            openWindows['reader'] &&
+            terminalBootProps?.initialBootSlug &&
+            (appId === `post-${terminalBootProps.initialBootCategory}-${terminalBootProps.initialBootSlug}` ||
+              appId === `post-${terminalBootProps.initialBootSlug}`)
+          ) {
+            return;
+          }
+
           let matchedPost = null;
           let matchedCategory = '';
-          for (const [cat, posts] of Object.entries(contentMap)) {
-            if (Array.isArray(posts)) {
-              const found = posts.find(
-                (p) => `post-${cat}-${p.slug}` === appId || `post-${p.slug}` === appId
-              );
-              if (found) {
-                matchedPost = found;
-                matchedCategory = cat;
-                break;
+
+          // 1. Check current active deep-linked article
+          if (terminalBootProps?.initialBootSlug) {
+            const bootCat = terminalBootProps.initialBootCategory || '';
+            const bootSlug = terminalBootProps.initialBootSlug || '';
+            if (appId === `post-${bootCat}-${bootSlug}` || appId === `post-${bootSlug}`) {
+              matchedCategory = bootCat;
+              matchedPost = {
+                title: terminalBootProps.initialTitle || bootSlug,
+                slug: bootSlug,
+                category: bootCat,
+                rawContent: terminalBootProps.initialContent,
+                htmlContent: terminalBootProps.initialHtmlContent || '',
+              };
+            }
+          }
+
+          // 2. Check contentMap
+          if (!matchedPost && contentMap) {
+            for (const [cat, posts] of Object.entries(contentMap)) {
+              if (Array.isArray(posts)) {
+                const found = posts.find(
+                  (p) => `post-${cat}-${p.slug}` === appId || `post-${p.slug}` === appId
+                );
+                if (found) {
+                  matchedPost = found;
+                  matchedCategory = cat;
+                  break;
+                }
               }
             }
           }
@@ -88,9 +159,10 @@ export default function Desktop({
               component: 'MarkdownViewer',
               componentProps: {
                 post: matchedPost,
-                htmlContent: matchedPost.htmlContent,
+                htmlContent: matchedPost.articleHtml || matchedPost.htmlContent,
                 title: matchedPost.title,
                 contentPath: `${matchedCategory}/${matchedPost.slug}`,
+                contentMap,
               },
             });
           }
@@ -99,7 +171,7 @@ export default function Desktop({
     });
 
     return list;
-  }, [openWindows, contentMap]);
+  }, [openWindows, contentMap, terminalBootProps]);
 
   const desktopBackgroundStyle = useMemo(
     () => getWallpaperStyle(backgroundImage),
@@ -201,6 +273,7 @@ export default function Desktop({
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={backgroundImage}
         settingsTab={settingsTab}
+        terminalBootProps={terminalBootProps}
       />
 
       <StartMenu

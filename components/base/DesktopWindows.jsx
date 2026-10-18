@@ -34,6 +34,7 @@ export default function DesktopWindows({
   changeBackgroundImage,
   currBgImgName,
   settingsTab = 'appearance',
+  terminalBootProps = {},
 }) {
   const {
     isFocused,
@@ -63,6 +64,7 @@ export default function DesktopWindows({
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={currBgImgName}
         initialTab={settingsTab}
+        {...terminalBootProps}
       />
     );
   };

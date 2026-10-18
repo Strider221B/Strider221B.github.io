@@ -1,0 +1,188 @@
+[
+  {
+    "category": "about-me",
+    "slug": "index",
+    "title": "About Somesh Chatterjee",
+    "excerpt": "Advisor in Data Science and Analytics Architect specializing in predictive monitoring, industrial AI systems, and scalable analytics architectures.",
+    "date": "2026-10-15",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "portfolio",
+      "profile",
+      "bio",
+      "data-science",
+      "architecture"
+    ],
+    "readTime": "2 min read",
+    "urlPath": "/about-me/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-1",
+    "title": "Scalable Data Pipelines with Apache Arrow and DuckDB",
+    "excerpt": "Exploring in-memory columnar data architectures for ultra-fast analytics processing without database overhead.",
+    "date": "2025-11-10",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "duckdb",
+      "arrow",
+      "python"
+    ],
+    "readTime": "2 min read",
+    "urlPath": "/data-science/post-1/"
+  },
+  {
+    "category": "programming",
+    "slug": "post-1",
+    "title": "Modern React Architecture: Context, Reducers & Custom Hooks",
+    "excerpt": "Structuring maintainable React applications with deterministic state management patterns and zero external overhead.",
+    "date": "2025-09-05",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "react",
+      "javascript",
+      "architecture",
+      "state-management"
+    ],
+    "readTime": "2 min read",
+    "urlPath": "/programming/post-1/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-2",
+    "title": "Time Series Forecasting: Beyond Traditional ARIMA",
+    "excerpt": "Comparing modern deep forecasting models and gradient boosted trees against classical autoregressive techniques.",
+    "date": "2025-08-22",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "time-series",
+      "forecasting",
+      "data-science",
+      "statistics"
+    ],
+    "readTime": "1 min read",
+    "urlPath": "/data-science/post-2/"
+  },
+  {
+    "category": "machine-learning",
+    "slug": "post-2",
+    "title": "Attention Mechanisms & Transformer Architecture Explained",
+    "excerpt": "A mathematical and conceptual deep dive into Scaled Dot-Product Attention, Multi-Head projections, and positional embeddings.",
+    "date": "2025-06-18",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "transformers",
+      "attention",
+      "nlp",
+      "llm",
+      "deep-learning"
+    ],
+    "readTime": "1 min read",
+    "urlPath": "/machine-learning/post-2/"
+  },
+  {
+    "category": "programming",
+    "slug": "post-2",
+    "title": "Async Rust Patterns: Building Concurrent Systems",
+    "excerpt": "Deep dive into Tokio runtime, async cancellation safety, and thread communication via mpsc channels.",
+    "date": "2025-04-12",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "rust",
+      "concurrency",
+      "systems",
+      "tokio"
+    ],
+    "readTime": "1 min read",
+    "urlPath": "/programming/post-2/"
+  },
+  {
+    "category": "machine-learning",
+    "slug": "post-1",
+    "title": "Building a Neural Network from Scratch",
+    "excerpt": "A walkthrough of implementing backpropagation, matrix operations, and activation gradients purely in NumPy.",
+    "date": "2024-03-15",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "python",
+      "deep-learning",
+      "neural-networks"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/machine-learning/post-1/"
+  },
+  {
+    "category": "psychology",
+    "slug": "post-5",
+    "title": "A More Beautiful Question: The 3-Step Framework for True Innovation",
+    "excerpt": "Unlock groundbreaking innovation by moving away from quick answers and mastering the three-step framework of \"Why, What If, and How.\"",
+    "date": "2019-05-11",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "psychology",
+      "Innovation",
+      "ProblemSolving"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/psychology/post-5/"
+  },
+  {
+    "category": "psychology",
+    "slug": "post-1",
+    "title": "Breaking the Chain: How to Beat Procrastination in Just 5 Minutes",
+    "excerpt": "Beat the urge to delay with the 5-minute rule—a brilliantly simple psychological trick to bypass your brain's resistance and build effortless momentum.",
+    "date": "2019-05-11",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "psychology",
+      "procrastination"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/psychology/post-1/"
+  },
+  {
+    "category": "psychology",
+    "slug": "post-2",
+    "title": "Don't Just Bring Problems, Bring Solutions: A Simple Trick for Career Success",
+    "excerpt": "Transform your workplace reputation from a problem-finder to a strategic leader by adopting the ultimate rule of manager communication: never escalate an issue without presenting a solution.",
+    "date": "2019-05-11",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "psychology",
+      "WorkplaceTips",
+      "LeadershipSkills"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/psychology/post-2/"
+  },
+  {
+    "category": "psychology",
+    "slug": "post-4",
+    "title": "Mind Scripts: The Simple Psychological Trick to Master First Impressions",
+    "excerpt": "Conquer interview anxiety and command the room with \"Mind Scripts\" — a simple psychological technique to align your body language and nail your first impression.",
+    "date": "2019-05-11",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "psychology",
+      "PsychologyTricks"
+    ],
+    "readTime": "2 min read",
+    "urlPath": "/psychology/post-4/"
+  },
+  {
+    "category": "psychology",
+    "slug": "post-3",
+    "title": "The Primacy Effect: How Word Order Secretly Controls Your Judgment",
+    "excerpt": "Discover the Primacy Effect: the powerful cognitive bias that forces our brains to judge people based on word order rather than reality.",
+    "date": "2019-05-11",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "psychology",
+      "CognitiveBias",
+      "FirstImpressions"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/psychology/post-3/"
+  }
+]
