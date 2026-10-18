@@ -12,7 +12,7 @@ import { useWindowManager } from '../../hooks/useWindowManager';
 import { useTheme } from '../../hooks/useTheme';
 
 // 5. Project utilities, constants, config
-import { DEFAULT_USER_NAME, REPO_URL, GITHUB_BLOB_BASE_URL } from '../../lib/constants';
+import { DEFAULT_USER_NAME, SITE_URL } from '../../lib/constants';
 
 // ─── CONSTANTS ──────────────────────────────────────────────────────
 
@@ -136,7 +136,7 @@ function ArticleToolbar({ fontSize, onChangeFontSize, copied, onCopy, isDayTheme
             ? 'bg-black/5 hover:bg-black/10 text-black/80'
             : 'bg-white/5 hover:bg-white/15 text-white/80'
         }`}
-        title="Copy GitHub Document Link"
+        title="Copy Article Link"
       >
         <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -272,32 +272,39 @@ export default function MarkdownViewer({
   const displayReadTime = resolvedPost?.readTime;
   const displayTags = resolvedPost?.tags || [];
 
-  // Compute the underlying document file URL in the GitHub repository
-  const gitHubPageUrl = useMemo(() => {
-    if (resolvedPost?.filePath) {
-      return `${GITHUB_BLOB_BASE_URL}/${resolvedPost.filePath}`;
-    }
+  // Compute the static article deep-link URL for sharing
+  const shareUrl = useMemo(() => {
+    const origin =
+      typeof window !== 'undefined' && window.location?.origin
+        ? window.location.origin
+        : SITE_URL;
+
     if (resolvedPost?.category && resolvedPost?.slug) {
-      return `${GITHUB_BLOB_BASE_URL}/content/${resolvedPost.category}/${resolvedPost.slug}.md`;
-    }
-    if (contentPath) {
-      if (contentPath === 'about-me') {
-        return `${GITHUB_BLOB_BASE_URL}/content/about-me/index.md`;
+      if (resolvedPost.slug === 'index') {
+        return `${origin}/${resolvedPost.category}/`;
       }
-      const formattedPath = contentPath.endsWith('.md') ? contentPath : `${contentPath}.md`;
-      return `${GITHUB_BLOB_BASE_URL}/content/${formattedPath}`;
+      return `${origin}/${resolvedPost.category}/${resolvedPost.slug}/`;
     }
-    return REPO_URL;
+
+    if (contentPath) {
+      const cleanPath = contentPath.replace(/\.md$/, '').replace(/^\//, '');
+      if (cleanPath === 'about-me' || cleanPath === 'about-me/index') {
+        return `${origin}/about-me/`;
+      }
+      return `${origin}/${cleanPath}/`;
+    }
+
+    return origin;
   }, [resolvedPost, contentPath]);
 
   const handleCopy = useCallback(() => {
     try {
       if (typeof window !== 'undefined') {
         if (navigator.clipboard?.writeText) {
-          navigator.clipboard.writeText(gitHubPageUrl);
+          navigator.clipboard.writeText(shareUrl);
         } else {
           const textArea = document.createElement('textarea');
-          textArea.value = gitHubPageUrl;
+          textArea.value = shareUrl;
           textArea.style.position = 'fixed';
           textArea.style.opacity = '0';
           document.body.appendChild(textArea);
@@ -312,7 +319,7 @@ export default function MarkdownViewer({
     } catch {
       // Clipboard access may fail in sandboxed iframes
     }
-  }, [gitHubPageUrl]);
+  }, [shareUrl]);
 
   const handleContentClick = useCallback((e) => {
     const link = e.target.closest('a');
