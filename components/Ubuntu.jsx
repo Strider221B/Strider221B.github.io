@@ -6,7 +6,7 @@
  */
 
 // 1. React / Next.js core
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 
 // 3. Project contexts and hooks
@@ -67,15 +67,53 @@ function ShutDownScreen({ onTurnOn }) {
  *
  * @param {Object} props
  * @param {Record<string, Array<Object>>} [props.contentMap={}] - Statically built content map
+ * @param {string} [props.initialBootApp] - App ID to launch immediately on deep-link boot
+ * @param {string} [props.initialBootCategory] - Category for deep-linked article/hub
+ * @param {string} [props.initialBootSlug] - Slug for deep-linked article
+ * @param {string} [props.initialContent] - Raw markdown content for terminal cat display
+ * @param {string} [props.initialTitle] - Title for deep-linked article/hub
+ * @param {string} [props.initialCommand] - Initial command to run in terminal
  * @returns {JSX.Element} Top-level Ubuntu environment
  */
-export default function Ubuntu({ contentMap = {} }) {
+export default function Ubuntu({
+  contentMap = {},
+  initialBootApp,
+  initialBootCategory,
+  initialBootSlug,
+  initialContent,
+  initialTitle,
+  initialCommand,
+}) {
   const { isDayTheme } = useTheme();
-  const [isBooting, setIsBooting] = useState(true);
+  // Bypass boot screen delay on deep-links for immediate interactivity
+  const [isBooting, setIsBooting] = useState(!initialBootApp);
   const [isLocked, setIsLocked] = useState(false);
   const [isShutDown, setIsShutDown] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(DEFAULT_WALLPAPER);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
+
+  // Custom initial WindowManager state when deep-linking to an app (e.g. terminal)
+  const customWmState = useMemo(() => {
+    if (!initialBootApp) {
+      return undefined;
+    }
+    return {
+      openWindows: { [initialBootApp]: true },
+      minimizedWindows: {},
+      maximizedWindows: {},
+      focusedWindows: { [initialBootApp]: true },
+      windowStack: [initialBootApp],
+      dockApps: { [initialBootApp]: true },
+    };
+  }, [initialBootApp]);
+
+  const terminalBootProps = useMemo(() => ({
+    initialCommand,
+    initialContent,
+    initialBootSlug,
+    initialBootCategory,
+    initialTitle,
+  }), [initialCommand, initialContent, initialBootSlug, initialBootCategory, initialTitle]);
 
   // Restore wallpaper setting and manage initial boot timer
   useEffect(() => {
@@ -172,7 +210,7 @@ export default function Ubuntu({ contentMap = {} }) {
   }
 
   return (
-    <WindowManagerProvider>
+    <WindowManagerProvider initialState={customWmState}>
       <div
         className={`relative w-screen h-screen overflow-hidden select-none ${
           isDayTheme ? 'bg-[#f0f0f0] text-[#2e3436]' : 'bg-ub-grey text-ubt-grey'
@@ -190,6 +228,7 @@ export default function Ubuntu({ contentMap = {} }) {
           contentMap={contentMap}
           isStartMenuOpen={isStartMenuOpen}
           onCloseStartMenu={handleCloseStartMenu}
+          terminalBootProps={terminalBootProps}
         />
       </div>
     </WindowManagerProvider>

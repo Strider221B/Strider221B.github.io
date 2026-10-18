@@ -29,6 +29,46 @@ export default function TerminalOutput({ result }) {
     return <div className="text-red-400 whitespace-pre-wrap">{result.content}</div>;
   }
 
+  if (result.type === 'article_view') {
+    return (
+      <div className="my-2 space-y-3 font-mono">
+        <div className="text-ub-orange font-bold text-base border-b border-ub-orange/40 pb-1">
+          {result.title}
+        </div>
+        <div className="text-white/90 whitespace-pre-wrap leading-relaxed max-h-[50vh] overflow-y-auto p-2.5 bg-black/30 rounded border border-white/10 text-xs sm:text-sm">
+          {result.content}
+        </div>
+        <div className="pt-2 border-t border-white/20 text-xs text-white/70 space-y-1">
+          <div className="text-ubt-blue font-bold">[!] Document opened in terminal view.</div>
+          <div className="text-ubt-green">
+            [*] Run &apos;open reader&apos; or &apos;reader&apos; or click the Markdown Reader icon for formatted GUI view.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (result.type === 'category_ls') {
+    return (
+      <div className="my-2 space-y-2 font-mono">
+        <div className="text-white/60 text-xs">
+          total {result.files.length}
+        </div>
+        <div className="space-y-1 text-xs">
+          {result.files.map((file) => (
+            <div key={file.name} className="flex items-center gap-3">
+              <span className="text-white/50">-rw-r--r-- 1 somesh somesh {file.size || '2.4K'}</span>
+              <span className="text-ubt-green font-semibold">{file.name}</span>
+            </div>
+          ))}
+        </div>
+        <div className="pt-2 text-xs text-ubt-blue">
+          [*] Run &apos;cat ~/articles/{result.category}/&lt;filename&gt;&apos; to display an article.
+        </div>
+      </div>
+    );
+  }
+
   if (result.type === 'help') {
     return (
       <div className="my-2 space-y-1">

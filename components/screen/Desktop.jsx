@@ -41,6 +41,7 @@ export default function Desktop({
   contentMap = {},
   isStartMenuOpen = false,
   onCloseStartMenu,
+  terminalBootProps = {},
 }) {
   const {
     openWindows,
@@ -201,6 +202,7 @@ export default function Desktop({
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={backgroundImage}
         settingsTab={settingsTab}
+        terminalBootProps={terminalBootProps}
       />
 
       <StartMenu

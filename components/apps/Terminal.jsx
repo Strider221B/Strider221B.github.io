@@ -25,7 +25,7 @@ import {
 const DEFAULT_CWD = '~';
 const AUTOCOMPLETE_COMMANDS = [
   'help', 'ls', 'cd', 'cat', 'pwd', 'whoami',
-  'uname', 'neofetch', 'apps', 'open', 'echo',
+  'uname', 'neofetch', 'apps', 'open', 'reader', 'echo',
   'date', 'history', 'clear', 'exit', 'sudo',
 ];
 
@@ -33,16 +33,66 @@ const AUTOCOMPLETE_COMMANDS = [
 /**
  * Renders the terminal emulator application window.
  *
+ * @param {Object} [props]
+ * @param {string} [props.initialCommand] - Initial command to run on boot
+ * @param {string} [props.initialContent] - Pre-loaded article body for cat
+ * @param {string} [props.initialBootSlug] - Slug of deep-linked article
+ * @param {string} [props.initialBootCategory] - Category of deep-linked article
+ * @param {string} [props.initialTitle] - Title of deep-linked article
  * @returns {JSX.Element} Interactive bash terminal component
  */
-export default function Terminal() {
+export default function Terminal({
+  initialCommand,
+  initialContent,
+  initialBootSlug,
+  initialBootCategory,
+  initialTitle,
+} = {}) {
   const { openApp, closeApp } = useWindowManager();
 
   const [cwd, setCwd] = useState(DEFAULT_CWD);
   const [inputCommand, setInputCommand] = useState('');
-  const [entries, setEntries] = useState([]);
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+
+  // Initialize terminal entries with pre-executed boot command if deep-linked
+  const [entries, setEntries] = useState(() => {
+    if (initialContent && initialBootSlug) {
+      return [
+        {
+          id: 'initial-boot-entry',
+          command: `cat ~/articles/${initialBootCategory}/${initialBootSlug}.md`,
+          cwd: DEFAULT_CWD,
+          result: {
+            type: 'article_view',
+            title: initialTitle || initialBootSlug,
+            content: initialContent,
+          },
+        },
+      ];
+    }
+    if (initialCommand) {
+      const bootResult = processCommand(initialCommand, {
+        cwd: DEFAULT_CWD,
+        openApp: () => {},
+        closeApp: () => {},
+        history: [],
+        activeSlug: initialBootSlug,
+        activeCategory: initialBootCategory,
+        initialContent,
+        initialTitle,
+      });
+      return [
+        {
+          id: 'initial-boot-entry',
+          command: initialCommand,
+          cwd: DEFAULT_CWD,
+          result: bootResult,
+        },
+      ];
+    }
+    return [];
+  });
 
   const inputRef = useRef(null);
   const containerRef = useRef(null);
@@ -69,6 +119,10 @@ export default function Terminal() {
       openApp,
       closeApp,
       history: [...history, trimmed],
+      activeSlug: initialBootSlug,
+      activeCategory: initialBootCategory,
+      initialContent,
+      initialTitle,
     });
 
     if (result.type === 'clear') {
@@ -91,7 +145,7 @@ export default function Terminal() {
     setHistory((prev) => [...prev, trimmed]);
     setHistoryIndex(-1);
     setInputCommand('');
-  }, [cwd, history, openApp, closeApp]);
+  }, [cwd, history, openApp, closeApp, initialBootSlug, initialBootCategory, initialContent, initialTitle]);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();

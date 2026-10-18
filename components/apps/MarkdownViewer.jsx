@@ -5,7 +5,7 @@
  */
 
 // 1. React / Next.js core
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 // 3. Project contexts and hooks
 import { useWindowManager } from '../../hooks/useWindowManager';
@@ -201,6 +201,8 @@ export default function MarkdownViewer({
   const { isDayTheme } = useTheme();
   const [fontSizeKey, setFontSizeKey] = useState('NORMAL');
   const [isCopied, setIsCopied] = useState(false);
+  const [asyncHtml, setAsyncHtml] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Resolve matching post data from props or contentMap
   const resolvedPost = useMemo(() => {
@@ -229,8 +231,42 @@ export default function MarkdownViewer({
     return null;
   }, [directPost, contentPath, contentMap]);
 
+  // Fetch compiled post content on demand if not present in initial catalog
+  useEffect(() => {
+    if (directHtml || resolvedPost?.htmlContent) {
+      return;
+    }
+
+    const cat =
+      resolvedPost?.category ||
+      (contentPath?.includes('/') ? contentPath.split('/')[0] : contentPath);
+    const slug =
+      resolvedPost?.slug ||
+      (contentPath?.includes('/') ? contentPath.split('/')[1] : 'index');
+
+    if (cat && slug) {
+      setIsLoading(true);
+      fetch(`/posts/${cat}/${slug}.json`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json();
+        })
+        .then((data) => {
+          if (data?.htmlContent) {
+            setAsyncHtml(data.htmlContent);
+          }
+        })
+        .catch((err) => {
+          console.warn('[MarkdownViewer] Failed to load post JSON:', err.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [directHtml, resolvedPost, contentPath]);
+
   const displayTitle = resolvedPost?.title || directTitle || 'Document';
-  const displayHtml = resolvedPost?.htmlContent || directHtml || '';
+  const displayHtml = resolvedPost?.htmlContent || directHtml || asyncHtml || '';
   const displayDate = resolvedPost?.date;
   const displayAuthor = resolvedPost?.author || DEFAULT_USER_NAME;
   const displayReadTime = resolvedPost?.readTime;
@@ -328,7 +364,14 @@ export default function MarkdownViewer({
         onCopy={handleCopy}
         isDayTheme={isDayTheme}
       />
-      {displayHtml ? (
+      {isLoading ? (
+        <div className="py-16 flex flex-col items-center justify-center gap-3">
+          <div className="w-8 h-8 border-2 border-ub-orange border-t-transparent rounded-full animate-spin" />
+          <span className={`text-xs ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
+            Loading article content...
+          </span>
+        </div>
+      ) : displayHtml ? (
         <div
           className="markdown-content"
           onClick={handleContentClick}
