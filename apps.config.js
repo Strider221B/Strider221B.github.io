@@ -52,7 +52,7 @@ const apps = [
   {
     id: 'reader',
     title: 'Markdown Reader',
-    icon: '/themes/Yaru/apps/gedit.png',
+    icon: '/themes/Yaru/apps/reader.png',
     type: APP_TYPES.WINDOW,
     component: 'MarkdownViewer',
     componentProps: { contentPath: 'about-me' },
@@ -76,7 +76,7 @@ const apps = [
   {
     id: 'data-science',
     title: 'Data Science',
-    icon: '/themes/Yaru/apps/accessories-calculator.png',
+    icon: '/themes/Yaru/apps/data-science.png',
     type: APP_TYPES.WINDOW,
     component: 'BlogListApp',
     componentProps: { category: 'data-science' },
@@ -87,7 +87,7 @@ const apps = [
   {
     id: 'machine-learning',
     title: 'Machine Learning',
-    icon: '/themes/Yaru/apps/accessories-calculator.png',
+    icon: '/themes/Yaru/apps/machine-learning.png',
     type: APP_TYPES.WINDOW,
     component: 'BlogListApp',
     componentProps: { category: 'machine-learning' },
@@ -98,7 +98,7 @@ const apps = [
   {
     id: 'programming',
     title: 'Programming',
-    icon: '/themes/Yaru/apps/vscode.png',
+    icon: '/themes/Yaru/apps/programming.png',
     type: APP_TYPES.WINDOW,
     component: 'BlogListApp',
     componentProps: { category: 'programming' },
@@ -109,7 +109,7 @@ const apps = [
   {
     id: 'psychology',
     title: 'Psychology',
-    icon: '/themes/Yaru/apps/gedit.png',
+    icon: '/themes/Yaru/apps/psychology.png',
     type: APP_TYPES.WINDOW,
     component: 'BlogListApp',
     componentProps: { category: 'psychology' },

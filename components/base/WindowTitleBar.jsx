@@ -108,6 +108,7 @@ export default function WindowTitleBar({
         onMinimize={onMinimize}
         onMaximize={onMaximize}
         onClose={onClose}
+        isDayTheme={isDayTheme}
       />
     </div>
   );
