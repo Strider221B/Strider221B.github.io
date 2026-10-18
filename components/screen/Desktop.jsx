@@ -154,7 +154,7 @@ export default function Desktop({
             list.push({
               id: appId,
               title: matchedPost.title || 'Article',
-              icon: '/themes/Yaru/apps/gedit.png',
+              icon: '/themes/Yaru/apps/reader.png',
               type: 'window',
               component: 'MarkdownViewer',
               componentProps: {

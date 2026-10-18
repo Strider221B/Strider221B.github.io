@@ -7,10 +7,12 @@
 // 1. React / Next.js core
 import React from 'react';
 
+// 3. Project contexts and hooks
+import { useTheme } from '../../hooks/useTheme';
+
 // 2. Constants
 const BASE_BTN_CLASS =
   'no-drag w-4 h-4 rounded-full flex items-center justify-center transition-colors focus:outline-none focus:ring-1 touch-manipulation cursor-pointer';
-const ACTION_BTN_CLASS = `${BASE_BTN_CLASS} bg-white/20 hover:bg-white/40 focus:ring-white/50`;
 const CLOSE_BTN_CLASS = `${BASE_BTN_CLASS} bg-ub-orange hover:bg-red-600 active:bg-red-700 focus:ring-ub-orange`;
 
 // 3. Component function definition
@@ -22,6 +24,7 @@ const CLOSE_BTN_CLASS = `${BASE_BTN_CLASS} bg-ub-orange hover:bg-red-600 active:
  * @param {Function} [props.onMinimize] - Callback when minimize button is clicked
  * @param {Function} [props.onMaximize] - Callback when maximize button is clicked
  * @param {Function} [props.onClose] - Callback when close button is clicked
+ * @param {boolean} [props.isDayTheme] - Whether Day theme is active
  * @returns {JSX.Element} Window controls cluster
  */
 export default function WindowControls({
@@ -29,12 +32,22 @@ export default function WindowControls({
   onMinimize,
   onMaximize,
   onClose,
+  isDayTheme: propIsDayTheme,
 }) {
+  const themeContext = useTheme();
+  const isDayTheme = propIsDayTheme ?? themeContext?.isDayTheme ?? false;
+
   const handleAction = (e, callback) => {
     e.preventDefault();
     e.stopPropagation();
     callback?.();
   };
+
+  const actionBtnClass = `${BASE_BTN_CLASS} ${
+    isDayTheme
+      ? 'bg-black/10 hover:bg-black/20 active:bg-black/30 focus:ring-black/30'
+      : 'bg-white/20 hover:bg-white/40 active:bg-white/50 focus:ring-white/50'
+  }`;
 
   return (
     <div
@@ -48,9 +61,13 @@ export default function WindowControls({
         title="Minimize"
         aria-label="Minimize Window"
         onClick={(e) => handleAction(e, onMinimize)}
-        className={ACTION_BTN_CLASS}
+        className={actionBtnClass}
       >
-        <span className="w-2 h-0.5 bg-white/90 rounded-full pointer-events-none" />
+        <span
+          className={`w-2 h-0.5 rounded-full pointer-events-none ${
+            isDayTheme ? 'bg-[#2e3436]' : 'bg-white/90'
+          }`}
+        />
       </button>
 
       <button
@@ -58,15 +75,29 @@ export default function WindowControls({
         title={isMaximized ? 'Restore' : 'Maximize'}
         aria-label={isMaximized ? 'Restore Window' : 'Maximize Window'}
         onClick={(e) => handleAction(e, onMaximize)}
-        className={ACTION_BTN_CLASS}
+        className={actionBtnClass}
       >
         {isMaximized ? (
           <span className="relative w-2.5 h-2.5 pointer-events-none">
-            <span className="absolute top-0 right-0 w-1.5 h-1.5 border border-white/70 rounded-[1px]" />
-            <span className="absolute bottom-0 left-0 w-1.5 h-1.5 border border-white/90 bg-ub-window-title rounded-[1px]" />
+            <span
+              className={`absolute top-0 right-0 w-1.5 h-1.5 border rounded-[1px] ${
+                isDayTheme ? 'border-black/60' : 'border-white/70'
+              }`}
+            />
+            <span
+              className={`absolute bottom-0 left-0 w-1.5 h-1.5 border rounded-[1px] ${
+                isDayTheme
+                  ? 'border-[#2e3436] bg-[#E8E8E8]'
+                  : 'border-white/90 bg-ub-window-title'
+              }`}
+            />
           </span>
         ) : (
-          <span className="w-2 h-2 border border-white/90 rounded-[1px] pointer-events-none" />
+          <span
+            className={`w-2 h-2 border rounded-[1px] pointer-events-none ${
+              isDayTheme ? 'border-[#2e3436]' : 'border-white/90'
+            }`}
+          />
         )}
       </button>
 

@@ -108,7 +108,7 @@ export default function SideBar({ isAllAppsOpen = false, toggleAllApps }) {
         list.push({
           id: appId,
           title: 'Article',
-          icon: '/themes/Yaru/apps/gedit.png',
+          icon: '/themes/Yaru/apps/reader.png',
         });
       }
     });
