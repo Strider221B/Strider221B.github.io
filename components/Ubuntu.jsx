@@ -106,7 +106,6 @@ export default function Ubuntu({
       windowStack: [initialBootApp],
       dockApps: {
         'about-me': true,
-        reader: true,
         terminal: true,
         settings: true,
         [initialBootApp]: true,

@@ -56,7 +56,7 @@ const apps = [
     type: APP_TYPES.WINDOW,
     component: 'MarkdownViewer',
     componentProps: { contentPath: 'about-me' },
-    favourite: true,
+    favourite: false,
     desktop_shortcut: false,
     desktop_order: 4,
     disabled: false,
