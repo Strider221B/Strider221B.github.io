@@ -4,6 +4,7 @@
   "title": "Time Series Forecasting: Beyond Traditional ARIMA",
   "excerpt": "Comparing modern deep forecasting models and gradient boosted trees against classical autoregressive techniques.",
   "date": "2025-08-22",
+  "lastmod": "2025-08-22",
   "author": "Somesh Chatterjee",
   "tags": [
     "time-series",

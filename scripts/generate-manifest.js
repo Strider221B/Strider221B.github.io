@@ -65,26 +65,67 @@ async function compileMarkdownToHtml(markdown) {
 }
 
 /**
- * Generates XML sitemap string from categories and posts.
+ * Format date string or Date object into YYYY-MM-DD.
+ *
+ * @param {string|Date} value - Raw date value
+ * @returns {string} Formatted ISO date string (YYYY-MM-DD)
+ */
+function formatDate(value) {
+  if (!value) return '';
+  const str = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    return str;
+  }
+  const d = new Date(str);
+  if (isNaN(d.getTime())) {
+    return str.split('T')[0];
+  }
+  return d.toISOString().split('T')[0];
+}
+
+/**
+ * Generates SEO-compliant sitemap.xml adhering to Google Search Central guidelines:
+ * - Omits ignored <changefreq> and <priority> tags to eliminate noise and bloat.
+ * - Emits accurate <lastmod> timestamps derived strictly from content modification dates.
  *
  * @param {string[]} categories - List of category keys
  * @param {Array<Object>} posts - List of post metadata objects
  * @returns {string} Formatted sitemap.xml content
  */
 function generateSitemapXml(categories, posts) {
-  const currentDate = new Date().toISOString().split('T')[0];
+  // Find latest content date across all posts for the root URL
+  const allDates = posts
+    .map((p) => p.lastmod || p.date)
+    .filter(Boolean)
+    .sort()
+    .reverse();
+  const rootLastMod = allDates[0] || '';
 
-  const rootUrl = `  <url>\n    <loc>${SITE_URL}/</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>`;
+  const buildUrlXml = (loc, lastmod) => {
+    if (lastmod) {
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`;
+    }
+    return `  <url>\n    <loc>${loc}</loc>\n  </url>`;
+  };
+
+  const rootUrl = buildUrlXml(`${SITE_URL}/`, rootLastMod);
 
   const categoryUrls = categories.map((cat) => {
-    return `  <url>\n    <loc>${SITE_URL}/${cat}/</loc>\n    <lastmod>${currentDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+    const catPosts = posts.filter((p) => p.category === cat);
+    const catDates = catPosts
+      .map((p) => p.lastmod || p.date)
+      .filter(Boolean)
+      .sort()
+      .reverse();
+    const catLastMod = catDates[0] || rootLastMod;
+    return buildUrlXml(`${SITE_URL}/${cat}/`, catLastMod);
   });
 
   const postUrls = posts
     .filter((post) => post.slug !== 'index')
     .map((post) => {
-      const postDate = post.date || currentDate;
-      return `  <url>\n    <loc>${SITE_URL}${post.urlPath}</loc>\n    <lastmod>${postDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`;
+      const postLastMod = post.lastmod || post.date || '';
+      return buildUrlXml(`${SITE_URL}${post.urlPath}`, postLastMod);
     });
 
   return [
@@ -93,7 +134,7 @@ function generateSitemapXml(categories, posts) {
     rootUrl,
     ...categoryUrls,
     ...postUrls,
-    '</urlset>',
+    '</urlset>\n',
   ].join('\n');
 }
 
@@ -137,7 +178,8 @@ async function main() {
 
       const title = data.title || slug.replace(/-/g, ' ');
       const excerpt = data.excerpt || '';
-      const date = data.date ? String(data.date) : '';
+      const date = data.date ? formatDate(data.date) : '';
+      const lastmod = data.lastmod || data.updated ? formatDate(data.lastmod || data.updated) : date;
       const author = data.author || DEFAULT_AUTHOR;
       const tags = Array.isArray(data.tags) ? data.tags : [];
       const readTime = calculateReadTime(content);
@@ -149,6 +191,7 @@ async function main() {
         title,
         excerpt,
         date,
+        lastmod,
         author,
         tags,
         readTime,

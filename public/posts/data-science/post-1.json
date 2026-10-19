@@ -4,6 +4,7 @@
   "title": "Scalable Data Pipelines with Apache Arrow and DuckDB",
   "excerpt": "Exploring in-memory columnar data architectures for ultra-fast analytics processing without database overhead.",
   "date": "2025-11-10",
+  "lastmod": "2025-11-10",
   "author": "Somesh Chatterjee",
   "tags": [
     "data-science",

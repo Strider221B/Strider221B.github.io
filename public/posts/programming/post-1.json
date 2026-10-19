@@ -4,6 +4,7 @@
   "title": "Modern React Architecture: Context, Reducers & Custom Hooks",
   "excerpt": "Structuring maintainable React applications with deterministic state management patterns and zero external overhead.",
   "date": "2025-09-05",
+  "lastmod": "2025-09-05",
   "author": "Somesh Chatterjee",
   "tags": [
     "react",
