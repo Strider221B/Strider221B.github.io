@@ -46,7 +46,7 @@ Strider221B.github.io/
 │   ├── data-science/
 │   │   ├── post-1.md
 │   │   └── post-2.md
-│   ├── machine-learning/
+│   ├── ai-engineering/
 │   │   ├── post-1.md
 │   │   └── post-2.md
 │   ├── programming/
@@ -200,12 +200,12 @@ const apps = [
     disabled: false,
   },
   {
-    id: 'machine-learning',
-    title: 'Machine Learning',
+    id: 'ai-engineering',
+    title: 'AI Engineering',
     icon: '/themes/Yaru/apps/accessories-calculator.png',
     type: APP_TYPES.WINDOW,
     component: 'BlogListApp',
-    componentProps: { category: 'machine-learning' },
+    componentProps: { category: 'ai-engineering' },
     favourite: false,
     desktop_shortcut: false,
     disabled: false,
@@ -249,7 +249,7 @@ export const startMenuTree = [
     icon: '/themes/Yaru/apps/folder.png',
     children: [
       { appId: 'data-science' },
-      { appId: 'machine-learning' },
+      { appId: 'ai-engineering' },
       { appId: 'programming' },
     ],
   },
@@ -501,7 +501,7 @@ content/data-science/post-1.md
   └── Reads all content dirs, builds a map:
       {
         'data-science': [{ slug, title, date, excerpt, htmlContent }, ...],
-        'machine-learning': [...],
+        'ai-engineering': [...],
         ...
       }
         │

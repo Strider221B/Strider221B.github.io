@@ -82,7 +82,7 @@ Strider221B.github.io/
 ├── content/                        # Markdown blog & page content
 │   ├── about-me/                   # Profile & bio markdown documents
 │   ├── data-science/               # Data Science articles
-│   ├── machine-learning/           # Machine Learning articles
+│   ├── ai-engineering/             # AI Engineering articles
 │   ├── programming/                # Software engineering articles
 │   └── psychology/                 # Psychology & cognitive science articles
 ├── components/
@@ -239,7 +239,7 @@ To introduce a new application to the desktop:
 
 Blog posts are authored as Markdown documents inside topic folders under `content/`:
 - `content/data-science/`
-- `content/machine-learning/`
+- `content/ai-engineering/`
 - `content/programming/`
 - `content/psychology/`
 - `content/about-me/`

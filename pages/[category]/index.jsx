@@ -20,7 +20,7 @@ import postsManifest from '../../public/posts-manifest.json';
 const CATEGORY_TITLES = {
   'about-me': 'About Me & Professional Profile',
   'data-science': 'Data Science & Analytics Architecture',
-  'machine-learning': 'Machine Learning & Deep Learning',
+  'ai-engineering': 'AI Engineering & Deep Learning',
   'programming': 'Software Engineering & Systems Programming',
   'psychology': 'Behavioral Psychology & Cognitive Science',
 };
@@ -28,7 +28,7 @@ const CATEGORY_TITLES = {
 const CATEGORY_DESCRIPTIONS = {
   'about-me': 'Professional background, leadership experience, and technical portfolio of Somesh Chatterjee.',
   'data-science': 'Technical articles and deep dives into scalable columnar architectures, Arrow, DuckDB, and time-series forecasting.',
-  'machine-learning': 'Exploring neural network implementations, transformer architectures, and attention mechanisms from first principles.',
+  'ai-engineering': 'Exploring neural network implementations, transformer architectures, and attention mechanisms from first principles.',
   'programming': 'Modern React patterns, deterministic state management, async Rust concurrency, and systems architecture.',
   'psychology': 'Essays on cognitive bias, the primacy effect, rapid habit formation, and strategic workplace innovation.',
 };

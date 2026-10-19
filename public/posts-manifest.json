@@ -52,7 +52,7 @@
     "urlPath": "/data-science/post-2/"
   },
   {
-    "category": "machine-learning",
+    "category": "ai-engineering",
     "slug": "post-2",
     "title": "Attention Mechanisms & Transformer Architecture Explained",
     "excerpt": "A mathematical and conceptual deep dive into Scaled Dot-Product Attention, Multi-Head projections, and positional embeddings.",
@@ -67,10 +67,10 @@
       "deep-learning"
     ],
     "readTime": "1 min read",
-    "urlPath": "/machine-learning/post-2/"
+    "urlPath": "/ai-engineering/post-2/"
   },
   {
-    "category": "machine-learning",
+    "category": "ai-engineering",
     "slug": "post-1",
     "title": "Building a Neural Network from Scratch",
     "excerpt": "A walkthrough of implementing backpropagation, matrix operations, and activation gradients purely in NumPy.",
@@ -83,7 +83,7 @@
       "neural-networks"
     ],
     "readTime": "3 min read",
-    "urlPath": "/machine-learning/post-1/"
+    "urlPath": "/ai-engineering/post-1/"
   },
   {
     "category": "psychology",
