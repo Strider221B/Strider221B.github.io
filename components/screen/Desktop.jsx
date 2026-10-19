@@ -22,6 +22,7 @@ import Attribution from '../util/Attribution';
 // 5. Project utilities, constants, config
 import { WALLPAPERS_LIST, getWallpaperStyle } from '../../lib/constants';
 import apps, { getDesktopApps } from '../../apps.config';
+import postsManifest from '../../public/posts-manifest.json';
 
 // 3. Component function definition
 /**
@@ -147,6 +148,17 @@ export default function Desktop({
                   break;
                 }
               }
+            }
+          }
+
+          // 3. Fallback to postsManifest
+          if (!matchedPost && Array.isArray(postsManifest)) {
+            const foundManifest = postsManifest.find(
+              (p) => `post-${p.category}-${p.slug}` === appId || `post-${p.slug}` === appId
+            );
+            if (foundManifest) {
+              matchedPost = foundManifest;
+              matchedCategory = foundManifest.category;
             }
           }
 

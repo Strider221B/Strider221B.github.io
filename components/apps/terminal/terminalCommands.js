@@ -148,7 +148,10 @@ export const resolvePath = (currentPath, targetPath) => {
  * @returns {Object|null} Article result or null if not found
  */
 const resolveArticleContent = (filePath, cwd, context) => {
-  const cleanPath = filePath.replace(/^~\//, '');
+  const cleanPath = filePath
+    .replace(/^\.\//, '')
+    .replace(/^\/home\/somesh\//, '')
+    .replace(/^~\//, '');
   const parts = cleanPath.split('/');
 
   let category = '';
@@ -161,10 +164,17 @@ const resolveArticleContent = (filePath, cwd, context) => {
     category = parts[1];
   } else if (cwd.startsWith('~/articles/')) {
     category = cwd.replace('~/articles/', '');
-    filename = filePath;
+    filename = cleanPath;
+  } else if (cwd === '~/articles' && parts.length === 2) {
+    category = parts[0];
+    filename = parts[1];
+  } else if (parts.length === 2 && VIRTUAL_FS['~'].children.articles.children[parts[0]]) {
+    category = parts[0];
+    filename = parts[1];
   }
 
   const slug = filename.replace(/\.md$/, '');
+  const mdFilename = filename.endsWith('.md') ? filename : `${filename}.md`;
 
   // Deep-linked active article content
   if (
@@ -176,17 +186,21 @@ const resolveArticleContent = (filePath, cwd, context) => {
       type: 'article_view',
       title: context.initialTitle || slug.replace(/-/g, ' '),
       content: context.initialContent,
+      category: category || context.activeCategory,
+      slug: slug || context.activeSlug,
     };
   }
 
   // Look up in articles virtual filesystem
   const categoryTree = VIRTUAL_FS['~'].children.articles.children[category];
-  if (categoryTree?.children[filename]) {
-    const fileNode = categoryTree.children[filename];
+  const fileNode = categoryTree?.children[filename] || categoryTree?.children[mdFilename];
+  if (fileNode) {
     return {
       type: 'article_view',
       title: fileNode.title || filename,
       content: fileNode.content,
+      category: fileNode.category || category,
+      slug: fileNode.slug || slug,
     };
   }
 
@@ -264,7 +278,9 @@ const handleOpenCommand = (appId, context) => {
   const lower = appId.toLowerCase();
 
   if (lower === 'reader' || lower === 'markdownviewer') {
-    if (context.openApp) {
+    if (context.activeCategory && context.activeSlug && context.openApp) {
+      context.openApp(`post-${context.activeCategory}-${context.activeSlug}`);
+    } else if (context.openApp) {
       context.openApp('reader');
     }
     return { type: 'success', content: 'Launching GUI Markdown Reader...' };
