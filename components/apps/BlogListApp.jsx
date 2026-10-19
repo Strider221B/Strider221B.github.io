@@ -51,11 +51,20 @@ function BlogHeader({ category, totalPosts, isDayTheme }) {
  * @param {string} props.searchTerm - Current text search query
  * @param {Function} props.onSearchChange - Search text update callback
  * @param {string[]} props.tags - List of unique tags
- * @param {string} props.selectedTag - Currently selected tag
+ * @param {string[]} props.selectedTags - Currently selected tags array
  * @param {Function} props.onSelectTag - Tag selection callback
  * @param {boolean} [props.isDayTheme] - Whether Day theme is active
  */
-function BlogFilters({ searchTerm, onSearchChange, tags, selectedTag, onSelectTag, isDayTheme }) {
+function BlogFilters({
+  searchTerm,
+  onSearchChange,
+  tags,
+  selectedTags = [],
+  onSelectTag,
+  isDayTheme,
+}) {
+  const isAllSelected = selectedTags.length === 0;
+
   return (
     <div className="space-y-3 mb-6">
       <div className="relative">
@@ -81,37 +90,55 @@ function BlogFilters({ searchTerm, onSearchChange, tags, selectedTag, onSelectTa
         )}
       </div>
       {tags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 text-xs">
-          <span className={`mr-1 ${isDayTheme ? 'text-black/40' : 'text-white/40'}`}>Tags:</span>
-          <button
-            type="button"
-            onClick={() => onSelectTag(ALL_TAGS_LABEL)}
-            className={`px-2.5 py-0.5 rounded-full transition-colors ${
-              selectedTag === ALL_TAGS_LABEL
-                ? 'bg-ub-orange text-white'
-                : isDayTheme
-                ? 'bg-black/5 text-black/60 hover:bg-black/10'
-                : 'bg-white/5 text-white/60 hover:bg-white/15'
-            }`}
-          >
-            {ALL_TAGS_LABEL}
-          </button>
-          {tags.map((tag) => (
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <span className={`mr-1 font-medium ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>Tags:</span>
             <button
-              key={tag}
               type="button"
-              onClick={() => onSelectTag(tag)}
+              onClick={() => onSelectTag(ALL_TAGS_LABEL)}
               className={`px-2.5 py-0.5 rounded-full transition-colors ${
-                selectedTag === tag
-                  ? 'bg-ub-orange text-white'
+                isAllSelected
+                  ? 'bg-ub-orange text-white font-medium'
                   : isDayTheme
                   ? 'bg-black/5 text-black/60 hover:bg-black/10'
                   : 'bg-white/5 text-white/60 hover:bg-white/15'
               }`}
             >
-              #{tag}
+              {ALL_TAGS_LABEL}
             </button>
-          ))}
+            {tags.map((tag) => {
+              const isSelected = selectedTags.includes(tag);
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={(e) => onSelectTag(tag, e)}
+                  title={isSelected ? `Click or Ctrl+Click to deselect #${tag}` : `Click to select, Ctrl+Click to multi-select #${tag}`}
+                  className={`px-2.5 py-0.5 rounded-full transition-colors ${
+                    isSelected
+                      ? 'bg-ub-orange text-white font-medium'
+                      : isDayTheme
+                      ? 'bg-black/5 text-black/60 hover:bg-black/10'
+                      : 'bg-white/5 text-white/60 hover:bg-white/15'
+                  }`}
+                >
+                  #{tag}
+                </button>
+              );
+            })}
+          </div>
+          <div className={`flex flex-wrap items-center justify-between gap-1 text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>
+            <span>Ctrl + Click (or ⌘ + Click) to select or deselect multiple tags. Click an active tag to deselect it.</span>
+            {selectedTags.length > 0 && (
+              <button
+                type="button"
+                onClick={() => onSelectTag(ALL_TAGS_LABEL)}
+                className="text-ub-orange hover:underline shrink-0 font-medium"
+              >
+                Reset tags
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -124,10 +151,11 @@ function BlogFilters({ searchTerm, onSearchChange, tags, selectedTag, onSelectTa
  * @param {Object} props
  * @param {Object} props.post - Article data object
  * @param {Function} props.onOpen - Launch article callback
+ * @param {string[]} [props.selectedTags=[]] - Currently selected tags array
  * @param {Function} props.onSelectTag - Tag filtering callback
  * @param {boolean} [props.isDayTheme] - Whether Day theme is active
  */
-function BlogPostCard({ post, onOpen, onSelectTag, isDayTheme }) {
+function BlogPostCard({ post, onOpen, selectedTags = [], onSelectTag, isDayTheme }) {
   const handleLaunch = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -168,23 +196,29 @@ function BlogPostCard({ post, onOpen, onSelectTag, isDayTheme }) {
       </p>
       <div className={`flex items-center justify-between mt-4 pt-3 border-t flex-wrap gap-2 ${isDayTheme ? 'border-black/10' : 'border-white/10'}`}>
         <div className="flex flex-wrap gap-1.5">
-          {post.tags?.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onSelectTag(tag);
-              }}
-              className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
-                isDayTheme
-                  ? 'bg-black/5 hover:bg-ub-orange/20 text-black/60 hover:text-ub-orange'
-                  : 'bg-white/5 hover:bg-ub-orange/20 text-white/60 hover:text-ub-orange'
-              }`}
-            >
-              #{tag}
-            </button>
-          ))}
+          {post.tags?.map((tag) => {
+            const isSelected = selectedTags.includes(tag);
+            return (
+              <button
+                key={tag}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectTag(tag, e);
+                }}
+                title={isSelected ? `Click or Ctrl+Click to deselect #${tag}` : `Click to select, Ctrl+Click to multi-select #${tag}`}
+                className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
+                  isSelected
+                    ? 'bg-ub-orange text-white'
+                    : isDayTheme
+                    ? 'bg-black/5 hover:bg-ub-orange/20 text-black/60 hover:text-ub-orange'
+                    : 'bg-white/5 hover:bg-ub-orange/20 text-white/60 hover:text-ub-orange'
+                }`}
+              >
+                #{tag}
+              </button>
+            );
+          })}
         </div>
         <button
           type="button"
@@ -215,7 +249,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
   const { openApp } = useWindowManager();
   const { isDayTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState(ALL_TAGS_LABEL);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const rawPosts = contentMap[category] || [];
 
@@ -232,7 +266,8 @@ export default function BlogListApp({ category, contentMap = {} }) {
   const filteredPosts = useMemo(() => {
     return rawPosts.filter((post) => {
       const matchesTag =
-        selectedTag === ALL_TAGS_LABEL || post.tags?.includes(selectedTag);
+        selectedTags.length === 0 ||
+        selectedTags.some((selected) => post.tags?.includes(selected));
 
       if (!matchesTag) {
         return false;
@@ -249,7 +284,30 @@ export default function BlogListApp({ category, contentMap = {} }) {
 
       return matchTitle || matchExcerpt || matchTags;
     });
-  }, [rawPosts, selectedTag, searchTerm]);
+  }, [rawPosts, selectedTags, searchTerm]);
+
+  const handleSelectTag = useCallback((tag, event) => {
+    if (tag === ALL_TAGS_LABEL) {
+      setSelectedTags([]);
+      return;
+    }
+
+    const isMultiSelect = Boolean(event?.ctrlKey || event?.metaKey);
+
+    setSelectedTags((prevSelected) => {
+      const isAlreadySelected = prevSelected.includes(tag);
+
+      if (isAlreadySelected) {
+        return prevSelected.filter((t) => t !== tag);
+      }
+
+      if (isMultiSelect) {
+        return [...prevSelected, tag];
+      }
+
+      return [tag];
+    });
+  }, []);
 
   const handleOpenPost = useCallback((post) => {
     const dynamicAppId = `post-${category}-${post.slug}`;
@@ -271,8 +329,8 @@ export default function BlogListApp({ category, contentMap = {} }) {
         searchTerm={searchTerm}
         onSearchChange={(e) => setSearchTerm(e.target.value)}
         tags={availableTags}
-        selectedTag={selectedTag}
-        onSelectTag={setSelectedTag}
+        selectedTags={selectedTags}
+        onSelectTag={handleSelectTag}
         isDayTheme={isDayTheme}
       />
       {filteredPosts.length === 0 ? (
@@ -284,7 +342,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
           }`}
         >
           <p className="text-base font-medium">No matching articles found.</p>
-          <p className="text-xs mt-1">Try clearing your search query or selecting another tag.</p>
+          <p className="text-xs mt-1">Try clearing your search query or adjusting your tag filters.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -293,7 +351,8 @@ export default function BlogListApp({ category, contentMap = {} }) {
               key={post.slug}
               post={post}
               onOpen={() => handleOpenPost(post)}
-              onSelectTag={setSelectedTag}
+              selectedTags={selectedTags}
+              onSelectTag={handleSelectTag}
               isDayTheme={isDayTheme}
             />
           ))}
