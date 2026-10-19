@@ -144,7 +144,9 @@ export default function AllApplications({
 
   // Filter application list based on active tab and search query
   const filteredApps = useMemo(() => {
-    const enabledApps = appsList.filter((app) => !app.disabled);
+    const enabledApps = appsList.filter(
+      (app) => !app.disabled && app.show_in_all_apps !== false && !app.hideFromAllApps
+    );
     let list = enabledApps;
 
     if (activeTab === TAB_FREQUENT && !searchQuery.trim()) {

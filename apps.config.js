@@ -60,6 +60,7 @@ const apps = [
     desktop_shortcut: false,
     desktop_order: 4,
     disabled: false,
+    show_in_all_apps: false,
   },
   {
     id: 'about-me',
@@ -130,7 +131,6 @@ const apps = [
 
 export const startMenuTree = [
   { appId: 'about-me' },
-  { appId: 'reader' },
   {
     label: 'Technology',
     icon: '/themes/Yaru/apps/folder.png',
@@ -157,6 +157,17 @@ export const startMenuTree = [
  */
 export function getAppById(id) {
   return apps.find((app) => app.id === id) || null;
+}
+
+/**
+ * Get all applications configured to appear in the All Applications drawer.
+ *
+ * @returns {Array<Object>} List of visible launcher application configurations
+ */
+export function getAllApps() {
+  return apps.filter(
+    (app) => !app.disabled && app.show_in_all_apps !== false && !app.hideFromAllApps
+  );
 }
 
 /**

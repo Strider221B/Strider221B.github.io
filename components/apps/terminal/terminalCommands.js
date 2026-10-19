@@ -392,7 +392,9 @@ export const processCommand = (rawInput, context) => {
     case 'apps':
       return {
         type: 'apps',
-        apps: apps.map((a) => ({ id: a.id, title: a.title })),
+        apps: apps
+          .filter((a) => !a.disabled && a.show_in_all_apps !== false && !a.hideFromAllApps)
+          .map((a) => ({ id: a.id, title: a.title })),
       };
 
     case 'reader':
