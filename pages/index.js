@@ -13,7 +13,7 @@ import Meta from '../components/seo/Meta';
 import Ubuntu from '../components/Ubuntu';
 
 // 5. Project utilities, constants, config
-import { getPostBySlug } from '../lib/markdown';
+import { getPostBySlug, buildContentMapFromManifest } from '../lib/markdown';
 import postsManifest from '../public/posts-manifest.json';
 
 /**
@@ -24,21 +24,9 @@ import postsManifest from '../public/posts-manifest.json';
  * @returns {Promise<{ props: { contentMap: Record<string, Array<Object>> } }>} Static page props
  */
 export async function getStaticProps() {
-  const contentMap = {};
-
-  // Initialize category groups from manifest
-  postsManifest.forEach((post) => {
-    if (!contentMap[post.category]) {
-      contentMap[post.category] = [];
-    }
-    contentMap[post.category].push(post);
-  });
-
   // Load full content ONLY for default open "about-me" window to keep homepage payload minimal (< 10 kB)
   const aboutMePost = await getPostBySlug('about-me', 'index');
-  if (aboutMePost) {
-    contentMap['about-me'] = [aboutMePost];
-  }
+  const contentMap = buildContentMapFromManifest(postsManifest, aboutMePost);
 
   return {
     props: {

@@ -13,6 +13,7 @@ import Ubuntu from '../../components/Ubuntu';
 
 // 5. Project utilities, constants, config
 import { SITE_URL } from '../../lib/constants';
+import { buildContentMapFromManifest } from '../../lib/markdown';
 import postsManifest from '../../public/posts-manifest.json';
 
 // 2. Constants (File-scoped)
@@ -63,6 +64,8 @@ export async function getStaticProps({ params }) {
     CATEGORY_DESCRIPTIONS[category] ||
     `Browse technical articles and publications in ${formattedCategory} by Somesh Chatterjee.`;
 
+  const contentMap = buildContentMapFromManifest(postsManifest);
+
   return {
     props: {
       categoryData: {
@@ -71,6 +74,7 @@ export async function getStaticProps({ params }) {
         description,
         posts,
       },
+      contentMap,
     },
   };
 }
@@ -81,9 +85,10 @@ export async function getStaticProps({ params }) {
  *
  * @param {Object} props
  * @param {Object} props.categoryData - Category metadata and articles list
+ * @param {Record<string, Array<Object>>} [props.contentMap={}] - Statically built content map
  * @returns {JSX.Element} Page view
  */
-export default function CategoryBootPage({ categoryData }) {
+export default function CategoryBootPage({ categoryData, contentMap = {} }) {
   const canonicalUrl = `${SITE_URL}/${categoryData.category}/`;
   const initialCommand = `ls -la ~/articles/${categoryData.category}`;
 
@@ -120,6 +125,7 @@ export default function CategoryBootPage({ categoryData }) {
         initialBootCategory={categoryData.category}
         initialCommand={initialCommand}
         initialTitle={categoryData.title}
+        contentMap={contentMap}
       />
     </>
   );
