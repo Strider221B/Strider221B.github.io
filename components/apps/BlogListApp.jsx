@@ -15,6 +15,11 @@ import { useTheme } from '../../hooks/useTheme';
 
 const ALL_TAGS_LABEL = 'All';
 
+const TAG_LOGIC = {
+  OR: 'OR',
+  AND: 'AND',
+};
+
 // ─── HELPER SUB-COMPONENTS ──────────────────────────────────────────
 
 /**
@@ -45,7 +50,59 @@ function BlogHeader({ category, totalPosts, isDayTheme }) {
 }
 
 /**
- * Filter bar with search text input and tag selector buttons.
+ * Segmented toggle control for tag matching mode (ANY vs ALL).
+ *
+ * @param {Object} props
+ * @param {string} props.tagLogic - Active logic mode ('OR' or 'AND')
+ * @param {Function} props.onTagLogicChange - Logic mode change callback
+ * @param {boolean} [props.isDayTheme] - Whether Day theme is active
+ */
+function BlogTagMatchSelector({ tagLogic, onTagLogicChange, isDayTheme }) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className={`font-medium ${isDayTheme ? 'text-black/60' : 'text-white/60'}`}>
+        Match:
+      </span>
+      <div
+        className={`inline-flex rounded-md p-0.5 border ${
+          isDayTheme ? 'bg-black/5 border-black/10' : 'bg-white/5 border-white/10'
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => onTagLogicChange(TAG_LOGIC.OR)}
+          title="Show articles matching any selected tag (union)"
+          className={`px-2 py-0.5 rounded text-[11px] transition-colors ${
+            tagLogic === TAG_LOGIC.OR
+              ? 'bg-ub-orange text-white font-medium shadow-sm'
+              : isDayTheme
+              ? 'text-black/60 hover:text-black'
+              : 'text-white/60 hover:text-white'
+          }`}
+        >
+          Any (OR)
+        </button>
+        <button
+          type="button"
+          onClick={() => onTagLogicChange(TAG_LOGIC.AND)}
+          title="Show only articles matching all selected tags (intersection)"
+          className={`px-2 py-0.5 rounded text-[11px] transition-colors ${
+            tagLogic === TAG_LOGIC.AND
+              ? 'bg-ub-orange text-white font-medium shadow-sm'
+              : isDayTheme
+              ? 'text-black/60 hover:text-black'
+              : 'text-white/60 hover:text-white'
+          }`}
+        >
+          All (AND)
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Filter bar with search text input, tag selector buttons, and match mode toggle.
  *
  * @param {Object} props
  * @param {string} props.searchTerm - Current text search query
@@ -53,6 +110,8 @@ function BlogHeader({ category, totalPosts, isDayTheme }) {
  * @param {string[]} props.tags - List of unique tags
  * @param {string[]} props.selectedTags - Currently selected tags array
  * @param {Function} props.onSelectTag - Tag selection callback
+ * @param {string} props.tagLogic - Tag matching logic ('OR' or 'AND')
+ * @param {Function} props.onTagLogicChange - Tag logic change callback
  * @param {boolean} [props.isDayTheme] - Whether Day theme is active
  */
 function BlogFilters({
@@ -61,6 +120,8 @@ function BlogFilters({
   tags,
   selectedTags = [],
   onSelectTag,
+  tagLogic = TAG_LOGIC.OR,
+  onTagLogicChange,
   isDayTheme,
 }) {
   const isAllSelected = selectedTags.length === 0;
@@ -127,16 +188,23 @@ function BlogFilters({
               );
             })}
           </div>
-          <div className={`flex flex-wrap items-center justify-between gap-1 text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>
+          <div className={`flex flex-wrap items-center justify-between gap-2 text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>
             <span>Ctrl + Click (or ⌘ + Click) to select or deselect multiple tags. Click an active tag to deselect it.</span>
             {selectedTags.length > 0 && (
-              <button
-                type="button"
-                onClick={() => onSelectTag(ALL_TAGS_LABEL)}
-                className="text-ub-orange hover:underline shrink-0 font-medium"
-              >
-                Reset tags
-              </button>
+              <div className="flex items-center gap-2.5">
+                <BlogTagMatchSelector
+                  tagLogic={tagLogic}
+                  onTagLogicChange={onTagLogicChange}
+                  isDayTheme={isDayTheme}
+                />
+                <button
+                  type="button"
+                  onClick={() => onSelectTag(ALL_TAGS_LABEL)}
+                  className="text-ub-orange hover:underline shrink-0 font-medium"
+                >
+                  Reset tags
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -250,6 +318,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
   const { isDayTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
+  const [tagLogic, setTagLogic] = useState(TAG_LOGIC.OR);
 
   const rawPosts = contentMap[category] || [];
 
@@ -265,9 +334,14 @@ export default function BlogListApp({ category, contentMap = {} }) {
   // Filter posts by search query and tag
   const filteredPosts = useMemo(() => {
     return rawPosts.filter((post) => {
-      const matchesTag =
-        selectedTags.length === 0 ||
-        selectedTags.some((selected) => post.tags?.includes(selected));
+      let matchesTag = true;
+      if (selectedTags.length > 0) {
+        if (tagLogic === TAG_LOGIC.AND) {
+          matchesTag = selectedTags.every((selected) => post.tags?.includes(selected));
+        } else {
+          matchesTag = selectedTags.some((selected) => post.tags?.includes(selected));
+        }
+      }
 
       if (!matchesTag) {
         return false;
@@ -284,7 +358,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
 
       return matchTitle || matchExcerpt || matchTags;
     });
-  }, [rawPosts, selectedTags, searchTerm]);
+  }, [rawPosts, selectedTags, tagLogic, searchTerm]);
 
   const handleSelectTag = useCallback((tag, event) => {
     if (tag === ALL_TAGS_LABEL) {
@@ -331,6 +405,8 @@ export default function BlogListApp({ category, contentMap = {} }) {
         tags={availableTags}
         selectedTags={selectedTags}
         onSelectTag={handleSelectTag}
+        tagLogic={tagLogic}
+        onTagLogicChange={setTagLogic}
         isDayTheme={isDayTheme}
       />
       {filteredPosts.length === 0 ? (
@@ -342,7 +418,11 @@ export default function BlogListApp({ category, contentMap = {} }) {
           }`}
         >
           <p className="text-base font-medium">No matching articles found.</p>
-          <p className="text-xs mt-1">Try clearing your search query or adjusting your tag filters.</p>
+          <p className="text-xs mt-1">
+            {tagLogic === TAG_LOGIC.AND && selectedTags.length > 1
+              ? 'No article contains all selected tags. Try switching to "Any (OR)" or removing a tag.'
+              : 'Try clearing your search query or adjusting your tag filters.'}
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
