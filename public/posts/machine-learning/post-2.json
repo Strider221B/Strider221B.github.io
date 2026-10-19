@@ -4,6 +4,7 @@
   "title": "Attention Mechanisms & Transformer Architecture Explained",
   "excerpt": "A mathematical and conceptual deep dive into Scaled Dot-Product Attention, Multi-Head projections, and positional embeddings.",
   "date": "2025-06-18",
+  "lastmod": "2025-06-18",
   "author": "Somesh Chatterjee",
   "tags": [
     "transformers",

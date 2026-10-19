@@ -5,6 +5,7 @@
     "title": "About Somesh Chatterjee",
     "excerpt": "Advisor in Data Science and Analytics Architect specializing in predictive monitoring, industrial AI systems, and scalable analytics architectures.",
     "date": "2026-10-15",
+    "lastmod": "2026-10-15",
     "author": "Somesh Chatterjee",
     "tags": [
       "portfolio",
@@ -22,6 +23,7 @@
     "title": "Scalable Data Pipelines with Apache Arrow and DuckDB",
     "excerpt": "Exploring in-memory columnar data architectures for ultra-fast analytics processing without database overhead.",
     "date": "2025-11-10",
+    "lastmod": "2025-11-10",
     "author": "Somesh Chatterjee",
     "tags": [
       "data-science",
@@ -38,6 +40,7 @@
     "title": "Modern React Architecture: Context, Reducers & Custom Hooks",
     "excerpt": "Structuring maintainable React applications with deterministic state management patterns and zero external overhead.",
     "date": "2025-09-05",
+    "lastmod": "2025-09-05",
     "author": "Somesh Chatterjee",
     "tags": [
       "react",
@@ -54,6 +57,7 @@
     "title": "Time Series Forecasting: Beyond Traditional ARIMA",
     "excerpt": "Comparing modern deep forecasting models and gradient boosted trees against classical autoregressive techniques.",
     "date": "2025-08-22",
+    "lastmod": "2025-08-22",
     "author": "Somesh Chatterjee",
     "tags": [
       "time-series",
@@ -70,6 +74,7 @@
     "title": "Attention Mechanisms & Transformer Architecture Explained",
     "excerpt": "A mathematical and conceptual deep dive into Scaled Dot-Product Attention, Multi-Head projections, and positional embeddings.",
     "date": "2025-06-18",
+    "lastmod": "2025-06-18",
     "author": "Somesh Chatterjee",
     "tags": [
       "transformers",
@@ -87,6 +92,7 @@
     "title": "Async Rust Patterns: Building Concurrent Systems",
     "excerpt": "Deep dive into Tokio runtime, async cancellation safety, and thread communication via mpsc channels.",
     "date": "2025-04-12",
+    "lastmod": "2025-04-12",
     "author": "Somesh Chatterjee",
     "tags": [
       "rust",
@@ -103,6 +109,7 @@
     "title": "Building a Neural Network from Scratch",
     "excerpt": "A walkthrough of implementing backpropagation, matrix operations, and activation gradients purely in NumPy.",
     "date": "2024-03-15",
+    "lastmod": "2024-03-15",
     "author": "Somesh Chatterjee",
     "tags": [
       "python",
@@ -118,6 +125,7 @@
     "title": "A More Beautiful Question: The 3-Step Framework for True Innovation",
     "excerpt": "Unlock groundbreaking innovation by moving away from quick answers and mastering the three-step framework of \"Why, What If, and How.\"",
     "date": "2019-05-11",
+    "lastmod": "2019-05-11",
     "author": "Somesh Chatterjee",
     "tags": [
       "psychology",
@@ -133,6 +141,7 @@
     "title": "Breaking the Chain: How to Beat Procrastination in Just 5 Minutes",
     "excerpt": "Beat the urge to delay with the 5-minute rule—a brilliantly simple psychological trick to bypass your brain's resistance and build effortless momentum.",
     "date": "2019-05-11",
+    "lastmod": "2019-05-11",
     "author": "Somesh Chatterjee",
     "tags": [
       "psychology",
@@ -147,6 +156,7 @@
     "title": "Don't Just Bring Problems, Bring Solutions: A Simple Trick for Career Success",
     "excerpt": "Transform your workplace reputation from a problem-finder to a strategic leader by adopting the ultimate rule of manager communication: never escalate an issue without presenting a solution.",
     "date": "2019-05-11",
+    "lastmod": "2019-05-11",
     "author": "Somesh Chatterjee",
     "tags": [
       "psychology",
@@ -162,6 +172,7 @@
     "title": "Mind Scripts: The Simple Psychological Trick to Master First Impressions",
     "excerpt": "Conquer interview anxiety and command the room with \"Mind Scripts\" — a simple psychological technique to align your body language and nail your first impression.",
     "date": "2019-05-11",
+    "lastmod": "2019-05-11",
     "author": "Somesh Chatterjee",
     "tags": [
       "psychology",
@@ -176,6 +187,7 @@
     "title": "The Primacy Effect: How Word Order Secretly Controls Your Judgment",
     "excerpt": "Discover the Primacy Effect: the powerful cognitive bias that forces our brains to judge people based on word order rather than reality.",
     "date": "2019-05-11",
+    "lastmod": "2019-05-11",
     "author": "Somesh Chatterjee",
     "tags": [
       "psychology",
