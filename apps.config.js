@@ -156,7 +156,21 @@ export const startMenuTree = [
  * @returns {Object|null} The app configuration object or null if not found
  */
 export function getAppById(id) {
-  return apps.find((app) => app.id === id) || null;
+  const found = apps.find((app) => app.id === id);
+  if (found) {
+    return found;
+  }
+  if (id && id.startsWith('post-')) {
+    return {
+      id,
+      title: 'Markdown Reader',
+      icon: '/themes/Yaru/apps/reader.png',
+      type: APP_TYPES.WINDOW,
+      component: 'MarkdownViewer',
+      disabled: false,
+    };
+  }
+  return null;
 }
 
 /**

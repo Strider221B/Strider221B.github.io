@@ -55,9 +55,34 @@ export default function Terminal({
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
-  const handleOpenReader = useCallback(() => {
-    openApp('reader');
+  const currentArticleRef = useRef(
+    initialBootSlug
+      ? {
+          category: initialBootCategory,
+          slug: initialBootSlug,
+          title: initialTitle,
+        }
+      : null
+  );
+
+  const handleOpenArticle = useCallback((category, slug) => {
+    if (category && slug) {
+      openApp(`post-${category}-${slug}`);
+    } else if (currentArticleRef.current?.category && currentArticleRef.current?.slug) {
+      openApp(`post-${currentArticleRef.current.category}-${currentArticleRef.current.slug}`);
+    } else {
+      openApp('reader');
+    }
   }, [openApp]);
+
+  const bindArticleView = useCallback((result) => {
+    if (!result || result.type !== 'article_view') return;
+    const { category, slug, title } = result;
+    if (category && slug) {
+      currentArticleRef.current = { category, slug, title };
+    }
+    result.onOpenReader = () => handleOpenArticle(category, slug);
+  }, [handleOpenArticle]);
 
   // Initialize terminal entries with pre-executed boot command if deep-linked
   const [entries, setEntries] = useState(() => {
@@ -71,7 +96,9 @@ export default function Terminal({
             type: 'article_view',
             title: initialTitle || initialBootSlug,
             content: initialContent,
-            onOpenReader: handleOpenReader,
+            category: initialBootCategory,
+            slug: initialBootSlug,
+            onOpenReader: () => handleOpenArticle(initialBootCategory, initialBootSlug),
           },
         },
       ];
@@ -124,15 +151,13 @@ export default function Terminal({
       openApp,
       closeApp,
       history: [...history, trimmed],
-      activeSlug: initialBootSlug,
-      activeCategory: initialBootCategory,
+      activeSlug: currentArticleRef.current?.slug || initialBootSlug,
+      activeCategory: currentArticleRef.current?.category || initialBootCategory,
       initialContent,
       initialTitle,
     });
 
-    if (result.type === 'article_view') {
-      result.onOpenReader = handleOpenReader;
-    }
+    bindArticleView(result);
 
     if (result.type === 'clear') {
       setEntries([]);
@@ -154,7 +179,7 @@ export default function Terminal({
     setHistory((prev) => [...prev, trimmed]);
     setHistoryIndex(-1);
     setInputCommand('');
-  }, [cwd, history, openApp, closeApp, initialBootSlug, initialBootCategory, initialContent, initialTitle]);
+  }, [cwd, history, openApp, closeApp, initialBootSlug, initialBootCategory, initialContent, initialTitle, bindArticleView]);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
