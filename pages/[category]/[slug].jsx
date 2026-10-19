@@ -18,7 +18,7 @@ import Ubuntu from '../../components/Ubuntu';
 
 // 5. Project utilities, constants, config
 import { SITE_URL } from '../../lib/constants';
-import { markdownToHtml } from '../../lib/markdown';
+import { markdownToHtml, buildContentMapFromManifest } from '../../lib/markdown';
 import postsManifest from '../../public/posts-manifest.json';
 
 // 2. Constants (File-scoped)
@@ -66,19 +66,24 @@ export async function getStaticProps({ params }) {
   // Compile markdown to static HTML string with KaTeX math rendering
   const articleHtml = await markdownToHtml(content);
 
+  const postData = {
+    title: data.title || params.slug.replace(/-/g, ' '),
+    excerpt: data.excerpt || '',
+    date: data.date ? String(data.date) : '',
+    author: data.author || 'Somesh Chatterjee',
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    category: params.category,
+    slug: params.slug,
+    rawContent: content,
+    articleHtml,
+  };
+
+  const contentMap = buildContentMapFromManifest(postsManifest);
+
   return {
     props: {
-      postData: {
-        title: data.title || params.slug.replace(/-/g, ' '),
-        excerpt: data.excerpt || '',
-        date: data.date ? String(data.date) : '',
-        author: data.author || 'Somesh Chatterjee',
-        tags: Array.isArray(data.tags) ? data.tags : [],
-        category: params.category,
-        slug: params.slug,
-        rawContent: content,
-        articleHtml,
-      },
+      postData,
+      contentMap,
     },
   };
 }
@@ -89,9 +94,10 @@ export async function getStaticProps({ params }) {
  *
  * @param {Object} props
  * @param {Object} props.postData - Structured article payload from getStaticProps
+ * @param {Record<string, Array<Object>>} [props.contentMap={}] - Statically built content map
  * @returns {JSX.Element} Page view
  */
-export default function ArticleBootPage({ postData }) {
+export default function ArticleBootPage({ postData, contentMap = {} }) {
   const canonicalUrl = `${SITE_URL}/${postData.category}/${postData.slug}/`;
 
   return (
@@ -125,9 +131,7 @@ export default function ArticleBootPage({ postData }) {
         initialContent={postData.rawContent}
         initialTitle={postData.title}
         initialHtmlContent={postData.articleHtml}
-        contentMap={{
-          [postData.category]: [postData],
-        }}
+        contentMap={contentMap}
       />
     </>
   );
