@@ -4,7 +4,10 @@
 [![React](https://img.shields.io/badge/React-19.3-61dafb?style=flat-square&logo=react)](https://react.js.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
+[![Website](https://img.shields.io/badge/Website-someshchatterjee.com-E95420?style=flat-square)](https://someshchatterjee.com)
 [![GitHub Pages](https://img.shields.io/badge/Deployed-GitHub_Pages-blue?style=flat-square&logo=github)](https://strider221b.github.io/)
+
+> 🌐 **Live Website:** [https://someshchatterjee.com](https://someshchatterjee.com)
 
 A personal portfolio website simulating an **Ubuntu 26.04.1 LTS** desktop environment built with **Next.js (Pages Router)**, **React**, and **Tailwind CSS**. It showcases projects, technical blog posts, and background information through an interactive window manager and desktop metaphor.
 
@@ -65,7 +68,7 @@ A personal portfolio website simulating an **Ubuntu 26.04.1 LTS** desktop enviro
 | **Styling** | [Tailwind CSS 3](https://tailwindcss.com/) | Custom Ubuntu color palette (`ub-orange`, `ub-grey`, etc.) |
 | **Window Interactions** | [react-draggable](https://github.com/react-grid-layout/react-draggable) | Drag handling for window shells |
 | **Content Pipeline** | `gray-matter`, `remark`, `remark-html` | Build-time Markdown parsing and static HTML generation |
-| **Deployment** | [GitHub Pages](https://pages.github.com/) | Static hosting via `username.github.io` |
+| **Deployment** | [GitHub Pages](https://pages.github.com/) | Static hosting via custom domain at [https://someshchatterjee.com](https://someshchatterjee.com) |
 
 ### Key Design Decisions
 1. **Pages Router (SSG)**: Entire site compiles to a pure static Single-Page Application (`out/`) served directly by GitHub Pages without requiring a Node.js runtime server.
@@ -169,7 +172,7 @@ This compiles all Markdown files at build time via `getStaticProps`, bundles sty
 
 ### Deployment
 
-Deploying to GitHub Pages (`username.github.io`):
+Deploying to GitHub Pages with custom domain ([https://someshchatterjee.com](https://someshchatterjee.com)):
 ```bash
 npm run deploy
 ```

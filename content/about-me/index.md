@@ -8,7 +8,7 @@ author: "Somesh Chatterjee"
 
 # Hello, I'm Somesh Chatterjee
 
-Welcome to my interactive **Ubuntu 26.04.1 LTS Desktop portfolio** simulation. 
+Welcome to my interactive **Ubuntu 26.04.1 LTS Desktop portfolio** simulation. The project source code is available on GitHub at [github.com/Strider221B/Strider221B.github.io](https://github.com/Strider221B/Strider221B.github.io).
   
 I sit right at the intersection of **data science, software engineering, and system architecture**.
 
@@ -50,6 +50,7 @@ Asset Health Diagnostics, Energy Sector Analytics, Predictive Emission Monitorin
 ## 📬 Connect
 
 - **Website**: [someshchatterjee.com](https://someshchatterjee.com)
+- **Portfolio Repository**: [github.com/Strider221B/Strider221B.github.io](https://github.com/Strider221B/Strider221B.github.io)
 - **LinkedIn**: [linkedin.someshchatterjee.com](https://linkedin.someshchatterjee.com)
 - **GitHub**: [github.someshchatterjee.com](https://github.someshchatterjee.com)
 - **Email**: [contact@someshchatterjee.com](mailto:contact@someshchatterjee.com)
