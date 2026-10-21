@@ -8,7 +8,7 @@ author: "Somesh Chatterjee"
 
 # Hello, I'm Somesh Chatterjee
 
-Welcome to my interactive **Ubuntu 26.04.1 LTS Desktop portfolio** simulation. The project source code is available on GitHub at [github.com/Strider221B/Strider221B.github.io](https://github.com/Strider221B/Strider221B.github.io).
+Welcome to my interactive **Ubuntu 26.04.1 LTS Desktop portfolio** simulation.
   
 I sit right at the intersection of **data science, software engineering, and system architecture**.
 
