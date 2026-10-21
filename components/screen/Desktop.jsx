@@ -279,6 +279,8 @@ export default function Desktop({
         onDoubleClick={openApp}
       />
 
+      <Attribution />
+
       <DesktopWindows
         openApps={openAppList}
         contentMap={contentMap}
@@ -309,8 +311,6 @@ export default function Desktop({
           onShowDesktop={handleShowDesktop}
         />
       )}
-
-      <Attribution />
     </main>
   );
 }

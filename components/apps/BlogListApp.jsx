@@ -173,8 +173,8 @@ function BlogFilters({
                 <button
                   key={tag}
                   type="button"
-                  onClick={(e) => onSelectTag(tag, e)}
-                  title={isSelected ? `Click or Ctrl+Click to deselect #${tag}` : `Click to select, Ctrl+Click to multi-select #${tag}`}
+                  onClick={() => onSelectTag(tag)}
+                  title={isSelected ? `Click to deselect #${tag}` : `Click to select #${tag}`}
                   className={`px-2.5 py-0.5 rounded-full transition-colors ${
                     isSelected
                       ? 'bg-ub-orange text-white font-medium'
@@ -189,7 +189,7 @@ function BlogFilters({
             })}
           </div>
           <div className={`flex flex-wrap items-center justify-between gap-2 text-[11px] ${isDayTheme ? 'text-black/50' : 'text-white/40'}`}>
-            <span>Ctrl + Click (or ⌘ + Click) to select or deselect multiple tags. Click an active tag to deselect it.</span>
+            <span>Click tags to toggle selection. Click &quot;All&quot; to reset.</span>
             {selectedTags.length > 0 && (
               <div className="flex items-center gap-2.5">
                 <BlogTagMatchSelector
@@ -272,9 +272,9 @@ function BlogPostCard({ post, onOpen, selectedTags = [], onSelectTag, isDayTheme
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onSelectTag(tag, e);
+                  onSelectTag(tag);
                 }}
-                title={isSelected ? `Click or Ctrl+Click to deselect #${tag}` : `Click to select, Ctrl+Click to multi-select #${tag}`}
+                title={isSelected ? `Click to deselect #${tag}` : `Click to select #${tag}`}
                 className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
                   isSelected
                     ? 'bg-ub-orange text-white'
@@ -360,13 +360,11 @@ export default function BlogListApp({ category, contentMap = {} }) {
     });
   }, [rawPosts, selectedTags, tagLogic, searchTerm]);
 
-  const handleSelectTag = useCallback((tag, event) => {
+  const handleSelectTag = useCallback((tag) => {
     if (tag === ALL_TAGS_LABEL) {
       setSelectedTags([]);
       return;
     }
-
-    const isMultiSelect = Boolean(event?.ctrlKey || event?.metaKey);
 
     setSelectedTags((prevSelected) => {
       const isAlreadySelected = prevSelected.includes(tag);
@@ -375,11 +373,7 @@ export default function BlogListApp({ category, contentMap = {} }) {
         return prevSelected.filter((t) => t !== tag);
       }
 
-      if (isMultiSelect) {
-        return [...prevSelected, tag];
-      }
-
-      return [tag];
+      return [...prevSelected, tag];
     });
   }, []);
 

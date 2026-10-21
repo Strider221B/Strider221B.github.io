@@ -10,7 +10,7 @@ import React from 'react';
 import { useTheme } from '../../../hooks/useTheme';
 
 // 5. Project utilities, constants, config
-import { DEFAULT_USER_NAME, ATTRIBUTION_URL } from '../../../lib/constants';
+import { DEFAULT_USER_NAME, ATTRIBUTION_URL, REPO_URL } from '../../../lib/constants';
 
 // 2. Constants
 const SYSTEM_SPECS = [
@@ -68,12 +68,23 @@ export default function AboutSettings() {
       </div>
 
       <div
-        className={`p-3 rounded-lg border text-xs ${
+        className={`p-3 rounded-lg border text-xs space-y-1.5 ${
           isDayTheme
             ? 'bg-black/5 border-black/10 text-black/70'
             : 'bg-white/5 border-white/10 text-white/70'
         }`}
       >
+        <p>
+          Repository:{' '}
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ub-orange underline hover:text-orange-400"
+          >
+            github.com/Strider221B/Strider221B.github.io
+          </a>
+        </p>
         <p>
           Inspired by the original open-source Ubuntu web simulation by Vivek Patel.{' '}
           <a
