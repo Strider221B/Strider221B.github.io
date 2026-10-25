@@ -95,7 +95,11 @@ Implemented responsive table styling adhering to the Ubuntu desktop aesthetic:
 - **Ubuntu Themed Scrollbar**: 4px subtle scrollbar with Ubuntu Orange hover accent (`rgba(233, 84, 32, 0.6)`).
 - **Zebra Striping & Hover States**: Subtle alternating rows (`tbody tr:nth-child(even)`) and row hover highlights.
 - **Alignment Preservation**: Support for `:---:`, `---:`, and `:---` column alignment (`th[align="center"]`, `th[align="right"]`).
-- **Day / Dark Theme Integration**: Dedicated color tokens for border borders, header backgrounds, and typography contrast in both themes.
+### 4.4 Automated CI Artifact Commit
+Updated [.github/workflows/deploy.yml](file:///home/somesh/git_repos/Strider221B.github.io/.github/workflows/deploy.yml) to grant `contents: write` permissions and automatically commit updated payloads back to `main`:
+- Automatically stages modified `public/posts/`, `public/posts-manifest.json`, and `public/sitemap.xml`.
+- Commits with `[skip ci]` when content files are edited directly on github.com.
+- Pushes changes back to the repository branch to keep git in sync with deployed artifacts.
 
 ---
 
@@ -107,4 +111,5 @@ Implemented responsive table styling adhering to the Ubuntu desktop aesthetic:
 | Both SSG (`next build`) and on-demand JSON reader (`public/posts/`) generate valid tables | Verified |
 | Table headers (`<th>`) and cells (`<td>`) styled for both dark and day themes | Verified |
 | Table scrolls horizontally within window without breaking container bounds | Verified |
+| GitHub Actions workflow auto-commits generated artifacts back to `main` | Verified |
 | Static export (`out/`) builds cleanly with zero errors | Verified (22/22 pages) |
