@@ -1,5 +1,22 @@
 [
   {
+    "category": "data-science",
+    "slug": "post-1",
+    "title": "Missing at Random (MAR) vs. MCAR vs. MNAR: The Data Scientist's Guide to Missing Data",
+    "excerpt": "Unpack the critical differences between MCAR, MAR, and MNAR data gaps. Learn how to identify these missing data mechanisms and choose the right statistical fixes to keep your analyses flawless.",
+    "date": "2026-10-24",
+    "lastmod": "2026-10-24",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "statistics",
+      "data-cleaning",
+      "missing-data-imputation"
+    ],
+    "readTime": "5 min read",
+    "urlPath": "/data-science/post-1/"
+  },
+  {
     "category": "about-me",
     "slug": "index",
     "title": "About Somesh Chatterjee",
@@ -16,23 +33,6 @@
     ],
     "readTime": "2 min read",
     "urlPath": "/about-me/"
-  },
-  {
-    "category": "data-science",
-    "slug": "post-1",
-    "title": "Scalable Data Pipelines with Apache Arrow and DuckDB",
-    "excerpt": "Exploring in-memory columnar data architectures for ultra-fast analytics processing without database overhead.",
-    "date": "2025-11-10",
-    "lastmod": "2025-11-10",
-    "author": "Somesh Chatterjee",
-    "tags": [
-      "data-science",
-      "duckdb",
-      "arrow",
-      "python"
-    ],
-    "readTime": "2 min read",
-    "urlPath": "/data-science/post-1/"
   },
   {
     "category": "data-science",

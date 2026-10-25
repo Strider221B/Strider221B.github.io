@@ -45,12 +45,14 @@ async function compileMarkdownToHtml(markdown) {
   }
   try {
     const { remark } = await import('remark');
+    const { default: remarkGfm } = await import('remark-gfm');
     const { default: remarkMath } = await import('remark-math');
     const { default: remarkRehype } = await import('remark-rehype');
     const { default: rehypeKatex } = await import('rehype-katex');
     const { default: rehypeStringify } = await import('rehype-stringify');
 
     const processed = await remark()
+      .use(remarkGfm)
       .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeKatex, { output: 'htmlAndMathml', strict: false, throwOnError: false })

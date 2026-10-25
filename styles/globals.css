@@ -179,20 +179,51 @@ body {
 }
 .markdown-content table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-  margin-bottom: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.markdown-content table::-webkit-scrollbar {
+  height: 4px;
+}
+.markdown-content table::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+.markdown-content table::-webkit-scrollbar-thumb:hover {
+  background: rgba(233, 84, 32, 0.6);
 }
 .markdown-content th,
 .markdown-content td {
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 0.6rem 0.85rem;
+  padding: 0.65rem 0.95rem;
   text-align: left;
+  vertical-align: top;
 }
 .markdown-content th {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.08);
   font-weight: 600;
   color: #ffffff;
+}
+.markdown-content tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+.markdown-content tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+.markdown-content th[align="center"],
+.markdown-content td[align="center"] {
+  text-align: center;
+}
+.markdown-content th[align="right"],
+.markdown-content td[align="right"] {
+  text-align: right;
 }
 
 /* ── Day Theme Typography Overrides ────────────────────────── */
@@ -233,6 +264,12 @@ body {
 [data-theme="day"] .markdown-content hr {
   border-top-color: rgba(0, 0, 0, 0.12);
 }
+[data-theme="day"] .markdown-content table::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+[data-theme="day"] .markdown-content table::-webkit-scrollbar-thumb:hover {
+  background: rgba(233, 84, 32, 0.6);
+}
 [data-theme="day"] .markdown-content th {
   background-color: rgba(0, 0, 0, 0.05);
   color: #111111;
@@ -240,6 +277,13 @@ body {
 [data-theme="day"] .markdown-content th,
 [data-theme="day"] .markdown-content td {
   border-color: rgba(0, 0, 0, 0.12);
+  color: #2e3436;
+}
+[data-theme="day"] .markdown-content tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+[data-theme="day"] .markdown-content tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 /* ── KaTeX Math Equation Display Overrides ─────────────────── */
