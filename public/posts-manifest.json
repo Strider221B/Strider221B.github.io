@@ -18,6 +18,23 @@
   },
   {
     "category": "data-science",
+    "slug": "post-7",
+    "title": "Demystifying Heckman’s Two-Stage Model (Heckit) for MNAR Data",
+    "excerpt": "A deep dive into Heckman’s Two-Stage Model (Heckit), a Nobel Prize-winning statistical framework designed to mathematically eliminate selection bias in MNAR data. It breaks down the probit and OLS stages, details the Inverse Mills Ratio, and highlights the strict requirement of the Exclusion Restriction.",
+    "date": "2026-10-26",
+    "lastmod": "2026-10-26",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "statistics",
+      "mnar"
+    ],
+    "readTime": "4 min read",
+    "urlPath": "/data-science/post-7/"
+  },
+  {
+    "category": "data-science",
     "slug": "post-3",
     "title": "Handling Missing at Random (MAR) Data: Proven Techniques",
     "excerpt": "A comprehensive guide to handling Missing at Random (MAR) data using advanced imputation, model-based approaches, and weighting techniques. It explains why traditional deletion methods fail and how to preserve data variance using statistically sound workflows.",
@@ -47,6 +64,22 @@
     ],
     "readTime": "3 min read",
     "urlPath": "/data-science/post-4/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-6",
+    "title": "How Native Tree-Based Models Handle Missing at Random (MAR) Data",
+    "excerpt": "An in-depth look at how XGBoost, LightGBM, and CatBoost naturally handle Missing at Random (MAR) data through advanced routing mechanisms like sparsity-aware splitting and surrogate splits. It outlines the mechanics behind native tree handling and flags key limitations when applying these techniques to statistical inference.",
+    "date": "2026-10-26",
+    "lastmod": "2026-10-26",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "tree-based-models"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/data-science/post-6/"
   },
   {
     "category": "data-science",
