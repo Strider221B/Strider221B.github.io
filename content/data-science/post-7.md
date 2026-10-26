@@ -73,6 +73,7 @@ Your Stage 1 model ($W$) *must* include at least one variable—known as an **In
 
 ### ELI5
 
+
 Imagine you want to find out the **average allowance of kids in your classroom**, so you pass around a survey asking everyone how much pocket money they get. 
 
 But there’s a catch: **the kids who get the smallest allowance feel embarrassed and refuse to fill out the form.** 
@@ -84,15 +85,16 @@ The **Heckit method** (invented by James Heckman) is a clever two-step math tric
 ---
 
 ### Step 1: Guess who hid their answers (The Selection Equation)
-First, you look at *everyone* in the room—both the kids who answered and the kids who didn't. You try to find a clue that explains *why* someone might hide their paper. 
-* Let's say you notice that kids who pack cheap lunches are usually the ones who didn't hand in the survey. 
-* You build a formula to calculate the **probability that a student will hide their answer** based on their lunch type. 
+First, you look at *everyone* in the room—both the kids who answered and the kids who didn't. You need to find a clue that explains *why* someone might hide their paper, but it **cannot** be related to how rich their parents are. 
+
+* You look at **where each student sits**. Kids sitting right in the front row, right next to the teacher's desk, feel a lot of social pressure. They hand in the paper just to avoid an awkward interaction. Kids sitting way in the back corner can easily slide by without handing it in.
+* You build a formula to calculate the **probability that a student will hide their answer** based strictly on their desk distance from the teacher. 
 * From this probability, you calculate a penalty score (statisticians call this the **Inverse Mills Ratio**). Think of this score as a "shyness rating."
 
 ### Step 2: Fix the final math (The Outcome Equation)
 Now, you look *only* at the papers you actually collected. But you don't just average them. 
 * You line up the numbers and add your new "shyness rating" to the equation. 
-* By factoring in how likely someone *like* them was to hide, the math automatically adjusts for the missing low-allowance kids.
+* Because desk distance has **nothing** to do with a family's wealth (but everything to do with whether they handed in the paper), the math can cleanly isolate the bias. 
+* By factoring in how likely someone *like* them was to hide based on their seat location, the math automatically adjusts for the missing low-allowance kids in the back.
 
-**The takeaway:** By calculating *why* people are hiding their data, the **Heckit method** adjusts your math so your final answer isn't ruined by the missing information.
-
+**The takeaway:** By finding a clever clue (like seating distance) that explains *why* people are hiding their data without distorting the final numbers, the **Heckit method** safely fixes your math so your final answer isn't ruined.
