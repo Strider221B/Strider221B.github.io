@@ -1,6 +1,55 @@
 [
   {
     "category": "data-science",
+    "slug": "post-5",
+    "title": "Deep Learning & Generative Architectures for Missing Data (MAR & MNAR)",
+    "excerpt": "An in-depth guide exploring how Transformers, VAEs, GANs, and Diffusion models revolutionize missing data imputation across MAR and MNAR mechanisms. It highlights the critical trade-offs between deep generative pattern recognition and traditional statistical rigor.",
+    "date": "2026-10-26",
+    "lastmod": "2026-10-26",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "generative-ai",
+      "transformers"
+    ],
+    "readTime": "5 min read",
+    "urlPath": "/data-science/post-5/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-3",
+    "title": "Handling Missing at Random (MAR) Data: Proven Techniques",
+    "excerpt": "A comprehensive guide to handling Missing at Random (MAR) data using advanced imputation, model-based approaches, and weighting techniques. It explains why traditional deletion methods fail and how to preserve data variance using statistically sound workflows.",
+    "date": "2026-10-26",
+    "lastmod": "2026-10-26",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "statistics"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/data-science/post-3/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-4",
+    "title": "Handling Missing Not at Random (MNAR) Data: Proven Techniques",
+    "excerpt": "A comprehensive guide to handling Missing Not at Random (MNAR) data using advanced imputation, model-based approaches, and weighting techniques. It explains why traditional deletion methods fail and how to preserve data variance using statistically sound workflows.",
+    "date": "2026-10-26",
+    "lastmod": "2026-10-26",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "statistics"
+    ],
+    "readTime": "3 min read",
+    "urlPath": "/data-science/post-4/"
+  },
+  {
+    "category": "data-science",
     "slug": "post-2",
     "title": "Moving Beyond LOCF: Why Modern Clinical Trials Are Dropping Last Observation Carried Forward",
     "excerpt": "Discover why the clinical research community is abandoning Last Observation Carried Forward (LOCF) and embracing robust, modern statistical alternatives for missing data.",
