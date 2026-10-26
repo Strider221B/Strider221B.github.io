@@ -73,7 +73,6 @@ Your Stage 1 model ($W$) *must* include at least one variable—known as an **In
 
 ### ELI5
 
-
 Imagine you want to find out the **average allowance of kids in your classroom**, so you pass around a survey asking everyone how much pocket money they get. 
 
 But there’s a catch: **the kids who get the smallest allowance feel embarrassed and refuse to fill out the form.** 
@@ -89,12 +88,27 @@ First, you look at *everyone* in the room—both the kids who answered and the k
 
 * You look at **where each student sits**. Kids sitting right in the front row, right next to the teacher's desk, feel a lot of social pressure. They hand in the paper just to avoid an awkward interaction. Kids sitting way in the back corner can easily slide by without handing it in.
 * You build a formula to calculate the **probability that a student will hide their answer** based strictly on their desk distance from the teacher. 
-* From this probability, you calculate a penalty score (statisticians call this the **Inverse Mills Ratio**). Think of this score as a "shyness rating."
+* From this probability, you calculate a penalty score (statisticians call this the **Inverse Mills Ratio**). Think of this score as an isolated "shyness rating."
+
+---
+
+### The Paradox: How does desk distance find missing allowances?
+If seating has nothing to do with money, how does this help us? The instrument acts as a **controlled baseline** to unmask the hidden bias. 
+
+Imagine two kids, **Timmy** and **Johnny**, who both sit **way in the back row**. They both have the exact same operational freedom to hide their papers. 
+* **Timmy** turns his paper in anyway. 
+* **Johnny** hides his paper. 
+
+Why did Johnny hide it when Timmy didn't, even though they faced the exact same seating pressure? The math reasons: *“It must be because Johnny possesses a high amount of that invisible trait—embarrassment over a low allowance.”* 
+
+By using desk distance to standardize the environmental pressure, the math successfully isolates the pure, unobserved financial embarrassment.
+
+---
 
 ### Step 2: Fix the final math (The Outcome Equation)
 Now, you look *only* at the papers you actually collected. But you don't just average them. 
-* You line up the numbers and add your new "shyness rating" to the equation. 
-* Because desk distance has **nothing** to do with a family's wealth (but everything to do with whether they handed in the paper), the math can cleanly isolate the bias. 
-* By factoring in how likely someone *like* them was to hide based on their seat location, the math automatically adjusts for the missing low-allowance kids in the back.
+* You line up the numbers and add your newly isolated "shyness rating" to the equation. 
+* The math looks at the kids who *did* turn in their papers and notices: *"Every time a kid has even a tiny bit of this isolated shyness rating, their allowance numbers look noticeably lower."* 
+* By factoring in how likely someone *like* them was to hide based on their seat location, the math automatically extrapolates and adjusts for the missing low-allowance kids in the back.
 
-**The takeaway:** By finding a clever clue (like seating distance) that explains *why* people are hiding their data without distorting the final numbers, the **Heckit method** safely fixes your math so your final answer isn't ruined.
+**The takeaway:** By finding a clever clue (like seating distance) that explains the *opportunity* to hide data without distorting the final numbers, the **Heckit method** successfully unmasks and corrects for the financial reason people hid their data.
