@@ -1,8 +1,8 @@
 ---
-title: "Handling Missing Not at Random (MNAR) Data: Proven Techniques"
+title: "How Native Tree-Based Models Handle Missing at Random (MAR) Data"
 date: "2026-10-26"
-tags: ["missing-data-imputation", "data-science", "statistics"]
-excerpt: "A comprehensive guide to handling Missing Not at Random (MNAR) data using advanced imputation, model-based approaches, and weighting techniques. It explains why traditional deletion methods fail and how to preserve data variance using statistically sound workflows."
+tags: ["missing-data-imputation", "data-science", "tree-based-models"]
+excerpt: "An in-depth look at how XGBoost, LightGBM, and CatBoost naturally handle Missing at Random (MAR) data through advanced routing mechanisms like sparsity-aware splitting and surrogate splits. It outlines the mechanics behind native tree handling and flags key limitations when applying these techniques to statistical inference."
 author: "Somesh Chatterjee"
 ---
 
@@ -44,5 +44,3 @@ Traditional decision trees (like the original CART algorithm) use a fallback str
 While native tree routing is **highly effective for predictive machine learning tasks**, it does not "fix" the dataset or impute underlying values. 
 
 If your goal is **statistical inference** (e.g., calculating unbiased population coefficients or p-values), relying solely on native tree routing can still yield biased structural understandings. The algorithm optimizes purely for the final prediction rather than preserving the true joint probability distribution of the features. For inference tasks, Multiple Imputation (MICE) remains necessary.
-
-#DataScience #MachineLearning #XGBoost #LightGBM #CatBoost #MissingData #DataPreprocessing
