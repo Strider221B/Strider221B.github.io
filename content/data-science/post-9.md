@@ -75,16 +75,55 @@ When dealing with severe MNAR profiles, alternative paradigms and specialized ex
 ### Technical Summary
 While a standard VAE offers heuristic success, **iDGMs provide mathematical proof that the imputation will converge toward the ground truth as data increases.** They eliminate arbitrary local optima (where different random seeds yield drastically different imputations) and ensure true causal uncoupling between the underlying data signals and the artifact signals of the missing data pattern itself.
 
+## The Mathematical Reality: Do iDGMs Require an Instrumental Variable Like Heckit?
 
-### ELI5
+**Yes, the underlying logic is highly analogous to Heckman's selection model (Heckit), but iDGMs do not strictly require a textbook "instrumental variable" to work.** Instead, they trade that strict requirement for structural or distributional assumptions. 
 
-#### 🍰 Explaining Missing Data and Smart AI
+The comparison between how Heckit and iDGMs tackle the same MNAR selection bias reveals two distinct mathematical approaches:
+
+---
+
+### 1. The Classic Econometric Approach (Heckit)
+The **Heckman Selection Model (Heckit)** achieves identifiability primarily through an **Instrumental Variable (IV)**, which introduces an *exclusion restriction*. 
+* **The Rule:** You need a variable $Z$ that predicts *whether* data is missing (selection), but has absolutely *no direct effect* on the actual value $X$ once you account for other factors.
+* **The Catch:** Finding a true instrument in the real world is notoriously hard. If you don't have one, Heckit forces you to rely purely on a highly fragile assumption that your data follows a perfect joint normal (Gaussian) distribution. Without the IV or the perfect normality, Heckit mathematically collapses.
+
+---
+
+### 2. The Deep Learning Approach (iDGMs)
+**Identifiable Deep Generative Models (iDGMs)** achieve identifiability using a different flavor of side information. They utilize **Auxiliary Variables ($U$)**, which look similar to instruments on a causal graph but behave differently:
+* **No Exclusion Restriction Needed:** Unlike an instrumental variable, an auxiliary variable $U$ **is allowed** to directly influence *both* the true data $X$ and the missingness indicator $M$. It does not need to be walled off from the true outcome.
+* **The Trade-Off:** Instead of a strict exclusion restriction, iDGMs require **functional and architectural assumptions**. They enforce constraints on how the neural networks behave (e.g., using additive conditional structures, enforcing that the latent space distributions change smoothly across different values of $U$, or requiring specific geometric properties in the decoder function).
+
+---
+
+### 3. Direct Structural Comparison: Heckit vs. iDGMs
+
+| Metric | Heckman's Heckit | Identifiable DGMs (iDGMs) |
+| :--- | :--- | :--- |
+| **Type of Side Clue** | **Instrumental Variable** (Must affect missingness, *cannot* affect the true value directly). | **Auxiliary Variable** (Can affect both the missingness and the true value directly). |
+| **Complexity Handled** | Strictly linear relationships and simple continuous distributions. | Highly non-linear, deep neural network relationships across complex data. |
+| **How it achieves Identifiability** | Through the exclusion restriction (the IV) or strict joint normality. | Through conditioning the latent space on $U$ combined with architectural network constraints. |
+
+---
+
+### Technical Summary
+
+If your auxiliary variable $U$ happens to be a perfect instrumental variable, an iDGM will happily leverage it, and the math becomes even cleaner. 
+
+However, the true breakthrough of iDGMs is that they allow you to use **imperfect instruments**—general side information like age, geographic location, or timestamps that are heavily related to the actual values—and utilize the flexible power of deep learning to bypass the strict linear rules of classical econometrics.
+
+
+
+## ELI5
+
+### 🍰 Explaining Missing Data and Smart AI
 
 Imagine you are looking at a classroom where some kids hid their test scores. If they only hid them because they were embarrassed by low grades, that data is **Missing Not At Random (MNAR)**. The reason the data is missing is tied directly to the secret value itself! This makes it super hard for normal computers to guess what the missing numbers are.
 
 ---
 
-##### 1. The Regular AI Guessing Machine (VAEs)
+#### 1. The Regular AI Guessing Machine (VAEs)
 A **Variational Autoencoder (VAE)** is like a very smart detective. 
 
 * **What it does right:** Instead of just guessing a random number to fill in the blank, it tries to understand the *story* behind the data. It looks at the clue of *why* the data went missing in the first place.
@@ -92,7 +131,7 @@ A **Variational Autoencoder (VAE)** is like a very smart detective.
 
 ---
 
-##### 2. The Superhero AI Guessing Machine (iDGMs)
+#### 2. The Superhero AI Guessing Machine (iDGMs)
 To fix this, scientists made an **Identifiable Deep Generative Model (iDGM)**. Think of this as a detective with a cheat sheet.
 
 An "identifiable" model means there is mathematically **only one true answer** it can find. It stops the AI from guessing blindly in the dark. It does this using two tricks:
@@ -104,7 +143,7 @@ By keeping these two rules separate and using helper clues, the AI is mathematic
 
 ---
 
-##### 3. The Competition: Which AI is Best?
+#### 3. The Competition: Which AI is Best?
 
 * **Standard VAE:** Good for regular, everyday guessing, but gets tricked easily by secrets.
 * **Identifiable Model (iDGM):** The gold standard when you *absolutely must* be accurate and cannot afford to guess wrong (like in hospital data).
