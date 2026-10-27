@@ -38,13 +38,13 @@ An **Identifiable Deep Generative Model (iDGM)** resolves this fundamental ambig
 
 To achieve this under MNAR conditions, state-of-the-art frameworks rely on two key structural dependencies:
 
-[Auxiliary Variables (U) ]
-/          
-v            v
-[ Latent Space (Z) ] --> [ Missingness Indicator (M) ]
-|            ^
-v           /
-[ True Data (X) ]
+graph TD
+    U[Auxiliary Variables U] --> Z[Latent Space Z]
+    U --> M[Missingness Indicator M]
+    Z --> X[True Data X]
+    Z --> M
+    X --> M
+
 
 ### Key Components of an iDGM Architecture:
 
