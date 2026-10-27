@@ -1,6 +1,23 @@
 [
   {
     "category": "data-science",
+    "slug": "post-9",
+    "title": "Deep Generative Models for Missing Not at Random (MNAR) Data",
+    "excerpt": "This post explores why Variational Autoencoders excel at handling MNAR data and how Identifiable Deep Generative Models (iDGMs) introduce mathematical guarantees to eliminate imputation bias.",
+    "date": "2026-10-27",
+    "lastmod": "2026-10-27",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "missing-data-imputation",
+      "data-science",
+      "gen-ai",
+      "mnar"
+    ],
+    "readTime": "10 min read",
+    "urlPath": "/data-science/post-9/"
+  },
+  {
+    "category": "data-science",
     "slug": "post-5",
     "title": "Deep Learning & Generative Architectures for Missing Data (MAR & MNAR)",
     "excerpt": "An in-depth guide exploring how Transformers, VAEs, GANs, and Diffusion models revolutionize missing data imputation across MAR and MNAR mechanisms. It highlights the critical trade-offs between deep generative pattern recognition and traditional statistical rigor.",
