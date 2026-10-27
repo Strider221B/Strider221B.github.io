@@ -76,3 +76,39 @@ When dealing with severe MNAR profiles, alternative paradigms and specialized ex
 While a standard VAE offers heuristic success, **iDGMs provide mathematical proof that the imputation will converge toward the ground truth as data increases.** They eliminate arbitrary local optima (where different random seeds yield drastically different imputations) and ensure true causal uncoupling between the underlying data signals and the artifact signals of the missing data pattern itself.
 
 
+### ELI5
+
+#### 🍰 Explaining Missing Data and Smart AI
+
+Imagine you are looking at a classroom where some kids hid their test scores. If they only hid them because they were embarrassed by low grades, that data is **Missing Not At Random (MNAR)**. The reason the data is missing is tied directly to the secret value itself! This makes it super hard for normal computers to guess what the missing numbers are.
+
+---
+
+##### 1. The Regular AI Guessing Machine (VAEs)
+A **Variational Autoencoder (VAE)** is like a very smart detective. 
+
+* **What it does right:** Instead of just guessing a random number to fill in the blank, it tries to understand the *story* behind the data. It looks at the clue of *why* the data went missing in the first place.
+* **Where it breaks:** If the secret is too tricky, the detective gets confused. Because it cannot see the hidden numbers, it might find five different "perfect" explanations that all look good but are completely wrong. It ends up guessing the exact same boring, wrong answer over and over again.
+
+---
+
+##### 2. The Superhero AI Guessing Machine (iDGMs)
+To fix this, scientists made an **Identifiable Deep Generative Model (iDGM)**. Think of this as a detective with a cheat sheet.
+
+An "identifiable" model means there is mathematically **only one true answer** it can find. It stops the AI from guessing blindly in the dark. It does this using two tricks:
+
+* **Helper Clues (Auxiliary Variables):** The detective looks at things that are *never* hidden. For example, if we don't know a student's test score, but we know how many hours they slept and how many classes they missed, those are helper clues that point to the true score.
+* **Separating the Rules:** The AI splits its brain into two teams. Team A figures out how the kids get their scores. Team B figures out why a kid decides to hide their score. 
+
+By keeping these two rules separate and using helper clues, the AI is mathematically guaranteed to find the real, true map of the data.
+
+---
+
+##### 3. The Competition: Which AI is Best?
+
+* **Standard VAE:** Good for regular, everyday guessing, but gets tricked easily by secrets.
+* **Identifiable Model (iDGM):** The gold standard when you *absolutely must* be accurate and cannot afford to guess wrong (like in hospital data).
+* **Task-Supervised Model:** An AI that doesn't care about making the perfect guess; it only cares about winning a specific game later (like predicting if a patient gets sick).
+* **GANs:** A different type of AI that draws very sharp, detailed pictures to fill in the blanks, but needs a mountain of data to work properly.
+
+
