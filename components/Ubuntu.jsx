@@ -101,7 +101,7 @@ export default function Ubuntu({
     return {
       openWindows: { [initialBootApp]: true },
       minimizedWindows: {},
-      maximizedWindows: {},
+      maximizedWindows: { [initialBootApp]: true },
       focusedWindows: { [initialBootApp]: true },
       windowStack: [initialBootApp],
       dockApps: {

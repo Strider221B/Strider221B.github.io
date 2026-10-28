@@ -96,6 +96,7 @@ const handleOpenApp = (state, appId) => {
     ...state,
     openWindows: { ...state.openWindows, [appId]: true },
     minimizedWindows: { ...state.minimizedWindows, [appId]: false },
+    maximizedWindows: { ...state.maximizedWindows, [appId]: true },
     windowStack: bringToTop(state.windowStack, appId),
     focusedWindows: createFocusedMap(appId),
     dockApps: { ...state.dockApps, [appId]: true },
@@ -286,7 +287,7 @@ const handleRemoveFromDock = (state, appId) => {
 export const INITIAL_STATE = {
   openWindows: { 'about-me': true },
   minimizedWindows: {},
-  maximizedWindows: {},
+  maximizedWindows: { 'about-me': true },
   focusedWindows: { 'about-me': true },
   windowStack: ['about-me'],
   dockApps: getDefaultDockApps(),

@@ -322,4 +322,23 @@ body {
   scrollbar-width: none;
 }
 
+/* ── Mermaid Diagram Rendering ─────────────────────────────── */
+.mermaid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
 
