@@ -334,8 +334,8 @@ All window state is managed through React Context + a custom hook.
   // Map of appId → boolean. True = currently minimized (hidden but still "open").
   minimizedWindows: { 'terminal': false, 'about-me': true },
 
-  // Map of appId → boolean. True = currently maximized (fills viewport).
-  maximizedWindows: { 'terminal': false, 'about-me': false },
+  // Map of appId → boolean. True = currently maximized (fills viewport by default on open).
+  maximizedWindows: { 'terminal': true, 'about-me': true },
 
   // Map of appId → boolean. True = this window currently has input focus.
   focusedWindows: { 'terminal': true, 'about-me': false },

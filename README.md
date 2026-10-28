@@ -47,15 +47,24 @@ A personal portfolio website simulating an **Ubuntu 26.04.1 LTS** desktop enviro
   - **Application Launcher & Start Menu**: Searchable all-applications overlay and hierarchical nested Start Menu (`Technology` subfolders).
   - **Desktop Workspace**: Double-clickable desktop shortcuts, right-click context menu (wallpaper rotation, open terminal, show desktop).
 - **Window Management Primitives**:
-  - Draggable, resizable, minimizable, and maximizable window frames.
+  - All windows open **maximized by default** for immediate workspace readability.
+  - Draggable, resizable, minimizable, and maximizable window frames with dual-click title bar toggle.
   - Dynamic z-index layering and window focus management.
-  - Snap-to-edge and dual-click title bar maximize toggle.
-- **Built-in System Applications**:
-  - **Terminal**: Interactive CLI emulator with bash prompt.
-  - **Settings**: Wallpaper customization and system preferences.
+  - Snap-to-edge layout transitions.
+- **Built-in System Applications & Content Engine**:
+  - **Terminal**: Interactive CLI emulator with bash prompt, virtual filesystem traversal, and article previewing (`cat ~/articles/<category>/<post>.md`).
+  - **Settings**: Wallpaper customization, system preferences, and Ubuntu Day/Dark theme switching.
   - **Trash**: Ubuntu trash bin simulation.
-  - **MarkdownViewer**: Typography-rich reader supporting font scaling (`A` / `A+`) and direct GitHub source sharing with clipboard integration.
+  - **MarkdownViewer**: Typography-rich technical reader with:
+    - **LaTeX Math Support**: KaTeX-accelerated formulas, integrals, and matrices ($\int$, $\sum$, $\mathbb{R}$).
+    - **Mermaid Vector Diagrams**: Client-side dynamic diagram rendering with automatic Dark/Day theme adaptation.
+    - **GitHub Flavored Markdown (GFM)**: Tables, task lists, and styled blockquotes.
+    - **Reader Controls**: Font scaling (`A` / `A+`) and instant clipboard permalink sharing.
   - **BlogListApp**: Categorized article feeds with instant keyword search and tag filtering.
+- **SEO & Deep-Link Architecture**:
+  - Discrete static HTML shells generated per article (`/[category]/[slug]/`) and standalone profile (`/about-me/`).
+  - Pre-rendered semantic HTML bodies for Wave-1 search engine indexation (Googlebot, Bing, DuckDuckGo) without requiring client JavaScript.
+  - Automated Ubuntu desktop launch executing deep-linked terminal commands upon visit.
 
 ---
 
@@ -67,7 +76,7 @@ A personal portfolio website simulating an **Ubuntu 26.04.1 LTS** desktop enviro
 | **UI Library** | [React 19](https://reactjs.org/) | Functional components and hooks (`useReducer`, `useMemo`, `useCallback`) |
 | **Styling** | [Tailwind CSS 3](https://tailwindcss.com/) | Custom Ubuntu color palette (`ub-orange`, `ub-grey`, etc.) |
 | **Window Interactions** | [react-draggable](https://github.com/react-grid-layout/react-draggable) | Drag handling for window shells |
-| **Content Pipeline** | `gray-matter`, `remark`, `remark-html` | Build-time Markdown parsing and static HTML generation |
+| **Content Pipeline** | `gray-matter`, `remark-gfm`, `remark-math`, `rehype-katex`, `mermaid` | Build-time Markdown & KaTeX compilation with client-side Mermaid rendering |
 | **Deployment** | [GitHub Pages](https://pages.github.com/) | Static hosting via custom domain at [https://someshchatterjee.com](https://someshchatterjee.com) |
 
 ### Key Design Decisions
@@ -273,10 +282,10 @@ When opened in `MarkdownViewer`, readers can click **Share** to copy the exact p
 
 Window state is managed through `WindowManagerContext.jsx` using the `useWindowManager()` hook:
 
-- `openApp(appId)`: Launches an app window, restores if minimized, and brings to top focus.
+- `openApp(appId)`: Launches an app window **maximized by default**, restores if minimized, and brings to top focus.
 - `closeApp(appId)`: Closes and removes the window from the active DOM stack.
 - `minimizeApp(appId)`: Conceals the window while preserving state and shifts focus to next topmost window.
-- `maximizeApp(appId)` / `restoreApp(appId)`: Toggles viewport expansion.
+- `maximizeApp(appId)` / `restoreApp(appId)`: Toggles between maximized fullscreen coverage and floating resizable bounds.
 - `focusApp(appId)`: Elevates window z-index to top of stack.
 
 ---
