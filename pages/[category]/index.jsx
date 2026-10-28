@@ -13,7 +13,7 @@ import Ubuntu from '../../components/Ubuntu';
 
 // 5. Project utilities, constants, config
 import { SITE_URL } from '../../lib/constants';
-import { buildContentMapFromManifest } from '../../lib/markdown';
+import { buildContentMapFromManifest, getPostBySlug } from '../../lib/markdown';
 import postsManifest from '../../public/posts-manifest.json';
 
 // 2. Constants (File-scoped)
@@ -64,7 +64,14 @@ export async function getStaticProps({ params }) {
     CATEGORY_DESCRIPTIONS[category] ||
     `Browse technical articles and publications in ${formattedCategory} by Somesh Chatterjee.`;
 
-  const contentMap = buildContentMapFromManifest(postsManifest);
+  // Standalone profile or discrete single-article category (e.g., 'about-me' has 'index.md')
+  let postData = null;
+  const indexPost = posts.find((p) => p.slug === 'index');
+  if (indexPost) {
+    postData = await getPostBySlug(category, 'index');
+  }
+
+  const contentMap = buildContentMapFromManifest(postsManifest, postData);
 
   return {
     props: {
@@ -74,6 +81,7 @@ export async function getStaticProps({ params }) {
         description,
         posts,
       },
+      postData,
       contentMap,
     },
   };
@@ -81,15 +89,55 @@ export async function getStaticProps({ params }) {
 
 /**
  * CategoryBootPage component rendering pre-rendered category hub indexation
- * and launching the Ubuntu terminal with directory listing command.
+ * or deep-linked standalone article (for 'about-me') inside the Ubuntu desktop.
  *
  * @param {Object} props
  * @param {Object} props.categoryData - Category metadata and articles list
+ * @param {Object|null} [props.postData=null] - Full article data if category has index.md
  * @param {Record<string, Array<Object>>} [props.contentMap={}] - Statically built content map
  * @returns {JSX.Element} Page view
  */
-export default function CategoryBootPage({ categoryData, contentMap = {} }) {
+export default function CategoryBootPage({ categoryData, postData = null, contentMap = {} }) {
   const canonicalUrl = `${SITE_URL}/${categoryData.category}/`;
+
+  // Render standalone article page view (e.g. /about-me/) matching [slug].jsx architecture
+  if (postData) {
+    return (
+      <>
+        <Meta
+          title={`${postData.title} | Somesh Chatterjee`}
+          description={postData.excerpt}
+          canonicalUrl={canonicalUrl}
+        />
+
+        {/* Semantic Full-Text Fallback: Indexed by Googlebot, Bingbot, and Screen Readers */}
+        <section className="sr-only" aria-label="Article content for search crawlers and screen readers">
+          <article>
+            <h1>{postData.title}</h1>
+            <p>{postData.excerpt}</p>
+            <time dateTime={postData.date}>{postData.date}</time>
+            <span>Author: {postData.author}</span>
+            {Array.isArray(postData.tags) && postData.tags.length > 0 && (
+              <div>Tags: {postData.tags.join(', ')}</div>
+            )}
+            <div dangerouslySetInnerHTML={{ __html: postData.htmlContent }} />
+          </article>
+        </section>
+
+        {/* Interactive Ubuntu Desktop Simulation */}
+        <Ubuntu
+          initialBootApp="terminal"
+          initialBootSlug={postData.slug}
+          initialBootCategory={postData.category}
+          initialContent={postData.rawContent}
+          initialTitle={postData.title}
+          initialHtmlContent={postData.htmlContent}
+          contentMap={contentMap}
+        />
+      </>
+    );
+  }
+
   const initialCommand = `ls -la ~/articles/${categoryData.category}`;
 
   return (

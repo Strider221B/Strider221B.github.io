@@ -39,6 +39,9 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
           rel="stylesheet"
         />
+
+        {/* Client-side Mermaid diagrams engine */}
+        <script src="/js/mermaid.min.js" defer />
       </Head>
       <body className="select-none bg-ub-grey text-ubt-grey antialiased">
         <Main />

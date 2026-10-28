@@ -171,6 +171,11 @@ const resolveArticleContent = (filePath, cwd, context) => {
   } else if (parts.length === 2 && VIRTUAL_FS['~'].children.articles.children[parts[0]]) {
     category = parts[0];
     filename = parts[1];
+  } else if (parts.length === 1 && VIRTUAL_FS['~'].children.articles.children[parts[0]]) {
+    category = parts[0];
+    filename = VIRTUAL_FS['~'].children.articles.children[parts[0]]?.children['index.md']
+      ? 'index.md'
+      : `${parts[0]}.md`;
   }
 
   const slug = filename.replace(/\.md$/, '');
@@ -180,7 +185,8 @@ const resolveArticleContent = (filePath, cwd, context) => {
   if (
     context.initialContent &&
     ((category === context.activeCategory && slug === context.activeSlug) ||
-      filePath.includes(context.activeSlug || '___not_matched___'))
+      filePath.includes(context.activeSlug || '___not_matched___') ||
+      (context.activeCategory === 'about-me' && (category === 'about-me' || filePath.includes('about-me'))))
   ) {
     return {
       type: 'article_view',

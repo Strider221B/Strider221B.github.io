@@ -66,10 +66,18 @@ export default function Terminal({
   );
 
   const handleOpenArticle = useCallback((category, slug) => {
-    if (category && slug) {
+    if (category === 'about-me') {
+      openApp('about-me');
+    } else if (category && slug) {
       openApp(`post-${category}-${slug}`);
     } else if (currentArticleRef.current?.category && currentArticleRef.current?.slug) {
-      openApp(`post-${currentArticleRef.current.category}-${currentArticleRef.current.slug}`);
+      const cat = currentArticleRef.current.category;
+      const s = currentArticleRef.current.slug;
+      if (cat === 'about-me') {
+        openApp('about-me');
+      } else {
+        openApp(`post-${cat}-${s}`);
+      }
     } else {
       openApp('reader');
     }

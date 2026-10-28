@@ -5,7 +5,7 @@
  */
 
 // 1. React / Next.js core
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
 // 3. Project contexts and hooks
 import { useWindowManager } from '../../hooks/useWindowManager';
@@ -198,6 +198,7 @@ export default function MarkdownViewer({
   contentPath,
   post: directPost,
   htmlContent: directHtml,
+  initialHtmlContent,
   title: directTitle,
   contentMap = {},
 }) {
@@ -207,6 +208,7 @@ export default function MarkdownViewer({
   const [isCopied, setIsCopied] = useState(false);
   const [asyncHtml, setAsyncHtml] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const contentRef = useRef(null);
 
   // Resolve matching post data from props or contentMap
   const resolvedPost = useMemo(() => {
@@ -237,7 +239,7 @@ export default function MarkdownViewer({
 
   // Fetch compiled post content on demand if not present in initial catalog
   useEffect(() => {
-    if (directHtml || resolvedPost?.htmlContent) {
+    if (directHtml || initialHtmlContent || resolvedPost?.htmlContent) {
       return;
     }
 
@@ -267,14 +269,105 @@ export default function MarkdownViewer({
           setIsLoading(false);
         });
     }
-  }, [directHtml, resolvedPost, contentPath]);
+  }, [directHtml, initialHtmlContent, resolvedPost, contentPath]);
 
   const displayTitle = resolvedPost?.title || directTitle || 'Document';
-  const displayHtml = resolvedPost?.htmlContent || directHtml || asyncHtml || '';
+  const displayHtml =
+    resolvedPost?.htmlContent || directHtml || initialHtmlContent || asyncHtml || '';
   const displayDate = resolvedPost?.date;
   const displayAuthor = resolvedPost?.author || DEFAULT_USER_NAME;
   const displayReadTime = resolvedPost?.readTime;
   const displayTags = resolvedPost?.tags || [];
+
+  // Render Mermaid diagrams whenever displayHtml or theme changes
+  useEffect(() => {
+    if (!contentRef.current || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const containerEl = contentRef.current;
+    const blocks = containerEl.querySelectorAll(
+      'pre > code.language-mermaid, div.mermaid-container[data-mermaid-code]'
+    );
+    if (!blocks || blocks.length === 0) {
+      return undefined;
+    }
+
+    let isCancelled = false;
+
+    const renderAllDiagrams = async () => {
+      try {
+        if (!window.mermaid) {
+          await new Promise((resolve, reject) => {
+            const existing = document.getElementById('mermaid-script');
+            if (existing) {
+              existing.addEventListener('load', resolve);
+              existing.addEventListener('error', reject);
+              return;
+            }
+            const script = document.createElement('script');
+            script.id = 'mermaid-script';
+            script.src = '/js/mermaid.min.js';
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+
+        if (isCancelled || !window.mermaid) {
+          return;
+        }
+
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: isDayTheme ? 'default' : 'dark',
+          securityLevel: 'loose',
+          fontFamily: 'Ubuntu, sans-serif',
+        });
+
+        for (let i = 0; i < blocks.length; i += 1) {
+          const el = blocks[i];
+          const rawCode =
+            el.getAttribute('data-mermaid-code') || el.textContent || '';
+          if (!rawCode.trim()) {
+            continue;
+          }
+
+          const renderId = `mermaid-render-${Date.now()}-${i}`;
+          const { svg } = await window.mermaid.render(renderId, rawCode.trim());
+          if (isCancelled) {
+            return;
+          }
+
+          if (el.tagName.toLowerCase() === 'div' && el.classList.contains('mermaid-container')) {
+            el.innerHTML = svg;
+          } else {
+            const parentPre = el.closest('pre') || el;
+            const wrapper = document.createElement('div');
+            wrapper.className = `mermaid-container my-6 flex justify-center overflow-x-auto p-4 rounded-lg border ${
+              isDayTheme
+                ? 'bg-black/5 border-black/10'
+                : 'bg-black/30 border-white/10'
+            }`;
+            wrapper.setAttribute('data-mermaid-code', rawCode);
+            wrapper.innerHTML = svg;
+            if (parentPre.parentNode) {
+              parentPre.parentNode.replaceChild(wrapper, parentPre);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[MarkdownViewer] Mermaid rendering error:', err.message);
+      }
+    };
+
+    renderAllDiagrams();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [displayHtml, isDayTheme]);
 
   // Compute the static article deep-link URL for sharing
   const shareUrl = useMemo(() => {
@@ -384,6 +477,7 @@ export default function MarkdownViewer({
         </div>
       ) : displayHtml ? (
         <div
+          ref={contentRef}
           className="markdown-content"
           onClick={handleContentClick}
           dangerouslySetInnerHTML={{ __html: displayHtml }}
