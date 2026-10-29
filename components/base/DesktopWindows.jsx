@@ -64,7 +64,7 @@ export default function DesktopWindows({
         changeBackgroundImage={changeBackgroundImage}
         currBgImgName={currBgImgName}
         initialTab={settingsTab}
-        {...terminalBootProps}
+        {...(app.id === 'terminal' ? terminalBootProps : {})}
       />
     );
   };

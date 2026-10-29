@@ -149,6 +149,42 @@ In [`components/Ubuntu.jsx`](file:///home/somesh/git_repos/Strider221B.github.io
    }
    ```
 
+### 3.4 Deep-Link Boot Prop Scoping & Window Isolation
+
+During deep-link boots (e.g. `/about-me/` or `/[category]/[slug]/`), `terminalBootProps` carries initial article data (`initialHtmlContent`, `initialContent`, `initialTitle`, `initialBootSlug`, `initialBootCategory`).
+
+Previously, [`components/base/DesktopWindows.jsx`](file:///home/somesh/git_repos/Strider221B.github.io/components/base/DesktopWindows.jsx) unconditionally spread `{...terminalBootProps}` onto all window components:
+
+```jsx
+// ❌ Problem: Spreading terminal props onto every app component
+<Component
+  {...app.componentProps}
+  contentMap={contentMap}
+  changeBackgroundImage={changeBackgroundImage}
+  currBgImgName={currBgImgName}
+  initialTab={settingsTab}
+  {...terminalBootProps}
+/>
+```
+
+This caused `initialHtmlContent` to pollute [`MarkdownViewer.jsx`](file:///home/somesh/git_repos/Strider221B.github.io/components/apps/MarkdownViewer.jsx). Consequently, when a user opened any other post from the app launcher or category blog lists while booted on a deep link, the viewer rendered the initial deep-link article's HTML rather than fetching the target post.
+
+**Resolution:**
+1. **Targeted Scoping in `DesktopWindows.jsx`:** Scoped `terminalBootProps` exclusively to the Terminal application:
+   ```jsx
+   // ✅ Scoped strictly to the terminal instance
+   <Component
+     {...app.componentProps}
+     contentMap={contentMap}
+     changeBackgroundImage={changeBackgroundImage}
+     currBgImgName={currBgImgName}
+     initialTab={settingsTab}
+     {...(app.id === 'terminal' ? terminalBootProps : {})}
+   />
+   ```
+2. **Prop Cleanup in `MarkdownViewer.jsx`:** Removed `initialHtmlContent` from component parameters. Deep-link HTML is already passed via `app.componentProps.htmlContent` when targeted to a specific article window, while other posts fetch their compiled JSON on demand via `/posts/${cat}/${slug}.json`.
+3. **Async State Reset:** Added an effect to reset `asyncHtml` upon `contentPath` changes to ensure clean transitions between articles.
+
 ---
 
 ## 4. Verification & Testing
@@ -160,6 +196,7 @@ In [`components/Ubuntu.jsx`](file:///home/somesh/git_repos/Strider221B.github.io
 | **Restore/Resize Toggle** | Interactive UI click | Title bar button un-maximizes window to draggable/resizable mode | Verified |
 | **Post 9 Mermaid Diagram** | Build & payload check | `language-mermaid` code blocks compiled to SVG via client Mermaid engine | Verified |
 | **Theme Switching** | Desktop Day/Dark switch | Diagram re-renders with matching theme styling without page reload | Verified |
+| **Deep-Link Window Isolation** | Boot `/about-me/` or `/ai-engineering/post-1/` and launch another post | Target post fetches `/posts/${cat}/${slug}.json` and renders its own content without crosstalk | Verified |
 
 ---
 
@@ -168,10 +205,10 @@ In [`components/Ubuntu.jsx`](file:///home/somesh/git_repos/Strider221B.github.io
 | Rule | Metric Limit | Implementation Status |
 |---|---|---|
 | **One Component Per File** | Exactly 1 default export | Compliant |
-| **File Length Limit** | $\le 500$ lines | `pages/[category]/index.jsx`: 180 lines<br>`MarkdownViewer.jsx`: 496 lines<br>`WindowManagerContext.jsx`: 370 lines |
+| **File Length Limit** | $\le 500$ lines | `pages/[category]/index.jsx`: 180 lines<br>`MarkdownViewer.jsx`: 495 lines<br>`WindowManagerContext.jsx`: 370 lines<br>`DesktopWindows.jsx`: 94 lines |
 | **Function Length Limit** | $\le 20$ lines per helper | Compliant |
 | **Component JSX Return** | $\le 50$ lines per return block | Compliant |
-| **Component Props Limit** | $\le 8$ props | `MarkdownViewer`: 6 props |
+| **Component Props Limit** | $\le 8$ props | `MarkdownViewer`: 5 props |
 | **No Magic Numbers / Strings** | Named constants | Compliant |
 | **Tailwind Tokens Only** | No raw hex in JSX | Compliant |
 

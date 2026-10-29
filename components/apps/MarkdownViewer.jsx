@@ -16,12 +16,7 @@ import { DEFAULT_USER_NAME, SITE_URL } from '../../lib/constants';
 
 // ─── CONSTANTS ──────────────────────────────────────────────────────
 
-const FONT_SIZES = {
-  NORMAL: 'text-base',
-  LARGE: 'text-lg',
-  XLARGE: 'text-xl',
-};
-
+const FONT_SIZES = { NORMAL: 'text-base', LARGE: 'text-lg', XLARGE: 'text-xl' };
 const COPIED_TIMEOUT_MS = 2000;
 
 // ─── HELPER SUB-COMPONENTS ──────────────────────────────────────────
@@ -198,7 +193,6 @@ export default function MarkdownViewer({
   contentPath,
   post: directPost,
   htmlContent: directHtml,
-  initialHtmlContent,
   title: directTitle,
   contentMap = {},
 }) {
@@ -209,6 +203,11 @@ export default function MarkdownViewer({
   const [asyncHtml, setAsyncHtml] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const contentRef = useRef(null);
+
+  // Reset async loaded HTML when viewing a different content path
+  useEffect(() => {
+    setAsyncHtml('');
+  }, [contentPath]);
 
   // Resolve matching post data from props or contentMap
   const resolvedPost = useMemo(() => {
@@ -239,7 +238,7 @@ export default function MarkdownViewer({
 
   // Fetch compiled post content on demand if not present in initial catalog
   useEffect(() => {
-    if (directHtml || initialHtmlContent || resolvedPost?.htmlContent) {
+    if (directHtml || resolvedPost?.htmlContent) {
       return;
     }
 
@@ -269,11 +268,11 @@ export default function MarkdownViewer({
           setIsLoading(false);
         });
     }
-  }, [directHtml, initialHtmlContent, resolvedPost, contentPath]);
+  }, [directHtml, resolvedPost, contentPath]);
 
   const displayTitle = resolvedPost?.title || directTitle || 'Document';
   const displayHtml =
-    resolvedPost?.htmlContent || directHtml || initialHtmlContent || asyncHtml || '';
+    resolvedPost?.htmlContent || directHtml || asyncHtml || '';
   const displayDate = resolvedPost?.date;
   const displayAuthor = resolvedPost?.author || DEFAULT_USER_NAME;
   const displayReadTime = resolvedPost?.readTime;
