@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Not at Random (MNAR) Data: Proven Techniques"
 date: "2026-10-26"
-tags: ["missing-data-imputation", "data-science", "statistics"]
+tags: ["missing-data-imputation", "data-science", "statistics", "mnar"]
 excerpt: "A comprehensive guide to handling Missing Not at Random (MNAR) data using advanced imputation, model-based approaches, and weighting techniques. It explains why traditional deletion methods fail and how to preserve data variance using statistically sound workflows."
 author: "Somesh Chatterjee"
 ---
