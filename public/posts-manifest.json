@@ -1,6 +1,36 @@
 [
   {
     "category": "data-science",
+    "slug": "post-10-markov",
+    "title": "Demystifying the Math of Probability: Markov Chains vs. Markov Decision Processes",
+    "excerpt": "What separates a basic predictive model from advanced reinforcement learning? Discover the core differences between passive Markov Chains and decision-driven Markov Decision Processes.",
+    "date": "2026-11-07",
+    "lastmod": "2026-11-07",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "markov-models"
+    ],
+    "readTime": "7 min read",
+    "urlPath": "/data-science/post-10-markov/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-11-policy-eval",
+    "title": "Mastering Reinforcement Learning: Monte Carlo Evaluation vs. The Bellman Expectation Equation",
+    "excerpt": "Brute-force data sampling vs. elegant recursive equations. Discover how Monte Carlo evaluation and the Bellman Expectation Equation solve the foundational prediction problem in Reinforcement Learning.",
+    "date": "2026-11-07",
+    "lastmod": "2026-11-07",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "reinforcement-learning"
+    ],
+    "readTime": "11 min read",
+    "urlPath": "/data-science/post-11-policy-eval/"
+  },
+  {
+    "category": "data-science",
     "slug": "post-9",
     "title": "Deep Generative Models for Missing Not at Random (MNAR) Data",
     "excerpt": "This post explores why Variational Autoencoders excel at handling MNAR data and how Identifiable Deep Generative Models (iDGMs) introduce mathematical guarantees to eliminate imputation bias.",
@@ -27,8 +57,10 @@
     "tags": [
       "missing-data-imputation",
       "data-science",
-      "generative-ai",
-      "transformers"
+      "gen-ai",
+      "transformers",
+      "mar",
+      "mnar"
     ],
     "readTime": "5 min read",
     "urlPath": "/data-science/post-5/"
@@ -61,7 +93,8 @@
     "tags": [
       "missing-data-imputation",
       "data-science",
-      "statistics"
+      "statistics",
+      "mar"
     ],
     "readTime": "3 min read",
     "urlPath": "/data-science/post-3/"
@@ -77,7 +110,8 @@
     "tags": [
       "missing-data-imputation",
       "data-science",
-      "statistics"
+      "statistics",
+      "mnar"
     ],
     "readTime": "3 min read",
     "urlPath": "/data-science/post-4/"
@@ -93,7 +127,8 @@
     "tags": [
       "missing-data-imputation",
       "data-science",
-      "tree-based-models"
+      "tree-based-models",
+      "mar"
     ],
     "readTime": "3 min read",
     "urlPath": "/data-science/post-6/"
@@ -107,10 +142,8 @@
     "lastmod": "2026-10-25",
     "author": "Somesh Chatterjee",
     "tags": [
-      "clinical-trials",
       "missing-data-imputation",
-      "data-science",
-      "bio-statistics"
+      "data-science"
     ],
     "readTime": "5 min read",
     "urlPath": "/data-science/post-2/"
@@ -126,7 +159,6 @@
     "tags": [
       "data-science",
       "statistics",
-      "data-cleaning",
       "missing-data-imputation"
     ],
     "readTime": "5 min read",

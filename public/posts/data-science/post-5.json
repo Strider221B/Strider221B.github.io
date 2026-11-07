@@ -9,8 +9,10 @@
   "tags": [
     "missing-data-imputation",
     "data-science",
-    "generative-ai",
-    "transformers"
+    "gen-ai",
+    "transformers",
+    "mar",
+    "mnar"
   ],
   "readTime": "5 min read",
   "urlPath": "/data-science/post-5/",
