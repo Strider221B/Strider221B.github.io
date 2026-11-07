@@ -1,7 +1,7 @@
 ---
 title: "How Native Tree-Based Models Handle Missing at Random (MAR) Data"
 date: "2026-10-26"
-tags: ["missing-data-imputation", "data-science", "tree-based-models"]
+tags: ["missing-data-imputation", "data-science", "tree-based-models", "mar"]
 excerpt: "An in-depth look at how XGBoost, LightGBM, and CatBoost naturally handle Missing at Random (MAR) data through advanced routing mechanisms like sparsity-aware splitting and surrogate splits. It outlines the mechanics behind native tree handling and flags key limitations when applying these techniques to statistical inference."
 author: "Somesh Chatterjee"
 ---

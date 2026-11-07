@@ -1,7 +1,7 @@
 ---
 title: "Missing at Random (MAR) vs. MCAR vs. MNAR: The Data Scientist's Guide to Missing Data"
 date: "2026-10-24"
-tags: ["data-science", "statistics", "data-cleaning", "missing-data-imputation"]
+tags: ["data-science", "statistics", "missing-data-imputation"]
 excerpt: "Unpack the critical differences between MCAR, MAR, and MNAR data gaps. Learn how to identify these missing data mechanisms and choose the right statistical fixes to keep your analyses flawless."
 author: "Somesh Chatterjee"
 ---

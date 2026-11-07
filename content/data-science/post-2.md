@@ -1,7 +1,7 @@
 ---
 title: "Moving Beyond LOCF: Why Modern Clinical Trials Are Dropping Last Observation Carried Forward"
 date: "2026-10-25"
-tags: ["clinical-trials", "missing-data-imputation", "data-science", "bio-statistics"]
+tags: ["missing-data-imputation", "data-science"]
 excerpt: "Discover why the clinical research community is abandoning Last Observation Carried Forward (LOCF) and embracing robust, modern statistical alternatives for missing data."
 author: "Somesh Chatterjee"
 ---

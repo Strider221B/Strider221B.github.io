@@ -1,7 +1,7 @@
 ---
 title: "Deep Learning & Generative Architectures for Missing Data (MAR & MNAR)"
 date: "2026-10-26"
-tags: ["missing-data-imputation", "data-science", "generative-ai", "transformers"]
+tags: ["missing-data-imputation", "data-science", "gen-ai", "transformers", "mar", "mnar"]
 excerpt: "An in-depth guide exploring how Transformers, VAEs, GANs, and Diffusion models revolutionize missing data imputation across MAR and MNAR mechanisms. It highlights the critical trade-offs between deep generative pattern recognition and traditional statistical rigor."
 author: "Somesh Chatterjee"
 ---
