@@ -85,7 +85,7 @@ export default function Ubuntu({
   initialCommand,
   initialHtmlContent,
 }) {
-  const { isDayTheme } = useTheme();
+  const { isDayTheme, nightLight } = useTheme();
   // Bypass boot screen delay on deep-links for immediate interactivity
   const [isBooting, setIsBooting] = useState(!initialBootApp);
   const [isLocked, setIsLocked] = useState(false);
@@ -208,11 +208,23 @@ export default function Ubuntu({
 
   if (isLocked) {
     return (
-      <LockScreen
-        isLocked={isLocked}
-        onUnlock={handleUnlock}
-        backgroundImage={backgroundImage}
-      />
+      <>
+        <LockScreen
+          isLocked={isLocked}
+          onUnlock={handleUnlock}
+          backgroundImage={backgroundImage}
+        />
+        {nightLight && (
+          <div
+            className="fixed inset-0 pointer-events-none z-[998] transition-opacity duration-300"
+            style={{
+              backgroundColor: 'rgba(255, 140, 0, 0.15)',
+              mixBlendMode: 'multiply',
+            }}
+            aria-hidden="true"
+          />
+        )}
+      </>
     );
   }
 
@@ -237,6 +249,16 @@ export default function Ubuntu({
           onCloseStartMenu={handleCloseStartMenu}
           terminalBootProps={terminalBootProps}
         />
+        {nightLight && (
+          <div
+            className="fixed inset-0 pointer-events-none z-[998] transition-opacity duration-300"
+            style={{
+              backgroundColor: 'rgba(255, 140, 0, 0.15)',
+              mixBlendMode: 'multiply',
+            }}
+            aria-hidden="true"
+          />
+        )}
       </div>
     </WindowManagerProvider>
   );

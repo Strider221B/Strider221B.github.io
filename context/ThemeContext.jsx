@@ -57,6 +57,7 @@ const applyThemeToDocument = (theme, accent) => {
 export default function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(DEFAULT_THEME);
   const [accentColor, setAccentColorState] = useState(DEFAULT_ACCENT);
+  const [nightLight, setNightLightState] = useState(false);
 
   // Synchronize persisted preferences from localStorage on mount
   useEffect(() => {
@@ -68,6 +69,10 @@ export default function ThemeProvider({ children }) {
       const savedAccent = localStorage.getItem(STORAGE_KEYS.ACCENT_COLOR);
       if (savedAccent && ACCENT_COLORS.some((a) => a.id === savedAccent)) {
         setAccentColorState(savedAccent);
+      }
+      const savedNightLight = localStorage.getItem(STORAGE_KEYS.NIGHT_LIGHT);
+      if (savedNightLight !== null) {
+        setNightLightState(savedNightLight === 'true');
       }
     } catch {
       // LocalStorage error handling for sandboxed environments
@@ -99,6 +104,27 @@ export default function ThemeProvider({ children }) {
     }
   }, []);
 
+  const setNightLight = useCallback((enabled) => {
+    setNightLightState(enabled);
+    try {
+      localStorage.setItem(STORAGE_KEYS.NIGHT_LIGHT, String(enabled));
+    } catch {
+      // LocalStorage error handling for sandboxed environments
+    }
+  }, []);
+
+  const toggleNightLight = useCallback(() => {
+    setNightLightState((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(STORAGE_KEYS.NIGHT_LIGHT, String(next));
+      } catch {
+        // LocalStorage error handling for sandboxed environments
+      }
+      return next;
+    });
+  }, []);
+
   const isDayTheme = theme === THEMES.DAY;
 
   const value = useMemo(
@@ -109,8 +135,21 @@ export default function ThemeProvider({ children }) {
       accentColor,
       setAccentColor,
       currentAccent,
+      nightLight,
+      setNightLight,
+      toggleNightLight,
     }),
-    [theme, isDayTheme, setTheme, accentColor, setAccentColor, currentAccent]
+    [
+      theme,
+      isDayTheme,
+      setTheme,
+      accentColor,
+      setAccentColor,
+      currentAccent,
+      nightLight,
+      setNightLight,
+      toggleNightLight,
+    ]
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
