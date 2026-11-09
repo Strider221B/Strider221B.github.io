@@ -69,7 +69,7 @@ export default function StartMenu({
   return (
     <nav
       ref={menuContainerRef}
-      className={`fixed top-8 left-2 ${START_MENU_WIDTH_CLASS} bg-[#2B2B2B]/95 backdrop-blur-md border border-white/10 rounded-md shadow-2xl py-1.5 z-50 select-none text-white animate-in fade-in zoom-in-95 duration-100 max-h-[calc(100vh-3rem)] overflow-y-auto no-scrollbar`}
+      className={`fixed top-8 left-2 ${START_MENU_WIDTH_CLASS} bg-[#2B2B2B]/95 backdrop-blur-md border border-white/10 rounded-md shadow-2xl py-1.5 z-50 select-none text-white animate-in fade-in zoom-in-95 duration-100 overflow-visible`}
       role="menu"
       aria-label="Start Menu"
     >

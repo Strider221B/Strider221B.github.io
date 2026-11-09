@@ -123,6 +123,28 @@ export default function StartMenuItem({ item, depth = 0, onItemClick }) {
     }, HOVER_CLOSE_DELAY_MS);
   }, []);
 
+  const handleToggleSubmenu = useCallback((e) => {
+    e.stopPropagation();
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setIsSubmenuOpen((prev) => !prev);
+  }, []);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setIsSubmenuOpen((prev) => !prev);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setIsSubmenuOpen(true);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setIsSubmenuOpen(false);
+    }
+  }, []);
+
   const handleImageError = useCallback(() => {
     setHasImageError(true);
   }, []);
@@ -148,7 +170,8 @@ export default function StartMenuItem({ item, depth = 0, onItemClick }) {
       >
         <button
           type="button"
-          onClick={() => setIsSubmenuOpen((prev) => !prev)}
+          onClick={handleToggleSubmenu}
+          onKeyDown={handleKeyDown}
           className={`w-full px-3 py-1.5 flex items-center justify-between text-left text-xs transition-colors rounded-sm cursor-pointer start-menu-item ${
             isSubmenuOpen ? 'bg-white/10 text-white' : 'text-white/90 hover:bg-white/10'
           }`}
@@ -163,25 +186,31 @@ export default function StartMenuItem({ item, depth = 0, onItemClick }) {
             />
             <span className="truncate">{item.label}</span>
           </div>
-          <span className="text-white/50 text-[10px] ml-1 select-none pointer-events-none">
+          <span
+            className={`text-white/50 text-[10px] ml-1 select-none pointer-events-none transition-transform duration-150 inline-block ${
+              isSubmenuOpen ? 'rotate-90 text-white/90' : ''
+            }`}
+          >
             ▸
           </span>
         </button>
 
         {isSubmenuOpen && (
           <div
-            className="absolute left-full top-0 ml-1 w-52 bg-[#2B2B2B]/95 backdrop-blur-md border border-white/10 rounded-md shadow-2xl py-1.5 z-50 animate-in fade-in duration-100"
+            className="sm:absolute sm:left-full sm:top-0 sm:pl-1 w-full sm:w-52 z-50 animate-in fade-in duration-100"
             role="menu"
             aria-label={item.label}
           >
-            {item.children.map((child, index) => (
-              <StartMenuItem
-                key={child.appId || child.label || index}
-                item={child}
-                depth={depth + 1}
-                onItemClick={onItemClick}
-              />
-            ))}
+            <div className="bg-[#2B2B2B]/95 backdrop-blur-md border border-white/10 rounded-md shadow-2xl py-1.5 my-1 sm:my-0">
+              {item.children.map((child, index) => (
+                <StartMenuItem
+                  key={child.appId || child.label || index}
+                  item={child}
+                  depth={depth + 1}
+                  onItemClick={onItemClick}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>

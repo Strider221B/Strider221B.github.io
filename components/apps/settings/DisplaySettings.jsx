@@ -16,9 +16,8 @@ import { useTheme } from '../../../hooks/useTheme';
  * @returns {JSX.Element} Display panel
  */
 export default function DisplaySettings() {
-  const { isDayTheme } = useTheme();
+  const { isDayTheme, nightLight, toggleNightLight } = useTheme();
   const [resolution, setResolution] = useState('1920 x 1080');
-  const [isNightLightOn, setIsNightLightOn] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -74,15 +73,16 @@ export default function DisplaySettings() {
             </div>
             <button
               type="button"
-              onClick={() => setIsNightLightOn((prev) => !prev)}
-              className={`w-11 h-6 rounded-full transition-colors relative focus:outline-none focus:ring-1 focus:ring-ub-orange ${
-                isNightLightOn ? 'bg-ub-orange' : 'bg-white/20'
+              onClick={toggleNightLight}
+              className={`w-11 h-6 rounded-full transition-colors relative focus:outline-none focus:ring-1 focus:ring-ub-orange cursor-pointer ${
+                nightLight ? 'bg-ub-orange' : 'bg-white/20'
               }`}
               aria-label="Toggle Night Light"
+              aria-pressed={nightLight}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white transition-transform absolute top-1 ${
-                  isNightLightOn ? 'left-6' : 'left-1'
+                  nightLight ? 'left-6' : 'left-1'
                 }`}
               />
             </button>
