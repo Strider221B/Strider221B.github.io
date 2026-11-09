@@ -242,3 +242,46 @@ graph TD
 #### Why their chosen paths diverge:
 * **Q-Learning** finds the **Optimal Path** right along the brink of the cliff. It assumes a future greedy policy ($\max$). In a perfect world without exploration, walking the edge is the fastest route to the goal. However, during training, its $\epsilon$-greedy exploration occasionally forces a random step, causing the agent to constantly fall off the cliff.
 * **SARSA** finds the **Safe Path** further inland. Because SARSA looks at the action $A'$ it *actually* takes next, its math catches when an exploratory action accidentally throws it over the cliff edge. It realizes that walking too close to the cliff is dangerous under an exploratory policy, and naturally paths itself a safe distance away from the hazard.
+
+## Why even consider SARSA?
+
+It is very common to look at Q-learning and think it is strictly superior because it learns the absolute *optimal* mathematical policy. However, **Q-learning is only "better" in a simulated vacuum where mistakes have no real-world consequences.** 
+
+In the real world, **SARSA is often preferred because it accounts for the cost of learning and exploration.** 
+
+Here is exactly why you would choose SARSA over Q-learning:
+
+---
+
+### 1. The Cost of Physical Hardware Damage
+
+If you are training a real-world robot or a self-driving car, it must explore its environment to learn. 
+* **Q-learning** assumes it will always act perfectly in the future. It will path a robot right along the edge of a flight of stairs if that path is 2 seconds faster. During training, a single random exploratory step ($\epsilon$-greedy) will send the expensive robot tumbling down the stairs.
+* **SARSA** realizes, *"Hey, I am still learning and occasionally taking random actions. If I walk next to the stairs, a random action will destroy me."* It naturally chooses a path far away from danger. 
+
+**Rule of thumb:** If an exploratory mistake results in a broken physical asset, use SARSA.
+
+---
+
+### 2. Online Learning vs. Offline Simulation
+
+* **Use Q-Learning when** you are training an agent inside a safe, digital simulator (like a video game or a virtual grid). You do not care if the agent dies 10 million times during training, because resets are free. Once it finishes training, you turn off exploration ($\epsilon = 0$) and deploy the perfect policy.
+* **Use SARSA when** the agent must learn **online** (in real-time while performing its actual job). Since it cannot afford massive penalties during its live operational phase, SARSA provides a much safer, smoother learning curve.
+
+---
+
+### 3. Human-in-the-Loop & Operational Safety
+
+Consider an AI system optimizing a chemical plant's cooling system or a live stock-trading portfolio:
+* **Q-learning** will aggressively test operational boundaries, assuming it can recover perfectly. A minor exploratory fluctuation could cause a catastrophic factory shutdown or a massive financial flash crash.
+* **SARSA** optimizes for the *actual expected performance* under its current state of uncertainty, leading to fewer catastrophic spikes in operational costs.
+
+---
+
+### Summary Matrix: When to Choose Which
+
+| Scenario | Choose SARSA | Choose Q-Learning |
+| :--- | :--- | :--- |
+| **Training Environment** | Live, real-world deployment | Safe digital simulator |
+| **Cost of Mistakes** | High (Broken robots, lost money) | Zero (Game over $\rightarrow$ Restart) |
+| **Path Style** | **Safe & Conservative** | **Risky & Maximally Optimal** |
