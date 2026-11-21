@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://someshchatterjee.com/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-20</lastmod>
   </url>
   <url>
     <loc>https://someshchatterjee.com/about-me/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://someshchatterjee.com/data-science/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-20</lastmod>
   </url>
   <url>
     <loc>https://someshchatterjee.com/programming/</loc>
@@ -23,6 +23,18 @@
   <url>
     <loc>https://someshchatterjee.com/psychology/</loc>
     <lastmod>2019-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://someshchatterjee.com/data-science/post-14-gibbs-sampling/</loc>
+    <lastmod>2026-11-20</lastmod>
+  </url>
+  <url>
+    <loc>https://someshchatterjee.com/data-science/post-13-torch-auto-grad/</loc>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://someshchatterjee.com/data-science/post-12-sarsa/</loc>
+    <lastmod>2026-11-09</lastmod>
   </url>
   <url>
     <loc>https://someshchatterjee.com/data-science/post-10-markov/</loc>

@@ -1,6 +1,51 @@
 [
   {
     "category": "data-science",
+    "slug": "post-14-gibbs-sampling",
+    "title": "Gibbs Sampling Explained",
+    "excerpt": "An algorithm to draw samples from a complex, multi-dimensional probability distribution when direct sampling is difficult, by breaking the problem down into a sequence of simpler, one-dimensional conditional distributions.",
+    "date": "2026-11-20",
+    "lastmod": "2026-11-20",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "bayesian-network"
+    ],
+    "readTime": "13 min read",
+    "urlPath": "/data-science/post-14-gibbs-sampling/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-13-torch-auto-grad",
+    "title": "Under the Hood of PyTorch Autograd: `backward()`, `step()`, `zero_grad()`, and Inference Modes",
+    "excerpt": "Go beyond training loop boilerplate and explore what PyTorch’s C++ autograd engine, caching allocator, and fused optimizer kernels actually do during backward(), step(), and zero_grad(). Learn how to optimize peak VRAM, avoid distributed AllReduce bottlenecks during gradient accumulation, and choose between torch.no_grad() and torch.inference_mode()",
+    "date": "2026-11-14",
+    "lastmod": "2026-11-14",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "torch"
+    ],
+    "readTime": "21 min read",
+    "urlPath": "/data-science/post-13-torch-auto-grad/"
+  },
+  {
+    "category": "data-science",
+    "slug": "post-12-sarsa",
+    "title": "Understanding SARSA: An On-Policy Temporal Difference Learning Algorithm",
+    "excerpt": "SARSA is an on-policy temporal difference reinforcement learning algorithm that evaluates and updates the exact policy the agent executes. By using the current state, action, reward, next state, and next action ($S, A, R, S', A'$), it safely learns conservative paths that account for exploration risks.",
+    "date": "2026-11-09",
+    "lastmod": "2026-11-09",
+    "author": "Somesh Chatterjee",
+    "tags": [
+      "data-science",
+      "reinforcement-learning"
+    ],
+    "readTime": "11 min read",
+    "urlPath": "/data-science/post-12-sarsa/"
+  },
+  {
+    "category": "data-science",
     "slug": "post-10-markov",
     "title": "Demystifying the Math of Probability: Markov Chains vs. Markov Decision Processes",
     "excerpt": "What separates a basic predictive model from advanced reinforcement learning? Discover the core differences between passive Markov Chains and decision-driven Markov Decision Processes.",
