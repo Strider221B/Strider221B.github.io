@@ -2,8 +2,7 @@
 title: "Gibbs Sampling Explained"
 date: "2026-11-20"
 tags: ["data-science", "bayesian-network"]
-excerpt: "An algorithm to draw samples from a complex, multi-dimensional probability distribution when direct sampling is difficult, by breaking the problem down into a sequence of simpler, one-dimensional conditional distributions.
-"
+excerpt: "An algorithm to draw samples from a complex, multi-dimensional probability distribution when direct sampling is difficult, by breaking the problem down into a sequence of simpler, one-dimensional conditional distributions."
 author: "Somesh Chatterjee"
 ---
 
